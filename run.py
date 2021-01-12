@@ -23,13 +23,13 @@ except FileNotFoundError as err:
 
 try:
     parsed_sequences = parse(sequences, 'fasta')
-    sequences.close()
 except Exception:
     print(f'Unknown exception while parsing the provided input file {arguments.input}')
     sys.exit(4)
 
 try:
     kmer_positions = SlidingWindow(parsed_sequences, arguments.length).run()
+    sequences.close()
 except Exception:
     print(f'Exception while calculating kmers for sequences file {arguments.input}')
     sys.exit(5)
