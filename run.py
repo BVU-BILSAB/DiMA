@@ -23,6 +23,7 @@ except FileNotFoundError as err:
 
 try:
     parsed_sequences = parse(sequences, 'fasta')
+    sequences.close()
 except Exception:
     print(f'Unknown exception while parsing the provided input file {arguments.input}')
     sys.exit(4)
