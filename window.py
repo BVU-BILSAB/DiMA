@@ -1,5 +1,6 @@
 from collections import Counter
 from itertools import islice
+from typing import Generator
 
 from datatypes import Position, Variant, VariantDict
 
@@ -27,12 +28,10 @@ class SlidingWindow(object):
                 kmer_len: The length of the sliding window (Default: 9).
         """
 
-        self.seqs = list(seqs)
+        self.seqs = seqs
         self.kmer_len = kmer_len
 
-    def _create_variant_dict(self, kmers):
-        positions = []
-
+    def _create_variant_dict(self, kmers) -> Generator:
         for kmer in kmers:
             unique = VariantDict(list)
             # Here there's no need to enumerate, you can just append any value because you are essentialy
@@ -41,22 +40,22 @@ class SlidingWindow(object):
                 unique[b].append(a)
 
             unique.pop('illegal-char', None)
-            positions.append(unique)
 
-        return positions
+            yield unique
 
-    def _kmers(self):
+    def _kmers(self) -> zip:
         """
             Extracts k-mers from all the sequences provided.
 
             Returns:
                 Zip: A Zip object containing all k-mers.
         """
-        kmers_seqs = [self._window(seq, self.kmer_len) for seq in self.seqs]
+
+        kmers_seqs = (self._window(seq, self.kmer_len) for seq in self.seqs)
 
         return zip(*kmers_seqs)
 
-    def _window(self, seq, kmer_len):
+    def _window(self, seq, kmer_len: int) -> Generator:
         """
             The actual logic of sliding window.
 
@@ -80,7 +79,7 @@ class SlidingWindow(object):
             else:
                 yield 'illegal-char'
 
-    def _create_position_objects(self, counters):
+    def _create_position_objects(self, counters) -> Generator:
         """
             Create kmer position objects with entropy, position and variant properties
 
@@ -94,18 +93,18 @@ class SlidingWindow(object):
                 sequences=self._create_variant_objects(idx, counter)
             )
 
-    def _create_variant_objects(self, idx, variant_counter: Counter) -> list:
-        variant_objects = [
+    def _create_variant_objects(self, idx, variant_counter: Counter) -> Generator:
+        variant_objects = (
             Variant(idx, seq, count)
             for seq, count
             in variant_counter.items()
-        ]
+        )
 
         return variant_objects
 
     def run(self):
         kmers = self._kmers()
         variant_dicts = self._create_variant_dict(kmers)
-        variant_counters = [x.get_counter() for x in variant_dicts]
+        variant_counters = (x.get_counter() for x in variant_dicts)
         kmer_position_objects = self._create_position_objects(variant_counters)
         return kmer_position_objects
