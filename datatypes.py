@@ -63,7 +63,7 @@ class Position(dict):
             :param sequences: A list of type Variant containing variants seen at current position
 
             :type position: int
-            :type sequences: list
+            :type sequences: Generator
         """
 
         self.position = position
