@@ -39,9 +39,10 @@ class SlidingWindow(object):
             # only using len to get the number of elements. There has to be a more elegant way to achive the same effect
             for a, b in enumerate(kmer):
                 unique[b].append(a)
+
             unique.pop('illegal-char', None)
-            if len(unique) > 0:
-                positions.append(unique)
+            positions.append(unique)
+
         return positions
 
     def _kmers(self):
@@ -51,9 +52,8 @@ class SlidingWindow(object):
             Returns:
                 Zip: A Zip object containing all k-mers.
         """
+        kmers_seqs = [self._window(seq, self.kmer_len) for seq in self.seqs]
 
-        seqs = map(lambda s: str(s.seq), self.seqs)
-        kmers_seqs = map(lambda s: self._window(s, self.kmer_len), seqs)
         return zip(*kmers_seqs)
 
     def _window(self, seq, kmer_len):
@@ -65,17 +65,18 @@ class SlidingWindow(object):
         """
 
         it = iter(seq)
-        result = ''.join(islice(it, kmer_len))
+        result = tuple(islice(it, kmer_len))
+
         if len(result) == kmer_len:
             if all(ele not in result for ele in self.DISALLOWED_CHARS):
-                yield result
+                yield ''.join(result)
             else:
                 yield 'illegal-char'
 
         for elem in it:
-            result = result[1:] + elem
+            result = result[1:] + (elem,)
             if all(ele not in result for ele in self.DISALLOWED_CHARS):
-                yield result
+                yield ''.join(result)
             else:
                 yield 'illegal-char'
 
