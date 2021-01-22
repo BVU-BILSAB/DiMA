@@ -35,14 +35,14 @@ except Exception:
     print(f'Exception while calculating kmers for sequences file {arguments.input}', file=sys.stderr)
     sys.exit(5)
 
-json_results = json.dumps(list(kmer_positions))
+json_results = json.dumps(list(kmer_positions), indent=2)
 
 if not arguments.output:
     print(json_results)
     sys.exit(0)
 
 with open(arguments.output, 'w') as output:
-    output.write(json.dumps(json_results, indent=2))
+    output.write(json_results)
 
 print(f'Results successfully saved at {arguments.output}')
 sys.exit(0)
