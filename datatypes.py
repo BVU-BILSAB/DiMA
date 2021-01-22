@@ -53,7 +53,7 @@ class PList(list):
 
 
 class Position(dict):
-    def __init__(self, position, sequences):
+    def __init__(self, position, sequences, supports):
         """
             Data structure for kmer positions
 
@@ -68,6 +68,7 @@ class Position(dict):
 
         self.position = position
         self.sequences = self._motif_classify(sequences)
+        self.supports = supports
 
     def __setattr__(self, key, value):
         # This really makes me sad, find a way around this mess TODO: fix this please, also in Variant
