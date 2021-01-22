@@ -45,3 +45,4 @@ with open(arguments.output, 'w') as output:
     output.write(json.dumps(json_results, indent=2))
 
 print(f'Results successfully saved at {arguments.output}')
+sys.exit(0)
