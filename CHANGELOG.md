@@ -3,7 +3,7 @@
 ## 2021/01/23
 
 ### Added
-* Results will now be sent to stdout when no output file (--output/-o) is specified.
+* Results will now be sent to stdout when no output file (--output/-o) is specified. All errors sent to stderr.
 * Added CHANGELOG.md where all future changes will be logged.
 
 ### Changed
