@@ -18,4 +18,4 @@
 ### Changed
 
 ### Fixed
-* Fixed issue where kmer positions where atleast one invalid character were found were skipped (Thanks for catching this issue Muhammet!).
+* Fixed issue where kmer positions with atleast one invalid character in all variants were skipped (Thanks for catching this issue Muhammet!).
