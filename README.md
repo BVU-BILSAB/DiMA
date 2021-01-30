@@ -1,6 +1,9 @@
 # Hunana
 A modular implementation of Hunana. A sub-module in the ViVA workflow
 
+## Installing Requirements:
+`pip install -r requirements.txt`
+
 ## Usage:
 
 ### Basic Usage
