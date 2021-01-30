@@ -59,7 +59,13 @@ class Position(dict):
                 mapping = [x.groupdict() for x in expr.finditer(header)][0]
 
                 for key, value in mapping.items():
-                    variant[key] = value
+                    current_value = variant.get(key)
+
+                    if not current_value:
+                        variant[key] = [value]
+                        continue
+
+                    variant[key] = current_value + [value]
 
     def __setattr__(self, key, value):
         # This really makes me sad, find a way around this mess TODO: fix this please, also in Variant

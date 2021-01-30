@@ -22,7 +22,7 @@ class SlidingWindow(object):
 
     DISALLOWED_CHARS = {'-', 'X', 'B', 'J', 'Z', 'O', 'U'}
 
-    def __init__(self, seqs, kmer_len=9):
+    def __init__(self, seqs, kmer_len=9, header_decode: bool=False):
         """
             Args:
                 seqs: An iterable of type SeqRecord.
@@ -31,6 +31,7 @@ class SlidingWindow(object):
 
         self.seqs = list(seqs)
         self.kmer_len = kmer_len
+        self.header_decode = header_decode
 
         DynamicConstants.SEQ_DESCRIPTIONS = [x.description for x in self.seqs]
 
@@ -97,7 +98,7 @@ class SlidingWindow(object):
                 sequences=self._create_variant_objects(idx, counter),
                 variants_flattened=list(counter.elements()),
                 variant_dict=variant_dict[idx - 1],
-                variant_data=True
+                variant_data=self.header_decode
             )
 
     def _create_variant_objects(self, idx: int, variant_counter: Counter) -> Generator:

@@ -44,7 +44,7 @@ except Exception:
     sys.exit(4)
 
 try:
-    kmer_positions = SlidingWindow(parsed_sequences, arguments.length).run()
+    kmer_positions = SlidingWindow(parsed_sequences, arguments.length,arguments.header).run()
     entropy = NormalizedEntropy(10000, 10, list(kmer_positions)).run()
     sequences.close()
 except Exception:
