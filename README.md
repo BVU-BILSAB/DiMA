@@ -14,10 +14,6 @@ A modular implementation of Hunana. A sub-module in the ViVA workflow
   {
     "position": 1,
     "entropy": 0.0,
-    "variants_flattened": [
-      "MASPGLHLL",
-      "MASPGLHLL"
-    ],
     "supports": 2,
     "sequences": [
       {
@@ -45,10 +41,6 @@ The flag --he/--header along with the -f/--format header can be used to generate
   {
     "position": 1,
     "entropy": 0.0,
-    "variants_flattened": [
-      "MASPGLHLL",
-      "MASPGLHLL"
-    ],
     "supports": 2,
     "sequences": [
       {

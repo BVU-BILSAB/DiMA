@@ -2,6 +2,7 @@ import argparse, sys
 import json
 import sys
 
+import jsonpickle
 from Bio.SeqIO import parse
 from hunana import SlidingWindow, NormalizedEntropy
 from core import HeaderDecode
@@ -51,7 +52,7 @@ except Exception:
     parser.error(f'Exception while calculating kmers for sequences file {arguments.input}')
     sys.exit(5)
 
-json_results = json.dumps(list(entropy), indent=2)
+json_results = jsonpickle.encode(entropy, indent=2, unpicklable=False)
 
 if not arguments.output:
     print(json_results)
