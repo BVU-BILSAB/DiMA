@@ -1,5 +1,15 @@
 # Change Log
 
+## 2021/01/31
+
+### Added
+* Entropy now calculated by default.
+* Details for each variant can now be generated from the fasta header using the flags -he and -f.
+
+### Changed
+
+### Fixed
+
 ## 2021/01/23
 
 ### Added

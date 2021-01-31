@@ -99,3 +99,10 @@ The flag --he/--header along with the -f/--format header can be used to generate
 ]
 ```
 Each componant (ex: id, strain, country, etc)of the header needs to be wrapped in brackets. Any separator (Ex: |, /, _, etc) can be used.
+
+#### More Examples
+`python run.py -i sequences.fasta -o output.json -he -f "(ncbid)/(strain)/(host)/(country)"`
+
+`python run.py -i sequences.fasta -o output.json -he -f "(ncbid)/(strain)/(host)|(country)"`
+
+`python run.py -i sequences.fasta -o output.json -he -f "(ab)/(cde)/(fghi)/(jklm)"`
