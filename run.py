@@ -1,5 +1,4 @@
-import argparse, sys
-import json
+import argparse
 import sys
 
 import jsonpickle
@@ -8,11 +7,16 @@ from hunana import SlidingWindow, NormalizedEntropy
 from core import HeaderDecode
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-i', '--input', help='Absolute path to the aligned sequences file in FASTA format.')
-parser.add_argument('-o', '--output', help='Absolute path to the output file.')
-parser.add_argument('-l', '--length', help='The k-mer length (default: 9)', type=int, default=9, choices=range(1, 15))
-parser.add_argument('-he', '--header', help="Should the header data be used to derive the details for variants?",
-                    action='store_true')
+parser.add_argument('-i', '--input', help='Absolute path to the aligned sequences file in FASTA format.', required=True)
+parser.add_argument('-o', '--output', help='Absolute path to the output file.', required=False)
+parser.add_argument('-l', '--length', help='The k-mer length (default: 9).', type=int, default=9, choices=range(1, 15),
+                    required=False)
+parser.add_argument('-s', '--samples', help='Max number of samples use when calculating entropy (default: 10000).',
+                    type=int, default=10000, required=False)
+parser.add_argument('-it', '--iterations', help='Max number of iterations used when calculating entropy (default: 10).',
+                    type=int, default=10, required=False)
+parser.add_argument('-he', '--header', help="Should the header data be used to derive the details for variants?.",
+                    action='store_true', required=False)
 parser.add_argument('-f', '--format', help="The format of the header. Ex: (id)|(species)|(country). Each item enclosed "
                                            "in brackets with any character used as separator.", required=False)
 
@@ -46,7 +50,7 @@ except Exception:
 
 try:
     kmer_positions = SlidingWindow(parsed_sequences, arguments.length,arguments.header).run()
-    entropy = NormalizedEntropy(10000, 10, list(kmer_positions)).run()
+    entropy = NormalizedEntropy(arguments.samples, arguments.iterations, list(kmer_positions)).run()
     sequences.close()
 except Exception:
     parser.error(f'Exception while calculating kmers for sequences file {arguments.input}')

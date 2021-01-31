@@ -1,6 +1,33 @@
 # Hunana
 A modular implementation of Hunana. A sub-module in the ViVA workflow
 
+## Options
+```
+usage: run.py [-h] -i INPUT -o OUTPUT [-l {1,2,3,4,5,6,7,8,9,10,11,12,13,14}]
+              [-s SAMPLES] [-it ITERATIONS] [-he] [-f FORMAT]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -i INPUT, --input INPUT
+                        Absolute path to the aligned sequences file in FASTA
+                        format.
+  -o OUTPUT, --output OUTPUT
+                        Absolute path to the output file.
+  -l {1,2,3,4,5,6,7,8,9,10,11,12,13,14}, --length {1,2,3,4,5,6,7,8,9,10,11,12,13,14}
+                        The k-mer length (default: 9).
+  -s SAMPLES, --samples SAMPLES
+                        Max number of samples use when calculating entropy
+                        (default: 10000).
+  -it ITERATIONS, --iterations ITERATIONS
+                        Max number of iterations used when calculating entropy
+                        (default: 10).
+  -he, --header         Should the header data be used to derive the details
+                        for variants?.
+  -f FORMAT, --format FORMAT
+                        The format of the header. Ex:
+                        (id)|(species)|(country). Each item enclosed in
+                        brackets with any character used as separator.
+```
 ## Installing Requirements:
 `pip install -r requirements.txt`
 
