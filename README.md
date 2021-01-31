@@ -75,5 +75,7 @@ Each componant (ex: id, strain, country, etc)of the header needs to be wrapped i
 
 #### More Examples
 `python run.py -i sequences.fasta -o output.json -he -f "(ncbid)/(strain)/(host)/(country)"`
+
 `python run.py -i sequences.fasta -o output.json -he -f "(ncbid)/(strain)/(host)|(country)"`
+
 `python run.py -i sequences.fasta -o output.json -he -f "(ab)/(cde)/(fghi)/(jklm)"`
