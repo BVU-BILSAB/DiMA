@@ -1,5 +1,5 @@
 # Hunana
-A modular implementation of Hunana. A sub-module in the ViVA
+A modular implementation of Hunana. A sub-module in ViVA.
 
 ## Options
 ```
