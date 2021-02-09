@@ -1,5 +1,24 @@
 # CHANGE LOG
 
+## 2021/02/09
+
+### Added
+* Now can be installed via pip install.
+
+### Changed
+
+### Fixed
+
+## 2021/01/31
+
+### Added
+* Entropy now calculated by default.
+* Details for each variant can now be generated from the fasta header using the flags -he and -f.
+
+### Changed
+
+### Fixed
+
 ## 2021/01/23
 
 ### Added
