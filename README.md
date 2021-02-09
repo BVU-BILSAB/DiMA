@@ -4,10 +4,19 @@ A modular implementation of Hunana. A sub-module of ViVA.
 ## Installation
 
 ### Linux
-`installation`
+```
+$ wget https://github.com/ShanWeera/hunana/releases/download/LATEST/hunana.whl
+$ pip install hunana.whl
+```
 
 ### Windows
-`installation`
+Download the latest distribution at:
+
+`https://github.com/ShanWeera/hunana/releases/download/LATEST/hunana.whl`
+
+Install using:
+
+`pip install hunana.whl`
 
 ## Usage
 ### Command-Line Usage
