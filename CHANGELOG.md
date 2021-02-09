@@ -1,4 +1,4 @@
-# Change Log
+# CHANGE LOG
 
 ## 2021/02/09
 
@@ -22,7 +22,7 @@
 ## 2021/01/23
 
 ### Added
-* Results will now be sent to stdout when no output file (--output/-o) is specified.
+* Results will now be sent to stdout when no output file (--output/-o) is specified. All errors sent to stderr.
 * Added CHANGELOG.md where all future changes will be logged.
 
 ### Changed
@@ -37,4 +37,4 @@
 ### Changed
 
 ### Fixed
-* Fixed issue where kmer positions where atleast one invalid character were found were skipped (Thanks for catching this issue Muhammet!).
+* Fixed issue where kmer positions with atleast one invalid character in all variants were skipped (Thanks for catching this issue Muhammet!).
