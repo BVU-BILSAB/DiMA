@@ -25,8 +25,8 @@ class Hunana(object):
             :param kmer_len: The length of the kmers to generate (default:  9).
             :param header_decode: Whether to use FASTA headers to derive kmer information (default: False).
             :param json_result: Whether the results should be returned in json format (default: False).
-            :param max_samples: The maximum number of samples to use when calculating entropy.
-            :param iterations: The maximum number of iterations to use when calculating entropy.
+            :param max_samples: The maximum number of samples to use when calculating entropy (default: 10000).
+            :param iterations: The maximum number of iterations to use when calculating entropy (default: 10).
 
             :type seq_path str
             :type kmer_len: str
