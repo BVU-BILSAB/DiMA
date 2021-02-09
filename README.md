@@ -5,14 +5,14 @@ A modular implementation of Hunana. A sub-module of ViVA.
 
 ### Linux
 ```
-$ wget https://github.com/ShanWeera/hunana/releases/download/LATEST/hunana.whl
+$ wget https://github.com/ShanWeera/hunana/releases/download/latest/perdana_hunana_shanweera-1.0.0a0-py2.py3-none-any.whl
 $ pip install hunana.whl
 ```
 
 ### Windows
 Download the latest distribution at:
 
-`https://github.com/ShanWeera/hunana/releases/download/LATEST/hunana.whl`
+`https://github.com/ShanWeera/hunana/releases/download/latest/perdana_hunana_shanweera-1.0.0a0-py2.py3-none-any.whl`
 
 Install using:
 
@@ -100,7 +100,7 @@ Each componant (ex: id, strain, country, etc)of the header needs to be wrapped i
 
 #### Command-Line Arguments
 ```
-usage: run.py [-h] -i INPUT -o OUTPUT [-l {1,2,3,4,5,6,7,8,9,10,11,12,13,14}]
+usage: hunana [-h] -i INPUT -o OUTPUT [-l {1,2,3,4,5,6,7,8,9,10,11,12,13,14}]
               [-s SAMPLES] [-it ITERATIONS] [-he] [-f FORMAT]
 
 optional arguments:
@@ -127,11 +127,11 @@ optional arguments:
 ```
 
 #### More Examples
-`python run.py -i sequences.fasta -o output.json -he -f "(ncbid)/(strain)/(host)/(country)"`
+`hunana -i sequences.fasta -o output.json -he -f "(ncbid)/(strain)/(host)/(country)"`
 
-`python run.py -i sequences.fasta -o output.json -he -f "(ncbid)/(strain)/(host)|(country)"`
+`hunana -i sequences.fasta -o output.json -he -f "(ncbid)/(strain)/(host)|(country)"`
 
-`python run.py -i sequences.fasta -o output.json -he -f "(ab)/(cde)/(fghi)/(jklm)"`
+`hunana -i sequences.fasta -o output.json -he -f "(ab)/(cde)/(fghi)/(jklm)"`
 
 ### Module Usage
 Hunana can also be imported and used within your Python projects as below:
@@ -144,16 +144,17 @@ Hunana('/path/to/sequence.fasta').run()
 ```
 The Hunana algorithm returns a list of Position objects each corresponding to a kmer position.
 
-:param seq_path: The absolute path to the MSA file in FASTA format.
-:param kmer_len: The length of the kmers to generate (default:  9).
-:param header_decode: Whether to use FASTA headers to derive kmer information (default: False).
-:param json_result: Whether the results should be returned in json format (default: False).
-:param max_samples: The maximum number of samples to use when calculating entropy (default: 10000).
-:param iterations: The maximum number of iterations to use when calculating entropy (default: 10).
-
-:type seq_path str
-:type kmer_len: str
-:type header_decode: bool
-:type max_samples: int
-:type iterations: int
+    :param seq_path: The absolute path to the MSA file in FASTA format.
+    :param kmer_len: The length of the kmers to generate (default:  9).
+    :param header_decode: Whether to use FASTA headers to derive kmer information (default: False).
+    :param json_result: Whether the results should be returned in json format (default: False).
+    :param max_samples: The maximum number of samples to use when calculating entropy (default: 10000).
+    :param iterations: The maximum number of iterations to use when calculating entropy (default: 10).
+    
+    :type seq_path str
+    :type kmer_len: str
+    :type header_decode: bool
+    :type json_result: bool
+    :type max_samples: int
+    :type iterations: int
 ```
