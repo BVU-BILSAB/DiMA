@@ -1,5 +1,14 @@
 # Change Log
 
+## 2021/02/09
+
+### Added
+* Now can be installed via pip install.
+
+### Changed
+
+### Fixed
+
 ## 2021/01/31
 
 ### Added

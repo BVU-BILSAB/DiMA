@@ -1,14 +1,14 @@
 import itertools
 import re
 from collections import defaultdict
-from typing import Generator
+from typing import Generator, Iterable
 
-from datatypes import MotifClasses
-from dynamic_constants import DynamicConstants
+from .motif_classes import MotifClasses
+from ..dynamic_constants import DynamicConstants
 
 
 class Position(dict):
-    def __init__(self, position: int, sequences: Generator, variants_flattened: list, variant_dict: defaultdict,
+    def __init__(self, position: int, sequences: Iterable, variants_flattened: list, variant_dict: defaultdict,
                  entropy: float = None, variant_data: bool = False):
         """
             Data structure for kmer positions
@@ -87,7 +87,7 @@ class Position(dict):
         self.__dict__.update(state)
 
     @classmethod
-    def _motif_classify(cls, variants: Generator) -> list:
+    def _motif_classify(cls, variants: Iterable) -> list:
         """
         Given a list of Variant objects sort by the count of each, and  classify each variant into motif classes
 

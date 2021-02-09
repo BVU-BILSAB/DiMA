@@ -1,7 +1,6 @@
 import math
 import random
-from datatypes import VariantCounter
-from typing import Generator
+from .datatypes import VariantCounter
 from scipy.stats import stats
 
 

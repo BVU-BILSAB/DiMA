@@ -1,44 +1,32 @@
 # Hunana
 A modular implementation of Hunana. A sub-module of ViVA.
 
-## Options
-```
-usage: run.py [-h] -i INPUT -o OUTPUT [-l {1,2,3,4,5,6,7,8,9,10,11,12,13,14}]
-              [-s SAMPLES] [-it ITERATIONS] [-he] [-f FORMAT]
+## Installation
 
-optional arguments:
-  -h, --help            show this help message and exit
-  -i INPUT, --input INPUT
-                        Absolute path to the aligned sequences file in FASTA
-                        format.
-  -o OUTPUT, --output OUTPUT
-                        Absolute path to the output file.
-  -l {1,2,3,4,5,6,7,8,9,10,11,12,13,14}, --length {1,2,3,4,5,6,7,8,9,10,11,12,13,14}
-                        The k-mer length (default: 9).
-  -s SAMPLES, --samples SAMPLES
-                        Max number of samples use when calculating entropy
-                        (default: 10000).
-  -it ITERATIONS, --iterations ITERATIONS
-                        Max number of iterations used when calculating entropy
-                        (default: 10).
-  -he, --header         Should the header data be used to derive the details
-                        for variants?.
-  -f FORMAT, --format FORMAT
-                        The format of the header. Ex:
-                        (id)|(species)|(country). Each item enclosed in
-                        brackets with any character used as separator.
-```
-## Installing Requirements:
-`pip install -r requirements.txt`
+### Linux
+`installation`
 
-## Usage:
+### Windows
+`installation`
 
-### Basic Usage
-`python run.py -i sequences.fasta -o output.json -l 9`
+## Usage
+### Command-Line Usage
+Once installation is complete, an executable will be added to PATH which can be accessed as below:
 
-`python run.py -i sequences.fasta | grep supports`
+**Linux**
 
-#### Example Output
+`hunana -h`
+
+**Windows**
+
+`hunana.exe -h`
+
+#### Basic Usage
+`hunana -i sequences.fasta -o output.json -l 9`
+
+`hunana -i sequences.fasta | grep supports`
+
+##### Basic Usage Output (Example)
 ```
 [
   {
@@ -60,12 +48,14 @@ optional arguments:
 ]
 ```
 
-### Generate Variant Data
+#### Advanced Usage (Generate Variant Data)
 The flag --he/--header along with the -f/--format header can be used to generate data for each variant using the metadata from the fasta sequence header.
 
-`python run.py -i sequences.fasta -o output.json -he -f "(type)|(id)|(strain)"`
+`hunana -i sequences.fasta -o output.json -he -f "(type)|(id)|(strain)"`
 
-#### Example Output
+Each componant (ex: id, strain, country, etc)of the header needs to be wrapped in brackets. Any separator (Ex: |, /, _, etc) can be used.
+
+##### Advanced Usage Output (Example)
 ```
 [
   {
@@ -98,7 +88,34 @@ The flag --he/--header along with the -f/--format header can be used to generate
   }
 ]
 ```
-Each componant (ex: id, strain, country, etc)of the header needs to be wrapped in brackets. Any separator (Ex: |, /, _, etc) can be used.
+
+#### Command-Line Arguments
+```
+usage: run.py [-h] -i INPUT -o OUTPUT [-l {1,2,3,4,5,6,7,8,9,10,11,12,13,14}]
+              [-s SAMPLES] [-it ITERATIONS] [-he] [-f FORMAT]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -i INPUT, --input INPUT
+                        Absolute path to the aligned sequences file in FASTA
+                        format.
+  -o OUTPUT, --output OUTPUT
+                        Absolute path to the output file.
+  -l {1,2,3,4,5,6,7,8,9,10,11,12,13,14}, --length {1,2,3,4,5,6,7,8,9,10,11,12,13,14}
+                        The k-mer length (default: 9).
+  -s SAMPLES, --samples SAMPLES
+                        Max number of samples use when calculating entropy
+                        (default: 10000).
+  -it ITERATIONS, --iterations ITERATIONS
+                        Max number of iterations used when calculating entropy
+                        (default: 10).
+  -he, --header         Should the header data be used to derive the details
+                        for variants?.
+  -f FORMAT, --format FORMAT
+                        The format of the header. Ex:
+                        "(id)|(species)|(country)". Each item enclosed in
+                        brackets with any character used as separator.
+```
 
 #### More Examples
 `python run.py -i sequences.fasta -o output.json -he -f "(ncbid)/(strain)/(host)/(country)"`
@@ -106,3 +123,28 @@ Each componant (ex: id, strain, country, etc)of the header needs to be wrapped i
 `python run.py -i sequences.fasta -o output.json -he -f "(ncbid)/(strain)/(host)|(country)"`
 
 `python run.py -i sequences.fasta -o output.json -he -f "(ab)/(cde)/(fghi)/(jklm)"`
+
+### Module Usage
+Hunana can also be imported and used within your Python projects as below:
+```
+from hunana import Hunana
+Hunana('/path/to/sequence.fasta').run()
+```
+
+#### Module Parameters
+```
+The Hunana algorithm returns a list of Position objects each corresponding to a kmer position.
+
+:param seq_path: The absolute path to the MSA file in FASTA format.
+:param kmer_len: The length of the kmers to generate (default:  9).
+:param header_decode: Whether to use FASTA headers to derive kmer information (default: False).
+:param json_result: Whether the results should be returned in json format (default: False).
+:param max_samples: The maximum number of samples to use when calculating entropy (default: 10000).
+:param iterations: The maximum number of iterations to use when calculating entropy (default: 10).
+
+:type seq_path str
+:type kmer_len: str
+:type header_decode: bool
+:type max_samples: int
+:type iterations: int
+```
