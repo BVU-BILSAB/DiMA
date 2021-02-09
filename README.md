@@ -4,21 +4,28 @@ A modular implementation of Hunana. A sub-module of ViVA.
 ## Installation
 
 ### Linux
+If you have git installed:
+
+`pip install git+https://github.com/ShanWeera/hunana.git`
+
+OR
+
 ```
-$ wget https://github.com/ShanWeera/hunana/releases/download/latest/perdana_hunana_shanweera-1.0.0a0-py2.py3-none-any.whl
-$ pip install hunana.whl
+git clone https://github.com/ShanWeera/hunana.git
+cd hunana
+python setup.py install
 ```
 
-### Windows
+OR
+
 Download the latest distribution at:
 
-`https://github.com/ShanWeera/hunana/releases/download/latest/perdana_hunana_shanweera-1.0.0a0-py2.py3-none-any.whl`
+`https://github.com/ShanWeera/hunana/releases/download/latest/`
 
 Install using:
 
-`pip install hunana.whl`
+`$ pip install perdana-hunana-shanweera-*.whl`
 
-## Usage
 ### Command-Line Usage
 Once installation is complete, an executable will be added to PATH which can be accessed as below:
 
