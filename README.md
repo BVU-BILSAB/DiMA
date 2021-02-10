@@ -3,11 +3,11 @@ A modular implementation of Hunana. A sub-module of ViVA.
 
 ## Installation
 
-**If you have git installed:**
+**OPTION 1**
 
 `pip install git+https://github.com/ShanWeera/hunana.git`
 
-**OR**
+**OPTION 2**
 
 ```
 git clone https://github.com/ShanWeera/hunana.git
@@ -15,11 +15,11 @@ cd hunana
 python setup.py install
 ```
 
-**OR**
+**OPTION 3**
 
 Download the latest distribution at:
 
-`https://github.com/ShanWeera/hunana/releases/latest/`
+`https://github.com/ShanWeera/hunana/releases/latest`
 
 Install using:
 

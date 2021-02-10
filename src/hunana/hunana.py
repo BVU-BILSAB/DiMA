@@ -27,6 +27,7 @@ class Hunana(object):
             :param json_result: Whether the results should be returned in json format (default: False).
             :param max_samples: The maximum number of samples to use when calculating entropy (default: 10000).
             :param iterations: The maximum number of iterations to use when calculating entropy (default: 10).
+            :param header_format: The format of the header (ex: (id)|(species)|(country))
 
             :type seq_path str
             :type kmer_len: str
