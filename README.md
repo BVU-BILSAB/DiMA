@@ -5,12 +5,12 @@ A modular implementation of Hunana. A sub-module of ViVA.
 
 **OPTION 1**
 
-`pip install git+https://github.com/ShanWeera/hunana.git`
+`pip install git+https://github.com/pu-sds/hunana.git`
 
 **OPTION 2**
 
 ```
-git clone https://github.com/ShanWeera/hunana.git
+git clone https://github.com/pu-sds/hunana.git
 cd hunana
 python setup.py install
 ```
@@ -19,7 +19,7 @@ python setup.py install
 
 Download the latest distribution at:
 
-`https://github.com/ShanWeera/hunana/releases/latest`
+`https://github.com/pu-sds/hunana/releases/latest`
 
 Install using:
 
