@@ -23,7 +23,7 @@ Download the latest distribution at:
 
 Install using:
 
-`$ pip install perdana-hunana-shanweera-{version}.whl`
+`$ pip install hunana-{version}.whl`
 
 ### Command-Line Usage
 Once installation is complete, an executable will be added to PATH which can be accessed as below:
