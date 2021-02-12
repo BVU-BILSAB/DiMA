@@ -41,6 +41,7 @@ jobs:
         ls -d dist/* | grep .whl | while read file; do pip install "$file"; done
   release:
     needs: [build]
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     strategy:
       matrix:
