@@ -36,9 +36,14 @@ jobs:
     - name: Build
       run: |
         python -m build
-    - name: Install
+    - name: Install for Linux & MacOS
+      if: matrix.os != 'windows-latest'
       run: |
         ls -d dist/* | grep .whl | while read file; do pip install "$file"; done
+    - name: Install for Windows
+      if: matrix.os == 'windows-latest'
+      run: |
+        for %I in (dist\*.*) dp pip install %I
   release:
     needs: [build]
     if: github.ref == 'refs/heads/main'
