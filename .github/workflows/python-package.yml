@@ -54,7 +54,7 @@ jobs:
       - name: Release
         uses: svenstaro/upload-release-action@2.2.1
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: dist/*
           tag: $ {{ github.ref }}
           overwrite: true
