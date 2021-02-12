@@ -56,7 +56,7 @@ jobs:
         uses: svenstaro/upload-release-action@2.2.1
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: dist/*
+          file: dist/HUNANA-*
           tag: latest
           overwrite: true
           file_glob: true
