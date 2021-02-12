@@ -43,7 +43,7 @@ jobs:
     - name: Install for Windows
       if: matrix.os == 'windows-latest'
       run: |
-        for %I in (dist\*.*) dp pip install %I
+        $files = Get-ChildItem "dist\"; foreach ($file in $files){ pip install $file.FullName}
   release:
     needs: [build]
     if: github.ref == 'refs/heads/main'
