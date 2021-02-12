@@ -70,7 +70,7 @@ jobs:
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         file: dist/*
-        tag: ${{ env.version }}
-        body: This is the latest release of Hunana and is always in sync with the master branch.
+        tag: v${{ env.version }}
+        body: ${{ github.event.head_commit.message }}
         overwrite: true
         file_glob: true
