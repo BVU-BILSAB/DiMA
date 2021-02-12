@@ -38,3 +38,6 @@ jobs:
     - name: Build
       run: |
         python -m build
+    - name: Install
+      run: |
+        ls dist/ | grep .whl | while read file; do pip install "$file"; done
