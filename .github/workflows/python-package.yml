@@ -28,7 +28,6 @@ jobs:
         python -m pip install --upgrade pip
         python -m pip install flake8 pytest
         python -m pip install -q build
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
@@ -41,3 +40,22 @@ jobs:
     - name: Install
       run: |
         ls -d dist/* | grep .whl | while read file; do pip install "$file"; done
+  release:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.8]
+    steps:
+      - name: Build
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install flake8 pytest
+          python -m pip install -q build
+      - name: Release
+        uses: svenstaro/upload-release-action@2.2.1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          file: dist/*
+          tag: $ {{ github.ref }}
+          overwrite: true
+          file_glob: true
