@@ -1,3 +1,5 @@
 biopython==1.78
 scipy>=1.5
-jsonpickle==1.5.0
+jsonpickle==2.0.0
+dash==1.19.0
+dash-bootstrap-components==0.11.3
