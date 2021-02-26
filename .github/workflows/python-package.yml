@@ -80,4 +80,3 @@ jobs:
         user: __token__
         password: ${{ secrets.PYPI_API_TOKEN }}
         verbose: true
-        repository_url: https://github.com/PU-SDS/hunana
