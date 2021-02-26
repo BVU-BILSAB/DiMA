@@ -35,6 +35,7 @@ class Position(dict):
         self.supports = len(self.variants_flattened)
         self.sequences = self._motif_classify(sequences)
         self.variants = len(self.sequences)
+        self.kmertypes = [sequence.sequence for sequence in self.sequences]
 
         self._set_desc_data(variant_dict) if variant_data else None
 
@@ -89,12 +90,12 @@ class Position(dict):
     @classmethod
     def _motif_classify(cls, variants: Iterable) -> list:
         """
-        Given a list of Variant objects sort by the count of each, and  classify each variant into motif classes
+            Given a list of Variant objects sort by the count of each, and  classify each variant into motif classes
 
-        :param variants: A list of Variant objects
-        :type variants: Generator
+            :param variants: A list of Variant objects
+            :type variants: Generator
 
-        :return: A list containing Variant objects sorted by count and each variant classified into motif classes
+            :return: A list containing Variant objects sorted by count and each variant classified into motif classes
         """
 
         variants = sorted(variants, key=lambda x: x.count, reverse=True)
