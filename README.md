@@ -1,5 +1,11 @@
 # Hunana
+
 A modular implementation of Hunana. A sub-module of ViVA.
+
+The conserved sequences of the viral protein sequences are considered as candidates for vaccine design against 
+continuously mutating viruses. Nonameric sequences from the viral genome are recognized and processed by human leukocyte 
+antigens and T cell receptors. HUNANA is a command-line based tool which can provide a list of positions of conserved 
+nonameric (kmer) sequences for a given viral protein sequence by utilizing Shannon’s entropy formula.  
 
 ## Installation
 
