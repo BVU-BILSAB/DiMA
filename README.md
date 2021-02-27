@@ -5,9 +5,13 @@ A modular implementation of Hunana. A sub-module of ViVA.
 
 **OPTION 1**
 
-`pip install git+https://github.com/pu-sds/hunana.git`
+`pip install hunana`
 
 **OPTION 2**
+
+`pip install git+https://github.com/pu-sds/hunana.git`
+
+**OPTION 3**
 
 ```
 git clone https://github.com/pu-sds/hunana.git
@@ -15,7 +19,7 @@ cd hunana
 python setup.py install
 ```
 
-**OPTION 3**
+**OPTION 4**
 
 Download the latest distribution at:
 
@@ -150,17 +154,17 @@ Hunana('/path/to/sequence.fasta').run()
 ```
 The Hunana algorithm returns a list of Position objects each corresponding to a kmer position.
 
-    :param seq_path: The absolute path to the MSA file in FASTA format.
-    :param kmer_len: The length of the kmers to generate (default:  9).
-    :param header_decode: Whether to use FASTA headers to derive kmer information (default: False).
-    :param json_result: Whether the results should be returned in json format (default: False).
-    :param max_samples: The maximum number of samples to use when calculating entropy (default: 10000).
-    :param iterations: The maximum number of iterations to use when calculating entropy (default: 10).
-    
-    :type seq_path str
-    :type kmer_len: str
-    :type header_decode: bool
-    :type json_result: bool
-    :type max_samples: int
-    :type iterations: int
+:param seq_path: The absolute path to the MSA file in FASTA format.
+:param kmer_len: The length of the kmers to generate (default:  9).
+:param header_decode: Whether to use FASTA headers to derive kmer information (default: False).
+:param json_result: Whether the results should be returned in json format (default: False).
+:param max_samples: The maximum number of samples to use when calculating entropy (default: 10000).
+:param iterations: The maximum number of iterations to use when calculating entropy (default: 10).
+
+:type seq_path str
+:type kmer_len: int
+:type header_decode: bool
+:type json_result: bool
+:type max_samples: int
+:type iterations: int
 ```
