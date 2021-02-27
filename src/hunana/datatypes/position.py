@@ -15,7 +15,7 @@ class Position(dict):
 
             Describes the data structure for kmer positions within the alignment
 
-            :param position: A zero-based index for position number
+            :param position: A zero-based index for position
             :param sequences: A list of type Variant containing variants seen at current position
             :param variants_flattened: A flattened list of all variants. Note: Only used for processing
             :param variant_dict: A default dictionary of lists to store the sequence idx for later getting description data
@@ -27,15 +27,25 @@ class Position(dict):
             :type variants_flattened: list
             :type variant_dict: defaultdict
             :type entropy: float
+
+            The attributes of this class are converted into keys when json_results=True
+
+            Attributes:
+                - Position: A zero-based index for kmer position.
+                - Entropy: The calculated entropy (Snannon's Entropy) for a particular kmer position.
+                - Supports: The number of valid (no gaps, no invalid characters) variants.
+                - Sequences: A list of variants for a particular kmer position.
+                - Variants: The total number of variants for a particular kmer position.
+                - kmer_types: A list of unique variants for a particular kmer position.
         """
 
         self.position = position
         self.entropy = entropy
         self.variants_flattened = variants_flattened
-        self.supports = len(self.variants_flattened)
+        self.supports = len(variants_flattened)
         self.sequences = self._motif_classify(sequences)
         self.variants = len(self.sequences)
-        self.kmertypes = [sequence.sequence for sequence in self.sequences]
+        self.kmer_types = [sequence.sequence for sequence in self.sequences]
 
         self._set_desc_data(variant_dict) if variant_data else None
 
@@ -69,7 +79,6 @@ class Position(dict):
                     variant[key] = current_value + [value]
 
     def __setattr__(self, key, value):
-        # This really makes me sad, find a way around this mess TODO: fix this please, also in Variant
         dict.__setitem__(self, key, value)
 
     def __getattr__(self, item):
@@ -80,6 +89,8 @@ class Position(dict):
 
     def __getstate__(self):
         state = self.copy()
+
+        # Because this is only needed to calculate entropy
         del state['variants_flattened']
 
         return state
