@@ -74,3 +74,9 @@ jobs:
         body: ${{ github.event.head_commit.message }}
         overwrite: true
         file_glob: true
+    - name: Publish to PyPI
+      uses: pypa/gh-action-pypi-publish@master
+      with:
+        user: __token__
+        password: ${{ secrets.PYPI_API_TOKEN }}
+        verbose: true

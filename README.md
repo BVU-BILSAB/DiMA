@@ -62,7 +62,10 @@ Once installation is complete, an executable will be added to PATH which can be 
         "motif_long": "Index"
       }
     ],
-    "variants": 1
+    "variants": 1,
+    "kmertypes: [
+      'MASPGLHLL'
+    ]
   }
 ]
 ```
@@ -103,7 +106,10 @@ Each componant (ex: id, strain, country, etc)of the header needs to be wrapped i
         ]
       }
     ],
-    "variants": 1
+    "variants": 1,
+    "kmertypes: [
+      'MASPGLHLL'
+    ]
   }
 ]
 ```
