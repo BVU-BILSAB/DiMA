@@ -2,7 +2,7 @@ import subprocess
 
 
 def test_if_installed():
-    assert not(subprocess.call(["pip", "show", "hunana"]))
+    assert not(subprocess.run(["pip", "show", "hunana"]).stdout)
 
 
 def test_if_can_import():
