@@ -25,7 +25,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        python -m pip install flake8 pytest
+        python -m pip install flake8 pytest coverage
         python -m pip install -q build
     - name: Lint with flake8
       run: |
@@ -46,7 +46,7 @@ jobs:
         $files = Get-ChildItem "dist\"; foreach ($file in $files){ pip install $file.FullName}
     - name: Test with PyTest
       run: |
-        pytest
+        coverage run -m pytes
   release:
     needs: [build]
     if: github.ref == 'refs/heads/main'
