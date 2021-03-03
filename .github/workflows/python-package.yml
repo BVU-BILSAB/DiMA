@@ -44,6 +44,9 @@ jobs:
       if: matrix.os == 'windows-latest'
       run: |
         $files = Get-ChildItem "dist\"; foreach ($file in $files){ pip install $file.FullName}
+    - name: Test with PyTest
+      run: |
+        pytest
   release:
     needs: [build]
     if: github.ref == 'refs/heads/main'
