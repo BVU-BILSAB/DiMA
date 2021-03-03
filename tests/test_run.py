@@ -340,8 +340,8 @@ def test_run_module(test_input_data, test_output_data):
 
 
 def test_run_cli(test_input_data, test_output_data):
-    process = subprocess.run(['hunana'], capture_output=True, input=test_input_data.encode('utf-8'), shell=True,
-                             stdout=subprocess.PIPE)
+    process = subprocess.run(['hunana'], input=test_input_data.encode('utf-8'), shell=True,
+                             stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     assert process.returncode == 0
 
     results = loads(process.stdout.decode('utf-8'))
