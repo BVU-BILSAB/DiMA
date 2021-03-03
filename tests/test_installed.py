@@ -5,6 +5,7 @@ import subprocess
 def test_if_installed():
     assert not(subprocess.call(["pip", "show", "hunana"]))
 
+
 def test_if_can_import():
     try:
         from hunana import Hunana
@@ -12,6 +13,7 @@ def test_if_can_import():
         assert False
 
     assert True
+
 
 def test_cli():
     process = subprocess.run(['hunana', '-h'], shell=True)
