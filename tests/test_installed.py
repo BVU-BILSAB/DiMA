@@ -3,9 +3,7 @@ import subprocess
 
 
 def test_if_installed():
-    pkgs = sys.modules.keys()
-
-    assert 'hunana' in pkgs
+    assert not(subprocess.call(["pip", "show", "huhnana"]))
 
 def test_if_can_import():
     try:
