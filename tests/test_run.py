@@ -337,6 +337,7 @@ def test_run_module(test_input_data, test_output_data):
         assert results.get('position') == test.get('position')
         assert results.get('supports') == test.get('supports')
         assert results.get('sequences') == test.get('sequences')
+        assert results.get('kmer_types') == test.get('kmer_types')
 
 
 def test_run_cli(test_input_data, test_output_data):
@@ -350,3 +351,4 @@ def test_run_cli(test_input_data, test_output_data):
         assert results.get('position') == test.get('position')
         assert results.get('supports') == test.get('supports')
         assert results.get('sequences') == test.get('sequences')
+        assert results.get('kmer_types') == test.get('kmer_types')
