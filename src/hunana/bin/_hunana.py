@@ -1,13 +1,14 @@
 import argparse
 import sys
 
+from io import StringIO
 from hunana import Hunana
 
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', '--input', help='Absolute path to the aligned sequences file in FASTA format.',
-                        required=True)
+                        required=False)
     parser.add_argument('-o', '--output', help='Absolute path to the output file.', required=False)
     parser.add_argument('-l', '--length', help='The k-mer length (default: 9).', type=int, default=9,
                         choices=range(1, 15),
@@ -33,12 +34,18 @@ def main():
                 "is enabled")
             sys.exit(6)
 
-    if not arguments.input:
-        parser.error('Error: The input path is not provided.')
-        sys.exit(2)
+    inputx = arguments.input
+
+    if not inputx:
+        if sys.stdin.isatty():
+            parser.error('Error: The input path is not provided.')
+            sys.exit(2)
+
+        # TODO: Here the pipe could just be empty. Need to have a check for that.
+        inputx = StringIO(sys.stdin.read())
 
     try:
-        results = Hunana(arguments.input, arguments.length, arguments.header, True, arguments.samples,
+        results = Hunana(inputx, arguments.length, arguments.header, True, arguments.samples,
                          arguments.iterations, arguments.format).run()
     except Exception:
         parser.error(f'Exception while calculating kmers for sequences file {arguments.input}')

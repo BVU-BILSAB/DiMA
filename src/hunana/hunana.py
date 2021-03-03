@@ -1,5 +1,6 @@
 import os
 from collections import Counter
+from io import TextIOWrapper, StringIO
 from itertools import islice
 from typing import List, Union, Iterable
 
@@ -16,12 +17,12 @@ from .errorhandlers import SequenceFileNotFound, HeaderDecodeError
 class Hunana(object):
     DISALLOWED_CHARS = {'-', 'X', 'B', 'J', 'Z', 'O', 'U'}
 
-    def __init__(self, seq_path: str, kmer_len: int = 9, header_decode: bool = False, json_result: bool = False,
-                 max_samples: int = 10000, iterations: int = 10, header_format: str = None):
+    def __init__(self, seqs: Union[str, TextIOWrapper, StringIO], kmer_len: int = 9, header_decode: bool = False,
+                 json_result: bool = False, max_samples: int = 10000, iterations: int = 10, header_format: str = None):
         """
             The Hunana algorithm returns a list of Position objects each corresponding to a kmer position.
 
-            :param seq_path: The absolute path to the MSA file in FASTA format.
+            :param seqs: Handle to the file, or the filename as a string.
             :param kmer_len: The length of the kmers to generate (default:  9).
             :param header_decode: Whether to use FASTA headers to derive kmer information (default: False).
             :param json_result: Whether the results should be returned in json format (default: False).
@@ -29,14 +30,14 @@ class Hunana(object):
             :param iterations: The maximum number of iterations to use when calculating entropy (default: 10).
             :param header_format: The format of the header (ex: (id)|(species)|(country))
 
-            :type seq_path str
+            :type seqs: Union[str, TextIOWrapper, StringIO]
             :type kmer_len: str
             :type header_decode: bool
             :type max_samples: int
             :type iterations: int
         """
 
-        self.seqs = self._get_seqs_from_path(seq_path)
+        self.seqs = self._get_seqs(seqs)
         self.kmer_len = kmer_len
         self.header_decode = header_decode
         self.json_result = json_result
@@ -82,21 +83,21 @@ class Hunana(object):
         return positions
 
     @classmethod
-    def _get_seqs_from_path(cls, seq_path: str) -> List[SeqRecord]:
+    def _get_seqs(cls, seqs: Union[str, TextIOWrapper, StringIO]) -> List[SeqRecord]:
         """
             Checks if the FASTA filepath is valid and file is present, if so, returns a list of SeqRecords for each
             sequence.
 
-            :param seq_path: The path to the FASTA file.
-            :type seq_path: str
+            :param seqs: Handle to the file, or the filename as a string.
+            :type seqs: Union[str, TextIOWrapper, StringIO]
 
             :return: A list of SeqRecords for each sequence in the FASTA file.
         """
 
-        if not os.path.isfile(seq_path):
-            raise SequenceFileNotFound(seq_path)
+        if isinstance(seqs, str) and not os.path.isfile(seqs):
+            raise SequenceFileNotFound(seqs)
 
-        return list(parse(seq_path, 'fasta'))
+        return list(parse(seqs, 'fasta'))
 
     def _kmers(self) -> zip:
         """
