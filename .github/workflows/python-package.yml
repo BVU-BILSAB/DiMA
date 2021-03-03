@@ -46,7 +46,7 @@ jobs:
         $files = Get-ChildItem "dist\"; foreach ($file in $files){ pip install $file.FullName}
     - name: Test with PyTest
       run: |
-        coverage run -m pytes
+        coverage run -m pytest
   release:
     needs: [build]
     if: github.ref == 'refs/heads/main'
