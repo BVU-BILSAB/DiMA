@@ -71,9 +71,8 @@ class Position(dict):
 
         if variant_count == 0 or supports == 0:
             return {'incidence': 0, 'types': []}
-        
-        incidence = ((len(variants) - 1) / supports) * 100
 
+        incidence = ((len(variants) - 1) / supports) * 100
         kmer_types = [variant.sequence for variant in variants if variant.motif_short != 'I']
 
         return {'incidence': incidence, 'types': kmer_types}
