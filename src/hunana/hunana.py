@@ -169,16 +169,16 @@ class Hunana(object):
         num_variants = sum(variant_counter.values())
 
         variant_objects = (
-            Variant(idx, seq, count, self._calc_conservation(count, num_variants))
+            Variant(idx, seq, count, self._calc_incidence(count, num_variants))
             for seq, count
             in variant_counter.items()
         )
         return variant_objects
 
     @classmethod
-    def _calc_conservation(cls, variant_hits: int, total_hits: int) -> float:
+    def _calc_incidence(cls, variant_hits: int, total_hits: int) -> float:
         """
-            Calculates the conservation for a given variant.
+            Calculates the incidence for a given variant.
 
             :param variant_hits: The number of times the variant was seen in the sequences at this particular position.
             :param total_hits: The total number of variants.
@@ -186,11 +186,11 @@ class Hunana(object):
             :type variant_hits: int
             :type total_hits: int
 
-            :return: The conservation of this particular variant.
+            :return: The incidence of this particular variant.
         """
 
-        conservation = (float(variant_hits) * 100) / float(total_hits)
-        return float(conservation)
+        incidence = (float(variant_hits) * 100) / float(total_hits)
+        return float(incidence)
 
     def run(self) -> Union[str, List[Position]]:
         """
