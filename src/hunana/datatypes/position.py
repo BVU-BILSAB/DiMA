@@ -60,6 +60,9 @@ class Position(dict):
             :param supports: The total number of valid k-mers for a given position .
             :param variants: The list (of type Variant) of distinct k-mers for a given position.
 
+            :type supports: int
+            :type variants: list
+
             :returns: A dictionary containing the incidence of distinct variants and a list of distinct variants.
         """
 
