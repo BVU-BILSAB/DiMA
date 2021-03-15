@@ -5,7 +5,7 @@ from json import loads
 
 
 @pytest.fixture
-def test_input_data():
+def test_input_data_basic():
     return """>Seq_1
 SKGKRTVDLGQCGLLGTITGPPQCDQFLEFSADLIIERREGSDVCYPGKFVNEEALRQIL
 >Seq_2
@@ -13,7 +13,7 @@ FHWLMLNPNDTVTFSFNGAFIAPDRASFLRGKSMGIQSGVQVDANCEGDCYHSGGTIISN"""
 
 
 @pytest.fixture
-def test_output_data():
+def test_output_data_basic():
     return [
         {'position': 1, 'entropy': 0.9999623941130954, 'variants_flattened': ['SKGKRTVDL', 'FHWLMLNPN'], 'supports': 2,
          'variants': [{'position': 1, 'sequence': 'SKGKRTVDL', 'count': 1, 'incidence': 50.0, 'motif_short': 'I',
@@ -277,27 +277,27 @@ def test_output_data():
                        'motif_long': 'Major'}], 'kmer_types': {'incidence': 50.0, 'types': ['HSGGTIISN']}}]
 
 
-def test_run_module(test_input_data, test_output_data):
+def test_run_module_basic(test_input_data_basic, test_output_data_basic):
     from hunana import Hunana
-    handle = StringIO(test_input_data)
+    handle = StringIO(test_input_data_basic)
 
     results = Hunana(handle).run()
 
-    for results, test in zip(results, test_output_data):
+    for results, test in zip(results, test_output_data_basic):
         assert results.get('position') == test.get('position')
         assert results.get('supports') == test.get('supports')
         assert results.get('variants') == test.get('variants')
         assert results.get('kmer_types') == test.get('kmer_types')
 
 
-def test_run_cli(test_input_data, test_output_data):
-    process = subprocess.run(['hunana'], input=test_input_data.encode('utf-8'), shell=True,
+def test_run_cli_basic(test_input_data_basic, test_output_data_basic):
+    process = subprocess.run(['hunana'], input=test_input_data_basic.encode('utf-8'), shell=True,
                              stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     assert process.returncode == 0
 
     results = loads(process.stdout.decode('utf-8'))
 
-    for results, test in zip(results, test_output_data):
+    for results, test in zip(results, test_output_data_basic):
         assert results.get('position') == test.get('position')
         assert results.get('supports') == test.get('supports')
         assert results.get('variants') == test.get('variants')
