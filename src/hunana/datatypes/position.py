@@ -15,7 +15,7 @@ class Position(dict):
 
             Describes the data structure for kmer positions within the alignment
 
-            :param position: A zero-based index for position
+            :param position: The k-mer position number.
             :param variants: A list of type Variant containing variants seen at current position
             :param variants_flattened: A flattened list of all variants. Note: Only used for processing
             :param variant_dict: A default dictionary of lists to store the sequence idx for later getting description data
@@ -27,6 +27,7 @@ class Position(dict):
             :type variants_flattened: list
             :type variant_dict: defaultdict
             :type entropy: float
+            :type variant_data: bool
 
             The attributes of this class are converted into keys when json_results=True
 
@@ -35,19 +36,39 @@ class Position(dict):
                 - Entropy: The calculated entropy (Snannon's Entropy) for a particular kmer position.
                 - Supports: The number of valid (no gaps, no invalid characters) variants.
                 - Variants: A list of variants for a particular kmer position.
-                - Variants: The total number of variants for a particular kmer position.
-                - kmer_types: A list of unique variants for a particular kmer position.
+                - kmer_types: Distinct variants that are different from the index variant.
         """
+
+        supports = len(variants_flattened)
+        variants = self._motif_classify(variants)
 
         self.position = position
         self.entropy = entropy
         self.variants_flattened = variants_flattened
-        self.supports = len(variants_flattened)
-        self.variants = self._motif_classify(variants)
-        self.variants = len(self.sequences)
-        self.kmer_types = [sequence.sequence for sequence in self.sequences]
+        self.supports = supports
+        self.variants = variants
+        self.kmer_types = self._set_kmer_types(supports, variants)
 
         self._set_desc_data(variant_dict) if variant_data else None
+
+    @classmethod
+    def _set_kmer_types(cls, supports: int, variants: list) -> dict:
+        """
+            Calculates the incidence of distinct variants (excluding Index variant) and generates a list of distinct
+            variants (excluding Index variant)
+
+            :param supports: The total number of valid k-mers for a given position .
+            :param variants: The list (of type Variant) of distinct k-mers for a given position.
+
+            :returns: A dictionary containing the incidence of distinct variants and a list of distinct variants.
+        """
+
+        # Here we minus 1 because we need to exclude the index
+        incidence = ((len(variants) - 1) / supports) * 100
+
+        kmer_types = [variant.sequence for variant in variants if variant.motif_short != 'I']
+
+        return {'incidence': incidence, 'types': kmer_types}
 
     def _set_desc_data(self, variant_dict):
         """

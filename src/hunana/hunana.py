@@ -35,6 +35,7 @@ class Hunana(object):
             :type header_decode: bool
             :type max_samples: int
             :type iterations: int
+            :type json_result: bool
         """
 
         self.seqs = self._get_seqs(seqs)
