@@ -668,8 +668,7 @@ def test_run_module_advanced(test_input_data_advanced, test_output_data_advanced
 
 def test_run_cli_advanced(test_input_data_advanced, test_output_data_advanced):
     process = subprocess.run(['hunana', '-he', '-f', '(type)|(accession)|(strain)|(country)'],
-                             input=test_input_data_advanced.encode('utf-8'), shell=True,
-                             stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                             input=test_input_data_advanced.encode('utf-8'), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     assert process.returncode == 0
 
     results = loads(process.stdout.decode('utf-8'))
@@ -678,3 +677,4 @@ def test_run_cli_advanced(test_input_data_advanced, test_output_data_advanced):
         assert results.get('position') == test.get('position')
         assert results.get('supports') == test.get('supports')
         assert results.get('variants') == test.get('variants')
+        assert results.get('kmer_types') == test.get('kmer_types')
