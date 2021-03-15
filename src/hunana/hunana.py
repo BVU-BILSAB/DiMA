@@ -18,7 +18,8 @@ class Hunana(object):
     DISALLOWED_CHARS = {'-', 'X', 'B', 'J', 'Z', 'O', 'U'}
 
     def __init__(self, seqs: Union[str, TextIOWrapper, StringIO], kmer_len: int = 9, header_decode: bool = False,
-                 json_result: bool = False, max_samples: int = 10000, iterations: int = 10, header_format: str = None):
+                 json_result: bool = False, max_samples: int = 10000, iterations: int = 10, header_format: str = None,
+                 **kwargs):
         """
             The Hunana algorithm returns a list of Position objects each corresponding to a kmer position.
 
@@ -45,6 +46,8 @@ class Hunana(object):
         self.json_result = json_result
         self.max_samples = max_samples
         self.iterations = iterations
+
+        self.__dict__.update(kwargs)
 
         if header_decode:
             self._prepare_header_decode(self.seqs, header_format)
