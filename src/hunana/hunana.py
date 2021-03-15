@@ -18,11 +18,12 @@ class Hunana(object):
     DISALLOWED_CHARS = {'-', 'X', 'B', 'J', 'Z', 'O', 'U'}
 
     def __init__(self, seqs: Union[str, TextIOWrapper, StringIO], kmer_len: int = 9, header_decode: bool = False,
-                 json_result: bool = False, max_samples: int = 10000, iterations: int = 10, header_format: str = None):
+                 json_result: bool = False, max_samples: int = 10000, iterations: int = 10, header_format: str = None,
+                 **kwargs):
         """
             The Hunana algorithm returns a list of Position objects each corresponding to a kmer position.
 
-            :param seqs: Handle to the file, or the filename as a string.
+            :param seqs: A file handle, a FASTA sequence wrapped in a handle, or a filepath.
             :param kmer_len: The length of the kmers to generate (default:  9).
             :param header_decode: Whether to use FASTA headers to derive kmer information (default: False).
             :param json_result: Whether the results should be returned in json format (default: False).
@@ -35,6 +36,8 @@ class Hunana(object):
             :type header_decode: bool
             :type max_samples: int
             :type iterations: int
+            :type json_result: bool
+            :type header_format: str
         """
 
         self.seqs = self._get_seqs(seqs)
@@ -43,6 +46,8 @@ class Hunana(object):
         self.json_result = json_result
         self.max_samples = max_samples
         self.iterations = iterations
+
+        self.__dict__.update(kwargs)
 
         if header_decode:
             self._prepare_header_decode(self.seqs, header_format)
@@ -147,7 +152,7 @@ class Hunana(object):
         for idx, counter in enumerate(counters, start=1):
             yield Position(
                 position=idx,
-                sequences=self._create_variant_objects(idx, counter),
+                variants=self._create_variant_objects(idx, counter),
                 variants_flattened=list(counter.elements()),
                 variant_dict=variant_dicts[idx - 1],
                 variant_data=self.header_decode
@@ -169,16 +174,16 @@ class Hunana(object):
         num_variants = sum(variant_counter.values())
 
         variant_objects = (
-            Variant(idx, seq, count, self._calc_conservation(count, num_variants))
+            Variant(idx, seq, count, self._calc_incidence(count, num_variants))
             for seq, count
             in variant_counter.items()
         )
         return variant_objects
 
     @classmethod
-    def _calc_conservation(cls, variant_hits: int, total_hits: int) -> float:
+    def _calc_incidence(cls, variant_hits: int, total_hits: int) -> float:
         """
-            Calculates the conservation for a given variant.
+            Calculates the incidence for a given variant.
 
             :param variant_hits: The number of times the variant was seen in the sequences at this particular position.
             :param total_hits: The total number of variants.
@@ -186,11 +191,11 @@ class Hunana(object):
             :type variant_hits: int
             :type total_hits: int
 
-            :return: The conservation of this particular variant.
+            :return: The incidence of this particular variant.
         """
 
-        conservation = (float(variant_hits) * 100) / float(total_hits)
-        return float(conservation)
+        incidence = (float(variant_hits) * 100) / float(total_hits)
+        return float(incidence)
 
     def run(self) -> Union[str, List[Position]]:
         """
