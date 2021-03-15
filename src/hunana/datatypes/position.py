@@ -8,7 +8,7 @@ from ..dynamic_constants import DynamicConstants
 
 
 class Position(dict):
-    def __init__(self, position: int, sequences: Iterable, variants_flattened: list, variant_dict: defaultdict,
+    def __init__(self, position: int, variants: Iterable, variants_flattened: list, variant_dict: defaultdict,
                  entropy: float = None, variant_data: bool = False):
         """
             Data structure for kmer positions
@@ -16,14 +16,14 @@ class Position(dict):
             Describes the data structure for kmer positions within the alignment
 
             :param position: A zero-based index for position
-            :param sequences: A list of type Variant containing variants seen at current position
+            :param variants: A list of type Variant containing variants seen at current position
             :param variants_flattened: A flattened list of all variants. Note: Only used for processing
             :param variant_dict: A default dictionary of lists to store the sequence idx for later getting description data
             :param entropy: The Shannon entropy at the current kmer position
             :param variant_data: Whether to derive variant data from the sequence headers.
 
             :type position: int
-            :type sequences: Generator
+            :type variants: Generator
             :type variants_flattened: list
             :type variant_dict: defaultdict
             :type entropy: float
@@ -34,7 +34,7 @@ class Position(dict):
                 - Position: A zero-based index for kmer position.
                 - Entropy: The calculated entropy (Snannon's Entropy) for a particular kmer position.
                 - Supports: The number of valid (no gaps, no invalid characters) variants.
-                - Sequences: A list of variants for a particular kmer position.
+                - Variants: A list of variants for a particular kmer position.
                 - Variants: The total number of variants for a particular kmer position.
                 - kmer_types: A list of unique variants for a particular kmer position.
         """
@@ -43,7 +43,7 @@ class Position(dict):
         self.entropy = entropy
         self.variants_flattened = variants_flattened
         self.supports = len(variants_flattened)
-        self.sequences = self._motif_classify(sequences)
+        self.variants = self._motif_classify(variants)
         self.variants = len(self.sequences)
         self.kmer_types = [sequence.sequence for sequence in self.sequences]
 

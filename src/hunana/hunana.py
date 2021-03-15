@@ -147,7 +147,7 @@ class Hunana(object):
         for idx, counter in enumerate(counters, start=1):
             yield Position(
                 position=idx,
-                sequences=self._create_variant_objects(idx, counter),
+                variants=self._create_variant_objects(idx, counter),
                 variants_flattened=list(counter.elements()),
                 variant_dict=variant_dicts[idx - 1],
                 variant_data=self.header_decode
