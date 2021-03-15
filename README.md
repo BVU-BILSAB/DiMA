@@ -55,23 +55,33 @@ Once installation is complete, an executable will be added to PATH which can be 
 ```
 [
   {
-    "position": 1,
-    "entropy": 0.0,
-    "supports": 2,
-    "sequences": [
+    "position":1,
+    "entropy":1.0002713744986218,
+    "supports":2,
+    "variants":[
       {
-        "position": 1,
-        "sequence": "MASPGLHLL",
-        "count": 2,
-        "conservation": 100.0,
-        "motif_short": "I",
-        "motif_long": "Index"
+        "position":1,
+        "sequence":"SKGKRTVDL",
+        "count":1,
+        "incidence":50.0,
+        "motif_short":"I",
+        "motif_long":"Index"
+      },
+      {
+        "position":1,
+        "sequence":"FHWLMLNPN",
+        "count":1,
+        "incidence":50.0,
+        "motif_short":"Ma",
+        "motif_long":"Major"
       }
     ],
-    "variants": 1,
-    "kmertypes: [
-      'MASPGLHLL'
-    ]
+    "kmer_types":{
+      "incidence":50.0,
+      "types":[
+        "FHWLMLNPN"
+      ]
+    }
   }
 ]
 ```
@@ -87,35 +97,51 @@ Each componant (ex: id, strain, country, etc)of the header needs to be wrapped i
 ```
 [
   {
-    "position": 1,
-    "entropy": 0.0,
-    "supports": 2,
-    "sequences": [
+    "position":1,
+    "entropy":1.0001724373828909,
+    "supports":2,
+    "variants":[
       {
-        "position": 1,
-        "sequence": "MASPGLHLL",
-        "count": 2,
-        "conservation": 100.0,
-        "motif_short": "I",
-        "motif_long": "Index",
-        "type": [
-          "tr",
+        "position":1,
+        "sequence":"SKGKRTVDL",
+        "count":1,
+        "incidence":50.0,
+        "motif_short":"I",
+        "motif_long":"Index",
+        "type":[
           "tr"
         ],
-        "id": [
-          "A0A2Z4MTJ4",
+        "accession":[
+          "A0A2Z4MTJ4"
+        ],
+        "strain":[
+          "A0A2Z4MTJ4_9HIV2_Envelope_glycoprotein_gp160_OS_Human_immunodeficiency_virus_2_OX_11709_GN_env_PE_4_SV_1"
+        ]
+      },
+      {
+        "position":1,
+        "sequence":"FHWLMLNPN",
+        "count":1,
+        "incidence":50.0,
+        "motif_short":"Ma",
+        "motif_long":"Major",
+        "type":[
+          "tr"
+        ],
+        "accession":[
           "A0A0K2GVL2"
         ],
-        "strain": [
-          "A0A2Z4MTJ4_9HIV2_Envelope_glycoprotein_gp160_OS_Human_immunodeficiency_virus_2_OX_11709_GN_env_PE_4_SV_1",
-          "A0A0K2GVL2_9HIV2_Envelope_glycoprotein_gp160_OS_Human_immunodeficiency_virus_2_OX_11709_GN_env_PE_4_SV_1"
+        "strain":[
+          "A0A2Z4MTJ4_9HIV2_Envelope_glycoprotein_gp160_OS_Human_immunodeficiency_virus_2_OX_11709_GN_env_PE_4_SV_1"
         ]
       }
     ],
-    "variants": 1,
-    "kmertypes: [
-      'MASPGLHLL'
-    ]
+    "kmer_types":{
+      "incidence":50.0,
+      "types":[
+        "FHWLMLNPN"
+      ]
+    }
   }
 ]
 ```
@@ -166,17 +192,19 @@ Hunana('/path/to/sequence.fasta').run()
 ```
 The Hunana algorithm returns a list of Position objects each corresponding to a kmer position.
 
-:param seq_path: The absolute path to the MSA file in FASTA format.
+:param seqs: A file handle, a FASTA sequence wrapped in a handle, or a filepath.
 :param kmer_len: The length of the kmers to generate (default:  9).
 :param header_decode: Whether to use FASTA headers to derive kmer information (default: False).
 :param json_result: Whether the results should be returned in json format (default: False).
 :param max_samples: The maximum number of samples to use when calculating entropy (default: 10000).
 :param iterations: The maximum number of iterations to use when calculating entropy (default: 10).
+:param header_format: The format of the header (ex: (id)|(species)|(country))
 
-:type seq_path str
-:type kmer_len: int
+:type seqs: Union[str, TextIOWrapper, StringIO]
+:type kmer_len: str
 :type header_decode: bool
-:type json_result: bool
 :type max_samples: int
 :type iterations: int
+:type json_result: bool
+:type header_format: str
 ```
