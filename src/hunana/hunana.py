@@ -22,7 +22,7 @@ class Hunana(object):
         """
             The Hunana algorithm returns a list of Position objects each corresponding to a kmer position.
 
-            :param seqs: Handle to the file, or the filename as a string.
+            :param seqs: A file handle, a FASTA sequence wrapped in a handle, or a filepath.
             :param kmer_len: The length of the kmers to generate (default:  9).
             :param header_decode: Whether to use FASTA headers to derive kmer information (default: False).
             :param json_result: Whether the results should be returned in json format (default: False).
@@ -36,6 +36,7 @@ class Hunana(object):
             :type max_samples: int
             :type iterations: int
             :type json_result: bool
+            :type header_format: str
         """
 
         self.seqs = self._get_seqs(seqs)

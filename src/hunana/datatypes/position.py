@@ -80,7 +80,7 @@ class Position(dict):
 
         expr = re.compile(DynamicConstants.HEADER_REGEX)
 
-        for dict_variant, variant in itertools.product(variant_dict, self.sequences):
+        for dict_variant, variant in itertools.product(variant_dict, self.variants):
             if dict_variant != variant.sequence:
                 continue
             idx = variant_dict[dict_variant]
