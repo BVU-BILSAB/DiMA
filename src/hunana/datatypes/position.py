@@ -138,19 +138,31 @@ class Position(dict):
         """
 
         variants = sorted(variants, key=lambda x: x.count, reverse=True)
+        max_freq = max([variant.count for variant in variants])
 
         for idx, variant in enumerate(variants):
-            if idx == 0:
-                variants[idx].motif_short = 'I'
-                variants[idx].motif_long = MotifClasses.I
-            elif idx == 1:
-                variants[idx].motif_short = 'Ma'
-                variants[idx].motif_long = MotifClasses.Ma
-            elif variants[idx].count > 1:
-                variants[idx].motif_short = 'Mi'
-                variants[idx].motif_long = MotifClasses.Mi
-            else:
+            if variant.count == max_freq:
+                if max_freq != 1:
+                    variants[idx].motif_short = 'I'
+                    variants[idx].motif_long = MotifClasses.I
+
+            if variant.count == 1:
                 variants[idx].motif_short = 'U'
                 variants[idx].motif_long = MotifClasses.U
+
+        unclassified = {idx: variant for idx, variant in enumerate(variants) if variant.motif_short is None}
+
+        if not unclassified:
+            return variants
+
+        max_freq = max([variant.count for idx, variant in unclassified.items()])
+
+        for idx, variant in unclassified.items():
+            if variant.count == max_freq:
+                variants[idx].motif_short = 'Ma'
+                variants[idx].motif_long = MotifClasses.Ma
+            else:
+                variants[idx].motif_short = 'Mi'
+                variants[idx].motif_long = MotifClasses.Mi
 
         return variants

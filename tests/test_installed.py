@@ -15,6 +15,6 @@ def test_if_can_import():
 
 
 def test_cli():
-    process = subprocess.run(['hunana', '-h'], shell=True)
+    process = subprocess.run(['hunana', '-h'])
 
     assert process.returncode == 0

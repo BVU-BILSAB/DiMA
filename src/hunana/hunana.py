@@ -1,7 +1,7 @@
 import os
 from collections import Counter
 from io import TextIOWrapper, StringIO
-from itertools import islice
+from itertools import islice, groupby
 from typing import List, Union, Iterable
 
 import jsonpickle
@@ -12,6 +12,8 @@ from .entropy import NormalizedEntropy
 from .datatypes import Position, Variant, VariantDict
 from .dynamic_constants import DynamicConstants
 from .errorhandlers import SequenceFileNotFound, HeaderDecodeError
+from .errorhandlers.exceptions import SequenceLengthError, NoSequencesProvided, InvalidKmerLength, NoHeaderFormat, \
+    HeaderItemCountInvalid, HeaderItemEmpty
 
 
 class Hunana(object):
@@ -19,7 +21,7 @@ class Hunana(object):
 
     def __init__(self, seqs: Union[str, TextIOWrapper, StringIO], kmer_len: int = 9, header_decode: bool = False,
                  json_result: bool = False, max_samples: int = 10000, iterations: int = 10, header_format: str = None,
-                 **kwargs):
+                 no_header_data_error=False, **kwargs):
         """
             The Hunana algorithm returns a list of Position objects each corresponding to a kmer position.
 
@@ -30,6 +32,8 @@ class Hunana(object):
             :param max_samples: The maximum number of samples to use when calculating entropy (default: 10000).
             :param iterations: The maximum number of iterations to use when calculating entropy (default: 10).
             :param header_format: The format of the header (ex: (id)|(species)|(country))
+            :param no_header_data_error: Whether missing data in the header during header decode throws an error
+            (default: False)
 
             :type seqs: Union[str, TextIOWrapper, StringIO]
             :type kmer_len: str
@@ -38,6 +42,7 @@ class Hunana(object):
             :type iterations: int
             :type json_result: bool
             :type header_format: str
+            :type no_header_data_error: bool
         """
 
         self.seqs = self._get_seqs(seqs)
@@ -46,21 +51,62 @@ class Hunana(object):
         self.json_result = json_result
         self.max_samples = max_samples
         self.iterations = iterations
+        self.header_format = header_format
+        self.no_header_data_error = no_header_data_error
 
         self.__dict__.update(kwargs)
 
+        # Let's make sure the sequences are aligned and kmer length is valid
+        self._check_seqs()
+
+        # If the user needs header data decoded, we prepare the necessary data here
         if header_decode:
-            self._prepare_header_decode(self.seqs, header_format)
+            self._prepare_header_decode()
 
-    @classmethod
-    def _prepare_header_decode(cls, seqs: List[SeqRecord], header_format: str):
-        if not header_format:
-            raise HeaderDecodeError(header_format)
+    def _check_seqs(self):
+        """
+            This method makes sure that all sequences are of equal length (ie: aligned). If not, it throws an error.
+            It also ensures that the k-mer length provided by the user is valid given the length of the sequences.
+        """
 
-        DynamicConstants.SEQ_DESCRIPTIONS = [x.description for x in seqs]
+        if not self.seqs:
+            raise NoSequencesProvided()
 
-        if not HeaderDecode.set_header_regex(header_format):
-            raise HeaderDecodeError(header_format)
+        groups = groupby(self.seqs, lambda seq: len(seq.seq))
+        groups_dict = {length: list(group_seqs) for length, group_seqs in groups}
+
+        if len(groups_dict) != 1:
+            raise SequenceLengthError(groups_dict)
+
+        seq_length = list(groups_dict.keys())[0]
+
+        if self.kmer_len >= seq_length:
+            raise InvalidKmerLength(seq_length, self.kmer_len)
+
+    def _prepare_header_decode(self):
+        if not self.header_format:
+            raise NoHeaderFormat()
+
+        desired_header_item_count = len(self.header_format.split('|'))
+
+        for seq in self.seqs:
+            header_items = seq.description.split('|')
+            actual_header_item_count = len(header_items)
+
+            if actual_header_item_count != desired_header_item_count:
+                raise HeaderItemCountInvalid(seq.description, desired_header_item_count, actual_header_item_count)
+
+            if any('' == header_item or header_item.isspace() for header_item in header_items):
+                if not self.no_header_data_error:
+                    raise HeaderItemEmpty(seq.description)
+
+                header_items = ['Unknown' if item == '' or item.isspace() else item for item in header_items]
+                seq.description = '|'.join(header_items)
+
+        DynamicConstants.SEQ_DESCRIPTIONS = [x.description for x in self.seqs]
+
+        if not HeaderDecode.set_header_regex(self.header_format):
+            raise HeaderDecodeError(self.header_format)
 
     @classmethod
     def _create_variant_dict(cls, kmers: zip) -> List[VariantDict]:
