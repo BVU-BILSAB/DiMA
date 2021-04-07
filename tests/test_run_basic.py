@@ -331,3 +331,13 @@ def test_run_module_basic_kmer_len_invalid(test_input_data_basic):
 
     with pytest.raises(InvalidKmerLength):
         Hunana(handle, kmer_len=61).run()
+
+
+def test_run_module_basic_no_seqs():
+    from hunana.errorhandlers.exceptions import NoSequencesProvided
+    from hunana import Hunana
+
+    handle = StringIO('')
+
+    with pytest.raises(NoSequencesProvided):
+        Hunana(handle).run()
