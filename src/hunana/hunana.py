@@ -1,7 +1,7 @@
 import os
 from collections import Counter
 from io import TextIOWrapper, StringIO
-from itertools import islice
+from itertools import islice, groupby
 from typing import List, Union, Iterable
 
 import jsonpickle
@@ -12,6 +12,7 @@ from .entropy import NormalizedEntropy
 from .datatypes import Position, Variant, VariantDict
 from .dynamic_constants import DynamicConstants
 from .errorhandlers import SequenceFileNotFound, HeaderDecodeError
+from .errorhandlers.exceptions import SequenceLengthError, NoSequencesProvided, InvalidKmerLength
 
 
 class Hunana(object):
@@ -49,8 +50,39 @@ class Hunana(object):
 
         self.__dict__.update(kwargs)
 
+        # Let's make sure the sequences are aligned
+        self._check_seqs(self.seqs, self.kmer_len)
+
+        # If the user needs header data decoded, we do that here
         if header_decode:
             self._prepare_header_decode(self.seqs, header_format)
+
+    @classmethod
+    def _check_seqs(cls, seqs: List[SeqRecord], kmer_len: int):
+        """
+            This method makes sure that all sequences are of equal length (ie: aligned). If not, it throws an error.
+            It also ensures that the k-mer length provided by the user is valid given the length of the sequences.
+
+            :param seqs: A list of SeqRecords generated from user-submitted FASTA file.
+            :param kmer_len: The length of the kmers that need to be generated.
+
+            :type seqs: List[SeqRecord]
+            :type kmer_len: int
+        """
+
+        if not seqs:
+            raise NoSequencesProvided()
+
+        groups = groupby(seqs, lambda seq: len(seq.seq))
+        groups_dict = {length: list(group_seqs) for length, group_seqs in groups}
+
+        if len(groups_dict) != 1:
+            raise SequenceLengthError(groups_dict)
+
+        seq_length = list(groups_dict.keys())[0]
+
+        if kmer_len >= seq_length:
+            raise InvalidKmerLength(seq_length, kmer_len)
 
     @classmethod
     def _prepare_header_decode(cls, seqs: List[SeqRecord], header_format: str):
