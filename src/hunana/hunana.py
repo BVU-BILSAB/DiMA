@@ -12,7 +12,7 @@ from .entropy import NormalizedEntropy
 from .datatypes import Position, Variant, VariantDict
 from .dynamic_constants import DynamicConstants
 from .errorhandlers import SequenceFileNotFound, HeaderDecodeError
-from .errorhandlers.exceptions import SequenceLengthError, NoSequencesProvided, InvalidKmerLength
+from .errorhandlers.exceptions import SequenceLengthError, NoSequencesProvided, InvalidKmerLength, NoHeaderFormat
 
 
 class Hunana(object):
@@ -87,7 +87,7 @@ class Hunana(object):
     @classmethod
     def _prepare_header_decode(cls, seqs: List[SeqRecord], header_format: str):
         if not header_format:
-            raise HeaderDecodeError(header_format)
+            raise NoHeaderFormat()
 
         DynamicConstants.SEQ_DESCRIPTIONS = [x.description for x in seqs]
 
