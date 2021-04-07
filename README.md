@@ -147,8 +147,8 @@ Each componant (ex: id, strain, country, etc)of the header needs to be wrapped i
 ```
 
 #### Command-Line Arguments
-| Argument         	| Type    	| Default 	| Example                                                                                                   	| Description                                                                       	|
-|------------------	|---------	|---------	|-----------------------------------------------------------------------------------------------------------	|-----------------------------------------------------------------------------------	|
+|     Argument     	|   Type  	| Default 	|                                                  Example                                                  	|                                    Description                                    	|
+|:----------------:	|:-------:	|:-------:	|:---------------------------------------------------------------------------------------------------------:	|:---------------------------------------------------------------------------------:	|
 | -h               	| N/A     	| N/A     	| `hunana -h`                                                                                               	| Prints a summary of all available command-line arguments.                         	|
 | -i               	| String  	| N/A     	| `hunana -i '/path/to/alignment.fasta'`                                                                    	| Absolute path to the aligned sequences file in FASTA format.                      	|
 | -o               	| String  	| N/A     	| `hunana -i '/path/to/alignment.fasta' -o output.json`                                                     	| Absolute path to the output JSON file.                                            	|
