@@ -24,6 +24,7 @@ class NoHeaderFormat(Exception):
 
         super(NoHeaderFormat, self).__init__(msg)
 
+
 class HeaderDecodeError(Exception):
     def __init__(self, header_format: str):
         """
@@ -92,3 +93,41 @@ class InvalidKmerLength(Exception):
               f'{kmer_len}\n\tSEQUENCE LENGTH: {seq_len}'
 
         super(InvalidKmerLength, self).__init__(msg)
+
+
+class HeaderItemCountInvalid(Exception):
+    def __init__(self, header: str, desired_count: int, actual_count: int):
+        """
+            Error raised when the number of items provided in the header format does not match the number of items in
+            the actual FASTA header of a sequence.
+
+            :param header: The affected FASTA header.
+            :param desired_count: The desired number of header items derived from the header format provided by user.
+            :param actual_count: The actual number of header items in the FASTA header.
+
+            :type header: str
+            :type desired_count: int
+            :type actual_count: int
+        """
+
+        msg = f'The header data count does not match.\n\tDESIRED HEADER DATA COUNT: {desired_count}\n\tACTUAL COUNT: ' \
+              f'{actual_count}\n\tAFFECTED HEADER: {header}'
+
+        super(HeaderItemCountInvalid, self).__init__(msg)
+
+
+class HeaderItemEmpty(Exception):
+    def __init__(self, header: str):
+        """
+            Error raised when header data errors are not suppressed (via no_header_data_error) and a header item
+            is empty.
+
+            :param header: The affected FASTA header.
+            :type header: str
+        """
+
+        msg = f'Empty header items found:\n\tAFFECTED HEADER: {header}\n\nYou may set the flag ' \
+              f'"no_header_data_error=True" to ignore this error and Hunana shall append "Unknown" to all empty ' \
+              f'header items.'
+
+        super(HeaderItemEmpty, self).__init__(msg)
