@@ -147,32 +147,17 @@ Each componant (ex: id, strain, country, etc)of the header needs to be wrapped i
 ```
 
 #### Command-Line Arguments
-```
-usage: hunana [-h] -i INPUT -o OUTPUT [-l {1,2,3,4,5,6,7,8,9,10,11,12,13,14}]
-              [-s SAMPLES] [-it ITERATIONS] [-he] [-f FORMAT]
-
-optional arguments:
-  -h, --help            show this help message and exit
-  -i INPUT, --input INPUT
-                        Absolute path to the aligned sequences file in FASTA
-                        format.
-  -o OUTPUT, --output OUTPUT
-                        Absolute path to the output file.
-  -l {1,2,3,4,5,6,7,8,9,10,11,12,13,14}, --length {1,2,3,4,5,6,7,8,9,10,11,12,13,14}
-                        The k-mer length (default: 9).
-  -s SAMPLES, --samples SAMPLES
-                        Max number of samples use when calculating entropy
-                        (default: 10000).
-  -it ITERATIONS, --iterations ITERATIONS
-                        Max number of iterations used when calculating entropy
-                        (default: 10).
-  -he, --header         Should the header data be used to derive the details
-                        for variants?.
-  -f FORMAT, --format FORMAT
-                        The format of the header. Ex:
-                        "(id)|(species)|(country)". Each item enclosed in
-                        brackets with any character used as separator.
-```
+| Argument         	| Type    	| Default 	| Example                                                                                                   	| Description                                                                       	|
+|------------------	|---------	|---------	|-----------------------------------------------------------------------------------------------------------	|-----------------------------------------------------------------------------------	|
+| -h               	| N/A     	| N/A     	| `hunana -h`                                                                                               	| Prints a summary of all available command-line arguments.                         	|
+| -i               	| String  	| N/A     	| `hunana -i '/path/to/alignment.fasta'`                                                                    	| Absolute path to the aligned sequences file in FASTA format.                      	|
+| -o               	| String  	| N/A     	| `hunana -i '/path/to/alignment.fasta' -o output.json`                                                     	| Absolute path to the output JSON file.                                            	|
+| -l               	| Integer 	| 9       	| `hunana -i '/path/to/alignment.fasta' -l 12`                                                              	| The length of the generated k-mers.                                               	|
+| -s               	| Integer 	| 10000   	| `hunana -i '/path/to/alignment.fasta' -s 20000`                                                           	| Maximum number of samples use when calculating entropy.                           	|
+| -it              	| Integer 	| 10      	| `hunana -i '/path/to/alignment.fasta' -it 100`                                                            	| Maximum number of iterations used when calculating entropy.                       	|
+| -he              	| Boolean 	| False   	| `hunana -i '/path/to/alignment.fasta' -he -f '(type)\|(accession)\|(strain)\|(country)'`                  	| Enables decoding of the FASTA headers to derive details for each generated k-mer. 	|
+| -f               	| String  	| N/A     	| `hunana -i '/path/to/alignment.fasta' -he -f '(type)\|(accession)\|(strain)\|(country)'`                  	| The format of the FASTA header in the FASTA Multiple Sequence Alignment.          	|
+| -no_header_error 	| Boolean 	| False   	| `hunana -i '/path/to/alignment.fasta' -he -f '(type)\|(accession)\|(strain)\|(country)' -no_header_error` 	| Whether to raise an error if empty items are found in any of the FASTA headers.   	|
 
 #### More Examples
 `hunana -i sequences.fasta -o output.json -he -f "(ncbid)/(strain)/(host)/(country)"`
@@ -180,6 +165,8 @@ optional arguments:
 `hunana -i sequences.fasta -o output.json -he -f "(ncbid)/(strain)/(host)|(country)"`
 
 `hunana -i sequences.fasta -o output.json -he -f "(ab)/(cde)/(fghi)/(jklm)"`
+
+`hunana -i sequences.fasta -o output.json -he -f "(ab)/(cde)/(fghi)/(jklm) -no_header_error"`
 
 ### Module Usage
 Hunana can also be imported and used within your Python projects as below:
@@ -189,22 +176,12 @@ Hunana('/path/to/sequence.fasta').run()
 ```
 
 #### Module Parameters
-```
-The Hunana algorithm returns a list of Position objects each corresponding to a kmer position.
-
-:param seqs: A file handle, a FASTA sequence wrapped in a handle, or a filepath.
-:param kmer_len: The length of the kmers to generate (default:  9).
-:param header_decode: Whether to use FASTA headers to derive kmer information (default: False).
-:param json_result: Whether the results should be returned in json format (default: False).
-:param max_samples: The maximum number of samples to use when calculating entropy (default: 10000).
-:param iterations: The maximum number of iterations to use when calculating entropy (default: 10).
-:param header_format: The format of the header (ex: (id)|(species)|(country))
-
-:type seqs: Union[str, TextIOWrapper, StringIO]
-:type kmer_len: str
-:type header_decode: bool
-:type max_samples: int
-:type iterations: int
-:type json_result: bool
-:type header_format: str
-```
+|    Argument   |             Type             | Default |                             Description                             |
+|:-------------:|:----------------------------:|:-------:|:-------------------------------------------------------------------:|
+| seqs          | str, TextIOWrapper, StringIO | N/A     | A file handle, a FASTA sequence wrapped in a handle, or a filepath. |
+| kmer_len      | int                          | 9       | The length of the kmers to generate.                                |
+| header_decode | bool                         | False   | Whether to use FASTA headers to derive kmer information.            |
+| header_format | str                          | N/A     | The format of the header (ex: (id)\|(species)\|(country)).          |
+| json_result   | bool                         | False   | Whether the results should be returned in json format.              |
+| max_samples   | int                          | 1000    | The maximum number of samples to use when calculating entropy.      |
+| iterations    | int                          | 10      | The maximum number of iterations to use when calculating entropy.   |
