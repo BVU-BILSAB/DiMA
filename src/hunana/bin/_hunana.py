@@ -18,7 +18,12 @@ def main():
     parser.add_argument('-it', '--iterations',
                         help='Max number of iterations used when calculating entropy (default: 10).',
                         type=int, default=10, required=False)
-    parser.add_argument('-he', '--header', help="Should the header data be used to derive the details for variants?.",
+    parser.add_argument('-he', '--header', help="Should the header data be used to derive the details for variants?. "
+                                                "(default: false)",
+                        action='store_true', required=False)
+    parser.add_argument('-no_header_error', '--no_header_error', help="Should empty items in the FASTA header raise "
+                                                                      "an error?. This flag is used in conjunction "
+                                                                      "with -he and -f (default: false)",
                         action='store_true', required=False)
     parser.add_argument('-f', '--format',
                         help="The format of the header. Ex: (id)|(species)|(country). Each item enclosed "
@@ -46,9 +51,9 @@ def main():
 
     try:
         results = Hunana(inputx, arguments.length, arguments.header, True, arguments.samples,
-                         arguments.iterations, arguments.format).run()
-    except Exception:
-        parser.error(f'Exception while calculating kmers for sequences file {arguments.input}')
+                         arguments.iterations, arguments.format, arguments.no_header_error).run()
+    except Exception as ex:
+        parser.error(f'Exception while calculating kmers for sequences file {arguments.input}\n{ex}')
         sys.exit(5)
 
     if not arguments.output:
