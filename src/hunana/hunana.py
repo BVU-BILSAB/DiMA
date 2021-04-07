@@ -50,7 +50,7 @@ class Hunana(object):
 
         self.__dict__.update(kwargs)
 
-        # Let's make sure the sequences are aligned
+        # Let's make sure the sequences are aligned and kmer length is valid
         self._check_seqs(self.seqs, self.kmer_len)
 
         # If the user needs header data decoded, we do that here
