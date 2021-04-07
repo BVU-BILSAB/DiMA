@@ -13,6 +13,14 @@ FHWLMLNPNDTVTFSFNGAFIAPDRASFLRGKSMGIQSGVQVDANCEGDCYHSGGTIISN"""
 
 
 @pytest.fixture
+def test_input_data_basic_unaligned():
+    return """>Seq_1
+SKGKRTVDLGQCGLLGTITGPPQCDQFLEFSADLIIERREGSDVCYPGKFVNEEALRQIL
+>Seq_2
+FHWLMLNPNDTVTFSFNGAFIAPDRASFLRGKSMGGIQSGVQVDANCEGDCYHSGGTIISN"""
+
+
+@pytest.fixture
 def test_output_data_basic():
     return [
         {'position': 1, 'entropy': 0.9999623941130954, 'variants_flattened': ['SKGKRTVDL', 'FHWLMLNPN'], 'supports': 2,
@@ -293,6 +301,7 @@ def test_run_module_basic(test_input_data_basic, test_output_data_basic):
 def test_run_cli_basic(test_input_data_basic, test_output_data_basic):
     process = subprocess.run(['hunana'], input=test_input_data_basic.encode('utf-8'), shell=True,
                              stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
     assert process.returncode == 0
 
     results = loads(process.stdout.decode('utf-8'))
@@ -302,3 +311,13 @@ def test_run_cli_basic(test_input_data_basic, test_output_data_basic):
         assert results.get('supports') == test.get('supports')
         assert results.get('variants') == test.get('variants')
         assert results.get('kmer_types') == test.get('kmer_types')
+
+
+def test_run_module_basic_unaligned(test_input_data_basic_unaligned):
+    from hunana import Hunana
+    from hunana.errorhandlers.exceptions import SequenceLengthError
+
+    handle = StringIO(test_input_data_basic_unaligned)
+
+    with pytest.raises(SequenceLengthError):
+        Hunana(handle).run()
