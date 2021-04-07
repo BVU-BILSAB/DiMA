@@ -321,3 +321,13 @@ def test_run_module_basic_unaligned(test_input_data_basic_unaligned):
 
     with pytest.raises(SequenceLengthError):
         Hunana(handle).run()
+
+
+def test_run_module_basic_kmer_len_invalid(test_input_data_basic):
+    from hunana.errorhandlers.exceptions import InvalidKmerLength
+    from hunana import Hunana
+
+    handle = StringIO(test_input_data_basic)
+
+    with pytest.raises(InvalidKmerLength):
+        Hunana(handle, kmer_len=61).run()
