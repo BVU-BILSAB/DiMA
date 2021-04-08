@@ -716,7 +716,7 @@ def test_run_module_advanced_empty_header_data_success(test_input_data_advanced_
     handle = StringIO(test_input_data_advanced_missing_header_items)
 
     Hunana(handle, header_decode=True, header_format='(type)|(accession)|(strain)|(country)',
-           no_header_data_error=True).run()
+           no_header_error=True).run()
 
 
 def test_run_module_advanced_header_item_count_invalid(test_input_data_advanced_item_count_invalid):
@@ -728,7 +728,7 @@ def test_run_module_advanced_header_item_count_invalid(test_input_data_advanced_
 
     with pytest.raises(HeaderItemCountInvalid):
         Hunana(handle1, header_decode=True, header_format='(type)|(accession)|(strain)|(country)',
-               no_header_data_error=True).run()
+               no_header_error=True).run()
 
     with pytest.raises(HeaderItemCountInvalid):
         Hunana(handle2, header_decode=True, header_format='(type)|(accession)|(strain)|(country)').run()

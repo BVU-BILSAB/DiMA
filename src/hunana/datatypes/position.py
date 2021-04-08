@@ -138,6 +138,10 @@ class Position(dict):
         """
 
         variants = sorted(variants, key=lambda x: x.count, reverse=True)
+
+        if not variants:
+            return variants
+
         max_freq = max([variant.count for variant in variants])
 
         for idx, variant in enumerate(variants):

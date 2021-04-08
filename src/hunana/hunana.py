@@ -21,7 +21,7 @@ class Hunana(object):
 
     def __init__(self, seqs: Union[str, TextIOWrapper, StringIO], kmer_len: int = 9, header_decode: bool = False,
                  json_result: bool = False, max_samples: int = 10000, iterations: int = 10, header_format: str = None,
-                 no_header_data_error=False, **kwargs):
+                 no_header_error=False, **kwargs):
         """
             The Hunana algorithm returns a list of Position objects each corresponding to a kmer position.
 
@@ -32,7 +32,7 @@ class Hunana(object):
             :param max_samples: The maximum number of samples to use when calculating entropy (default: 10000).
             :param iterations: The maximum number of iterations to use when calculating entropy (default: 10).
             :param header_format: The format of the header (ex: (id)|(species)|(country))
-            :param no_header_data_error: Whether missing data in the header during header decode throws an error
+            :param no_header_error: Whether missing data in the header during header decode throws an error
             (default: False)
 
             :type seqs: Union[str, TextIOWrapper, StringIO]
@@ -42,7 +42,7 @@ class Hunana(object):
             :type iterations: int
             :type json_result: bool
             :type header_format: str
-            :type no_header_data_error: bool
+            :type no_header_error: bool
         """
 
         self.seqs = self._get_seqs(seqs)
@@ -52,7 +52,7 @@ class Hunana(object):
         self.max_samples = max_samples
         self.iterations = iterations
         self.header_format = header_format
-        self.no_header_data_error = no_header_data_error
+        self.no_header_error = no_header_error
 
         self.__dict__.update(kwargs)
 
@@ -97,7 +97,7 @@ class Hunana(object):
                 raise HeaderItemCountInvalid(seq.description, desired_header_item_count, actual_header_item_count)
 
             if any('' == header_item or header_item.isspace() for header_item in header_items):
-                if not self.no_header_data_error:
+                if not self.no_header_error:
                     raise HeaderItemEmpty(seq.description)
 
                 header_items = ['Unknown' if item == '' or item.isspace() else item for item in header_items]

@@ -127,7 +127,7 @@ class HeaderItemEmpty(Exception):
         """
 
         msg = f'Empty header items found:\n\tAFFECTED HEADER: {header}\n\nYou may set the flag ' \
-              f'"no_header_data_error=True" to ignore this error and Hunana shall append "Unknown" to all empty ' \
+              f'"no_header_error=True" to ignore this error and Hunana shall append "Unknown" to all empty ' \
               f'header items.'
 
         super(HeaderItemEmpty, self).__init__(msg)
