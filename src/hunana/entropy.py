@@ -48,6 +48,11 @@ class NormalizedEntropy(object):
 
     @classmethod
     def _entropy_calculation(cls, sample_value, sample_count):
+        """
+            Calculates the entropy of a given k-mer position using the Shannon's Entropy formula.
+
+            :param sample_value: Th
+        """
         entropy = (float(sample_value) / float(sample_count)) * \
                   (math.log2(float(sample_value) / float(sample_count)))
         return entropy

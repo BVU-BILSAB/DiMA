@@ -2,7 +2,7 @@ import os
 from collections import Counter
 from io import TextIOWrapper, StringIO
 from itertools import islice, groupby
-from typing import List, Union, Iterable
+from typing import List, Union, Iterable, Optional
 
 import jsonpickle
 from Bio.SeqIO import parse, SeqRecord
@@ -19,9 +19,11 @@ from .errorhandlers.exceptions import SequenceLengthError, NoSequencesProvided, 
 class Hunana(object):
     DISALLOWED_CHARS = {'-', 'X', 'B', 'J', 'Z', 'O', 'U'}
 
-    def __init__(self, seqs: Union[str, TextIOWrapper, StringIO], kmer_len: int = 9, header_decode: bool = False,
-                 json_result: bool = False, max_samples: int = 10000, iterations: int = 10, header_format: str = None,
-                 no_header_error=False, **kwargs):
+    def __init__(self, seqs: Union[str, TextIOWrapper, StringIO], kmer_len: Optional[int] = 9,
+                 header_decode: Optional[bool] = False,
+                 json_result: Optional[bool] = False, max_samples: Optional[int] = 10000,
+                 iterations: Optional[int] = 10, header_format: Optional[str] = None,
+                 no_header_error: Optional[bool] = False, **kwargs):
         """
             The Hunana algorithm returns a list of Position objects each corresponding to a kmer position.
 
@@ -36,13 +38,13 @@ class Hunana(object):
             (default: False)
 
             :type seqs: Union[str, TextIOWrapper, StringIO]
-            :type kmer_len: str
-            :type header_decode: bool
-            :type max_samples: int
-            :type iterations: int
-            :type json_result: bool
-            :type header_format: str
-            :type no_header_error: bool
+            :type kmer_len: Optional[int]
+            :type header_decode: Optional[bool]
+            :type max_samples: Optional[int]
+            :type iterations: Optional[int]
+            :type json_result: Optional[bool]
+            :type header_format: Optional[str]
+            :type no_header_error: Optional[bool]
         """
 
         self.seqs = self._get_seqs(seqs)
