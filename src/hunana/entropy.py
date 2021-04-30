@@ -53,7 +53,7 @@ class NormalizedEntropy(object):
                 variant_entropy = self._entropy_calculation(sample_value, sample_count)
                 total_iteration_entropy += variant_entropy
 
-            iteration_data.append((total_iteration_entropy * -1, 1.0 / float(sample_count)))
+            iteration_data.append((total_iteration_entropy, 1.0 / float(sample_count)))
 
         slope, intercept, r_value, p_value, std_err = stats.linregress([y for x, y in iteration_data],
                                                                        [x for x, y in iteration_data])
@@ -62,6 +62,6 @@ class NormalizedEntropy(object):
 
     @classmethod
     def _entropy_calculation(cls, sample_value, sample_count):
-        entropy = (float(sample_value) / float(sample_count)) * \
+        entropy = -1 * (float(sample_value) / float(sample_count)) * \
                   (math.log2(float(sample_value) / float(sample_count)))
         return entropy
