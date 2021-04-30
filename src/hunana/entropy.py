@@ -1,11 +1,25 @@
 import math
 import random
-from .datatypes import VariantCounter
+from typing import Optional, List
+
+from .datatypes import VariantCounter, Position
 from scipy.stats import stats
 
 
 class NormalizedEntropy(object):
-    def __init__(self, max_samples, iterations, positions: list):
+    def __init__(self, positions: List[Position], max_samples: Optional[int] = 10000, iterations: Optional[int] = 10):
+        """
+            Uses the Shannon's Entropy formula to calculate the entropy (amount of disorder) for each k-mer position.
+
+            :param positions: A list of k-mer positions.
+            :param max_samples: The maximum number of samples (default: 10000)
+            :param iterations: The maximum number of iterations (default: 10)
+
+            :type positions: list[Position]
+            :type max_samples: Optional[int]
+            :type iterations: Optional[int]
+        """
+
         self.max_samples = max_samples
         self.iterations = iterations
         self.positions = positions
@@ -48,11 +62,6 @@ class NormalizedEntropy(object):
 
     @classmethod
     def _entropy_calculation(cls, sample_value, sample_count):
-        """
-            Calculates the entropy of a given k-mer position using the Shannon's Entropy formula.
-
-            :param sample_value: Th
-        """
         entropy = (float(sample_value) / float(sample_count)) * \
                   (math.log2(float(sample_value) / float(sample_count)))
         return entropy

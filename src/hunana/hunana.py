@@ -263,7 +263,7 @@ class Hunana(object):
         variant_dicts = self._create_variant_dict(kmers)
         variant_counters = (x.get_counter() for x in variant_dicts)
         kmer_position_objects = self._create_position_objects(variant_counters, variant_dicts)
-        entropy = NormalizedEntropy(self.max_samples, self.iterations, list(kmer_position_objects)).run()
+        entropy = NormalizedEntropy(list(kmer_position_objects), self.max_samples, self.iterations).run()
         results = list(entropy)
 
         if self.json_result:
