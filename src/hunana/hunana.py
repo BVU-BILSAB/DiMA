@@ -113,8 +113,8 @@ class Hunana(object):
     @classmethod
     def _create_variant_dict(cls, kmers: zip) -> List[VariantDict]:
         """
-            Returns a list of VariantDict (a dictionary of lists).
-            TODO: Been a while, forgot what this does, try to understand again later.
+            Returns a list of VariantDict (a dictionary of lists). We will later use this to calculate entropy, and
+            also to decode the headers (if the user needs it).
 
             :param kmers: A zip object containing kmers
             :type kmers: zip
@@ -126,13 +126,13 @@ class Hunana(object):
 
         for kmer in kmers:
             unique = VariantDict(list)
-            # Here there's no need to enumerate, you can just append any value because you are essentialy
-            # only using len to get the number of elements. There has to be a more elegant way to achive the same effect
+
             for a, b in enumerate(kmer):
                 unique[b].append(a)
             unique.pop('illegal-char', None)
 
             positions.append(unique)
+
         return positions
 
     @classmethod
@@ -193,6 +193,13 @@ class Hunana(object):
                                  variant_dicts: List[VariantDict]) -> Iterable:
         """
             Create kmer position objects with entropy, position and variant properties
+
+            :param counters: An iterable of containing Counters for each variant seen at a specific position.
+            :param variant_dicts: A list of variant dictionaries that will later be used for calculating the entropy
+            and decoding the header data.
+
+            :type counters: Iterable[Counter]
+            :type variant_dicts: List[VariantDict]
 
             :return A Generator object for Position objects for each kmer position
         """
