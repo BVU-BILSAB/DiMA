@@ -31,4 +31,4 @@ jobs:
           git push --set-upstream origin doc
           git add .
           git commit -m "Documentation Updated"
-          git push
+          git push --force
