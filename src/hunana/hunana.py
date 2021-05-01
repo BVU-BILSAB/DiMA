@@ -262,7 +262,7 @@ class Hunana(object):
 
     def run(self) -> Union[str, List[Position]]:
         """
-            Run the pipeline.
+            Runs the Hunana algorithm withthe options provided at the instantiation of the class.
 
             :return: Returns either json results or a list of Position objects.
         """
