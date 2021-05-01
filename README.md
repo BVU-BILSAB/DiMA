@@ -183,6 +183,6 @@ Hunana('/path/to/sequence.fasta').run()
 | header_decode | bool                         | False   | Whether to use FASTA headers to derive kmer information.            |
 | header_format | str                          | N/A     | The format of the header (ex: (id)\|(species)\|(country)).          |
 | json_result   | bool                         | False   | Whether the results should be returned in json format.              |
-| max_samples   | int                          | 1000    | The maximum number of samples to use when calculating entropy.      |
+| max_samples   | int                          | 10000    | The maximum number of samples to use when calculating entropy.      |
 | iterations    | int                          | 10      | The maximum number of iterations to use when calculating entropy.   |
 | no_header_error | bool                       | False   | Whether to raise an error if empty items are found in any of the FASTA headers.   |

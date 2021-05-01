@@ -2,7 +2,7 @@ import os
 from collections import Counter
 from io import TextIOWrapper, StringIO
 from itertools import islice, groupby
-from typing import List, Union, Iterable
+from typing import List, Union, Iterable, Optional
 
 import jsonpickle
 from Bio.SeqIO import parse, SeqRecord
@@ -19,9 +19,11 @@ from .errorhandlers.exceptions import SequenceLengthError, NoSequencesProvided, 
 class Hunana(object):
     DISALLOWED_CHARS = {'-', 'X', 'B', 'J', 'Z', 'O', 'U'}
 
-    def __init__(self, seqs: Union[str, TextIOWrapper, StringIO], kmer_len: int = 9, header_decode: bool = False,
-                 json_result: bool = False, max_samples: int = 10000, iterations: int = 10, header_format: str = None,
-                 no_header_error=False, **kwargs):
+    def __init__(self, seqs: Union[str, TextIOWrapper, StringIO], kmer_len: Optional[int] = 9,
+                 header_decode: Optional[bool] = False,
+                 json_result: Optional[bool] = False, max_samples: Optional[int] = 10000,
+                 iterations: Optional[int] = 10, header_format: Optional[str] = None,
+                 no_header_error: Optional[bool] = False, **kwargs):
         """
             The Hunana algorithm returns a list of Position objects each corresponding to a kmer position.
 
@@ -36,13 +38,17 @@ class Hunana(object):
             (default: False)
 
             :type seqs: Union[str, TextIOWrapper, StringIO]
-            :type kmer_len: str
-            :type header_decode: bool
-            :type max_samples: int
-            :type iterations: int
-            :type json_result: bool
-            :type header_format: str
-            :type no_header_error: bool
+            :type kmer_len: Optional[int]
+            :type header_decode: Optional[bool]
+            :type max_samples: Optional[int]
+            :type iterations: Optional[int]
+            :type json_result: Optional[bool]
+            :type header_format: Optional[str]
+            :type no_header_error: Optional[bool]
+
+            **Usage:**
+                >>> from hunana import Hunana
+                >>> results = Hunana('path/to/sequence.fasta').run()
         """
 
         self.seqs = self._get_seqs(seqs)
@@ -84,6 +90,14 @@ class Hunana(object):
             raise InvalidKmerLength(seq_length, self.kmer_len)
 
     def _prepare_header_decode(self):
+        """
+            This method prepares for header decode by checking if the user-provided sequences abide by the
+            specifications.
+
+            If the sequences look good, a regex pattern is generated for the headers which will later be used to
+            extract the metadata from the headers.
+        """
+
         if not self.header_format:
             raise NoHeaderFormat()
 
@@ -111,8 +125,8 @@ class Hunana(object):
     @classmethod
     def _create_variant_dict(cls, kmers: zip) -> List[VariantDict]:
         """
-            Returns a list of VariantDict (a dictionary of lists).
-            TODO: Been a while, forgot what this does, try to understand again later.
+            Returns a list of VariantDict (a dictionary of lists). We will later use this to calculate entropy, and
+            also to decode the headers (if the user needs it).
 
             :param kmers: A zip object containing kmers
             :type kmers: zip
@@ -124,13 +138,13 @@ class Hunana(object):
 
         for kmer in kmers:
             unique = VariantDict(list)
-            # Here there's no need to enumerate, you can just append any value because you are essentialy
-            # only using len to get the number of elements. There has to be a more elegant way to achive the same effect
+
             for a, b in enumerate(kmer):
                 unique[b].append(a)
             unique.pop('illegal-char', None)
 
             positions.append(unique)
+
         return positions
 
     @classmethod
@@ -192,6 +206,13 @@ class Hunana(object):
         """
             Create kmer position objects with entropy, position and variant properties
 
+            :param counters: An iterable of containing Counters for each variant seen at a specific position.
+            :param variant_dicts: A list of variant dictionaries that will later be used for calculating the entropy
+            and decoding the header data.
+
+            :type counters: Iterable[Counter]
+            :type variant_dicts: List[VariantDict]
+
             :return A Generator object for Position objects for each kmer position
         """
 
@@ -245,7 +266,7 @@ class Hunana(object):
 
     def run(self) -> Union[str, List[Position]]:
         """
-            Run the pipeline.
+            Runs the Hunana algorithm with the options provided at the instantiation of the class.
 
             :return: Returns either json results or a list of Position objects.
         """
@@ -254,7 +275,7 @@ class Hunana(object):
         variant_dicts = self._create_variant_dict(kmers)
         variant_counters = (x.get_counter() for x in variant_dicts)
         kmer_position_objects = self._create_position_objects(variant_counters, variant_dicts)
-        entropy = NormalizedEntropy(self.max_samples, self.iterations, list(kmer_position_objects)).run()
+        entropy = NormalizedEntropy(list(kmer_position_objects), self.max_samples, self.iterations).run()
         results = list(entropy)
 
         if self.json_result:
