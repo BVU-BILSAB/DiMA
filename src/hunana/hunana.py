@@ -45,6 +45,10 @@ class Hunana(object):
             :type json_result: Optional[bool]
             :type header_format: Optional[str]
             :type no_header_error: Optional[bool]
+
+            **Usage:**
+                >>> from hunana import Hunana
+                >>> results = Hunana('path/to/sequence.fasta').run()
         """
 
         self.seqs = self._get_seqs(seqs)
@@ -262,7 +266,7 @@ class Hunana(object):
 
     def run(self) -> Union[str, List[Position]]:
         """
-            Runs the Hunana algorithm withthe options provided at the instantiation of the class.
+            Runs the Hunana algorithm with the options provided at the instantiation of the class.
 
             :return: Returns either json results or a list of Position objects.
         """
