@@ -11,3 +11,11 @@ hunana.errorhandlers.exceptions module
    :members:
    :undoc-members:
    :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: hunana.errorhandlers
+   :members:
+   :undoc-members:
+   :show-inheritance:
