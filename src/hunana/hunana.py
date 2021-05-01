@@ -86,6 +86,14 @@ class Hunana(object):
             raise InvalidKmerLength(seq_length, self.kmer_len)
 
     def _prepare_header_decode(self):
+        """
+            This method prepares for header decode by checking if the user-provided sequences abide by the
+            specifications.
+
+            If the sequences look good, a regex pattern is generated for the headers which will later be used to
+            extract the metadata from the headers.
+        """
+
         if not self.header_format:
             raise NoHeaderFormat()
 
