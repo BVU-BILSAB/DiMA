@@ -22,6 +22,7 @@ jobs:
         run:  sphinx-build ./doc/source ./doc/html
       - name: Push Documentation to Docs Branch
         run:  |
+          shopt -s extglob
           rm -- !(doc)
           mv doc/html/* .
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
