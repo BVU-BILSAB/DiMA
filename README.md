@@ -1,4 +1,4 @@
-# Hunana
+# DiMA
 
 A modular implementation of Hunana. A sub-module of ViVA.
 
@@ -11,7 +11,7 @@ nonameric (kmer) sequences for a given viral protein sequence by utilizing Shann
 
 **OPTION 1**
 
-`pip install hunana`
+`pip install dima`
 
 **OPTION 2**
 
