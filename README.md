@@ -13,12 +13,12 @@ nonameric (kmer) sequences for a given viral protein sequence by utilizing Shann
 
 **OPTION 2**
 
-`pip install git+https://github.com/pu-sds/hunana.git`
+`pip install git+https://github.com/pu-sds/DiMA.git`
 
 **OPTION 3**
 
 ```
-git clone https://github.com/pu-sds/hunana.git
+git clone https://github.com/pu-sds/DiMA.git
 cd hunana
 python setup.py install
 ```
@@ -27,27 +27,27 @@ python setup.py install
 
 Download the latest distribution at:
 
-`https://github.com/pu-sds/hunana/releases/latest`
+`https://github.com/pu-sds/DiMA/releases/latest`
 
 Install using:
 
-`$ pip install hunana-{version}.whl`
+`$ pip install DiMA-{version}.whl`
 
 ### Command-Line Usage
 Once installation is complete, an executable will be added to PATH which can be accessed as below:
 
 **Linux**
 
-`hunana -h`
+`dima -h`
 
 **Windows**
 
-`hunana.exe -h`
+`dima.exe -h`
 
 #### Basic Usage
-`hunana -i sequences.fasta -o output.json -l 9`
+`dima -i sequences.fasta -o output.json -l 9`
 
-`hunana -i sequences.fasta | grep supports`
+`dima -i sequences.fasta | grep supports`
 
 ##### Basic Usage Output (Example)
 ```
@@ -158,19 +158,19 @@ Each componant (ex: id, strain, country, etc)of the header needs to be wrapped i
 | -no_header_error 	| Boolean 	| False   	| `hunana -i '/path/to/alignment.fasta' -he -f '(type)\|(accession)\|(strain)\|(country)' -no_header_error` 	| Whether to raise an error if empty items are found in any of the FASTA headers.   	|
 
 #### More Examples
-`hunana -i sequences.fasta -o output.json -he -f "(ncbid)/(strain)/(host)/(country)"`
+`dima -i sequences.fasta -o output.json -he -f "(ncbid)/(strain)/(host)/(country)"`
 
-`hunana -i sequences.fasta -o output.json -he -f "(ncbid)/(strain)/(host)|(country)"`
+`dima -i sequences.fasta -o output.json -he -f "(ncbid)/(strain)/(host)|(country)"`
 
-`hunana -i sequences.fasta -o output.json -he -f "(ab)/(cde)/(fghi)/(jklm)"`
+`dima -i sequences.fasta -o output.json -he -f "(ab)/(cde)/(fghi)/(jklm)"`
 
-`hunana -i sequences.fasta -o output.json -he -f "(ab)/(cde)/(fghi)/(jklm) -no_header_error"`
+`dima -i sequences.fasta -o output.json -he -f "(ab)/(cde)/(fghi)/(jklm) -no_header_error"`
 
 ### Module Usage
 Hunana can also be imported and used within your Python projects as below:
 ```
 from hunana import Hunana
-Hunana('/path/to/sequence.fasta').run()
+Dima('/path/to/sequence.fasta').run()
 ```
 
 #### Module Parameters
