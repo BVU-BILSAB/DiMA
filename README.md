@@ -19,7 +19,7 @@ nonameric (kmer) sequences for a given viral protein sequence by utilizing Shann
 
 ```
 git clone https://github.com/pu-sds/DiMA.git
-cd hunana
+cd dima
 python setup.py install
 ```
 
@@ -87,7 +87,7 @@ Once installation is complete, an executable will be added to PATH which can be 
 #### Advanced Usage (Generate Variant Data)
 The flag --he/--header along with the -f/--format header can be used to generate data for each variant using the metadata from the fasta sequence header.
 
-`hunana -i sequences.fasta -o output.json -he -f "(type)|(id)|(strain)"`
+`dima -i sequences.fasta -o output.json -he -f "(type)|(id)|(strain)"`
 
 Each componant (ex: id, strain, country, etc)of the header needs to be wrapped in brackets. Any separator (Ex: |, /, _, etc) can be used.
 
@@ -147,15 +147,15 @@ Each componant (ex: id, strain, country, etc)of the header needs to be wrapped i
 #### Command-Line Arguments
 | Argument         	| Type    	| Default 	| Example                                                                                                   	| Description                                                                       	|
 |------------------	|---------	|---------	|-----------------------------------------------------------------------------------------------------------	|-----------------------------------------------------------------------------------	|
-| -h               	| N/A     	| N/A     	| `hunana -h`                                                                                               	| Prints a summary of all available command-line arguments.                         	|
-| -i               	| String  	| N/A     	| `hunana -i '/path/to/alignment.fasta'`                                                                    	| Absolute path to the aligned sequences file in FASTA format.                      	|
-| -o               	| String  	| N/A     	| `hunana -i '/path/to/alignment.fasta' -o output.json`                                                     	| Absolute path to the output JSON file.                                            	|
-| -l               	| Integer 	| 9       	| `hunana -i '/path/to/alignment.fasta' -l 12`                                                              	| The length of the generated k-mers.                                               	|
-| -s               	| Integer 	| 10000   	| `hunana -i '/path/to/alignment.fasta' -s 20000`                                                           	| Maximum number of samples use when calculating entropy.                           	|
-| -it              	| Integer 	| 10      	| `hunana -i '/path/to/alignment.fasta' -it 100`                                                            	| Maximum number of iterations used when calculating entropy.                       	|
-| -he              	| Boolean 	| False   	| `hunana -i '/path/to/alignment.fasta' -he -f '(type)\|(accession)\|(strain)\|(country)'`                  	| Enables decoding of the FASTA headers to derive details for each generated k-mer. 	|
-| -f               	| String  	| N/A     	| `hunana -i '/path/to/alignment.fasta' -he -f '(type)\|(accession)\|(strain)\|(country)'`                  	| The format of the FASTA header in the FASTA Multiple Sequence Alignment.          	|
-| -no_header_error 	| Boolean 	| False   	| `hunana -i '/path/to/alignment.fasta' -he -f '(type)\|(accession)\|(strain)\|(country)' -no_header_error` 	| Whether to raise an error if empty items are found in any of the FASTA headers.   	|
+| -h               	| N/A     	| N/A     	| `dima -h`                                                                                               	| Prints a summary of all available command-line arguments.                         	|
+| -i               	| String  	| N/A     	| `dima -i '/path/to/alignment.fasta'`                                                                    	| Absolute path to the aligned sequences file in FASTA format.                      	|
+| -o               	| String  	| N/A     	| `dima -i '/path/to/alignment.fasta' -o output.json`                                                     	| Absolute path to the output JSON file.                                            	|
+| -l               	| Integer 	| 9       	| `dima -i '/path/to/alignment.fasta' -l 12`                                                              	| The length of the generated k-mers.                                               	|
+| -s               	| Integer 	| 10000   	| `dima -i '/path/to/alignment.fasta' -s 20000`                                                           	| Maximum number of samples use when calculating entropy.                           	|
+| -it              	| Integer 	| 10      	| `dima -i '/path/to/alignment.fasta' -it 100`                                                            	| Maximum number of iterations used when calculating entropy.                       	|
+| -he              	| Boolean 	| False   	| `dima -i '/path/to/alignment.fasta' -he -f '(type)\|(accession)\|(strain)\|(country)'`                  	| Enables decoding of the FASTA headers to derive details for each generated k-mer. 	|
+| -f               	| String  	| N/A     	| `dima -i '/path/to/alignment.fasta' -he -f '(type)\|(accession)\|(strain)\|(country)'`                  	| The format of the FASTA header in the FASTA Multiple Sequence Alignment.          	|
+| -no_header_error 	| Boolean 	| False   	| `dima -i '/path/to/alignment.fasta' -he -f '(type)\|(accession)\|(strain)\|(country)' -no_header_error` 	| Whether to raise an error if empty items are found in any of the FASTA headers.   	|
 
 #### More Examples
 `dima -i sequences.fasta -o output.json -he -f "(ncbid)/(strain)/(host)/(country)"`
@@ -167,9 +167,9 @@ Each componant (ex: id, strain, country, etc)of the header needs to be wrapped i
 `dima -i sequences.fasta -o output.json -he -f "(ab)/(cde)/(fghi)/(jklm) -no_header_error"`
 
 ### Module Usage
-Hunana can also be imported and used within your Python projects as below:
+dima can also be imported and used within your Python projects as below:
 ```
-from hunana import Hunana
+from dima import dima
 Dima('/path/to/sequence.fasta').run()
 ```
 
