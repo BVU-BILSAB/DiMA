@@ -2,8 +2,7 @@ import argparse
 import sys
 
 from io import StringIO
-from hunana import Hunana
-
+from ..dima import Dima
 
 def main():
     parser = argparse.ArgumentParser()
@@ -50,7 +49,7 @@ def main():
         inputx = StringIO(sys.stdin.read())
 
     try:
-        results = Hunana(inputx, arguments.length, arguments.header, True, arguments.samples,
+        results = Dima(inputx, arguments.length, arguments.header, True, arguments.samples,
                          arguments.iterations, arguments.format, arguments.no_header_error).run()
     except Exception as ex:
         parser.error(f'Exception while calculating kmers for sequences file {arguments.input}\n{ex}')

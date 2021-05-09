@@ -20,7 +20,7 @@ class NoHeaderFormat(Exception):
         """
 
         msg = 'No header format provided. Please provide the header format.\n\tUsing command-line: Use the flag ' \
-              '"hunana -f", or run "hunana -h" for help.\n\tUsing module: Set the "header_format" attribute.'
+              '"dima -f", or run "dima -h" for help.\n\tUsing module: Set the "header_format" attribute.'
 
         super(NoHeaderFormat, self).__init__(msg)
 

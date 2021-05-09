@@ -1,25 +1,33 @@
-# DiMA
+# What is DiMA?
 
-The conserved sequences of the viral protein sequences are considered as candidates for vaccine design against 
-continuously mutating viruses. Nonameric sequences from the viral genome are recognized and processed by human leukocyte 
-antigens and T cell receptors. DiMA is a command-line based tool which can provide a list of positions of conserved 
-nonameric (kmer) sequences for a given viral protein sequence by utilizing Shannon’s entropy formula.  
+Protein sequence diversity is one of the major challenges in the design of diagnostic, prophylactic and therapeutic 
+interventions against viruses. DiMA is a tool designed to facilitate the dissection of protein sequence diversity 
+dynamics for viruses. DiMA provides a quantitative measure of sequence diversity by use of Shannon’s entropy, 
+applied via a user-defined k-mer sliding window. Further, the entropy value is corrected for sample size bias by 
+applying a statistical adjustment. Additionally, DiMA further interrogates the 
+diversity by dissecting the entropy value at each k-mer position to various diversity motifs. The distinct k-mer 
+sequences at each position are classified into the following motifs based on their incidence. Index is the predominant 
+sequence, and all other distinct k-mers are referred to as total variants, sub-classified into major 
+variant (the predominant variant), minor variants (k-mers with incidence in between major and unique motifs) and unique 
+variants (seen once in the alignment). Moreover, the description line of the sequences in the alignment can be 
+formatted for inclusion of meta-data that can be tagged to the diversity motifs. DiMA enables comparative diversity 
+dynamics analysis, within and between proteins of a virus species, and proteomes of different viral species.
 
 ## Installation
 
 **OPTION 1**
 
-`pip install dima`
+`pip install dima-cli`
 
 **OPTION 2**
 
-`pip install git+https://github.com/pu-sds/DiMA.git`
+`pip install git+https://github.com/pu-sds/dima-cli.git`
 
 **OPTION 3**
 
 ```
-git clone https://github.com/pu-sds/DiMA.git
-cd dima
+git clone https://github.com/pu-sds/dima-cli.git
+cd dima-cli
 python setup.py install
 ```
 
@@ -27,11 +35,11 @@ python setup.py install
 
 Download the latest distribution at:
 
-`https://github.com/pu-sds/DiMA/releases/latest`
+`https://github.com/pu-sds/dima-cli/releases/latest`
 
 Install using:
 
-`$ pip install DiMA-{version}.whl`
+`$ pip install dima-cli-{version}.whl`
 
 ### Command-Line Usage
 Once installation is complete, an executable will be added to PATH which can be accessed as below:

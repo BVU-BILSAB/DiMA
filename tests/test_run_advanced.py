@@ -678,10 +678,10 @@ def test_output_data_advanced():
 
 
 def test_run_module_advanced(test_input_data_advanced, test_output_data_advanced):
-    from hunana import Hunana
+    from dima import Dima
     handle = StringIO(test_input_data_advanced)
 
-    results = Hunana(handle, header_decode=True, header_format='(type)|(accession)|(strain)|(country)').run()
+    results = Dima(handle, header_decode=True, header_format='(type)|(accession)|(strain)|(country)').run()
 
     for results, test in zip(results, test_output_data_advanced):
         assert results.get('position') == test.get('position')
@@ -691,51 +691,51 @@ def test_run_module_advanced(test_input_data_advanced, test_output_data_advanced
 
 
 def test_run_module_advanced_no_format(test_input_data_advanced):
-    from hunana import Hunana
-    from hunana.errorhandlers.exceptions import NoHeaderFormat
+    from dima import Dima
+    from dima.errorhandlers.exceptions import NoHeaderFormat
 
     handle = StringIO(test_input_data_advanced)
 
     with pytest.raises(NoHeaderFormat):
-        Hunana(handle, header_decode=True).run()
+        Dima(handle, header_decode=True).run()
 
 
 def test_run_module_advanced_empty_header_data_fail(test_input_data_advanced_missing_header_items):
-    from hunana import Hunana
-    from hunana.errorhandlers.exceptions import HeaderItemEmpty
+    from dima import Dima
+    from dima.errorhandlers.exceptions import HeaderItemEmpty
 
     handle = StringIO(test_input_data_advanced_missing_header_items)
 
     with pytest.raises(HeaderItemEmpty):
-        Hunana(handle, header_decode=True, header_format='(type)|(accession)|(strain)|(country)').run()
+        Dima(handle, header_decode=True, header_format='(type)|(accession)|(strain)|(country)').run()
 
 
 def test_run_module_advanced_empty_header_data_success(test_input_data_advanced_missing_header_items):
-    from hunana import Hunana
+    from dima import Dima
 
     handle = StringIO(test_input_data_advanced_missing_header_items)
 
-    Hunana(handle, header_decode=True, header_format='(type)|(accession)|(strain)|(country)',
+    Dima(handle, header_decode=True, header_format='(type)|(accession)|(strain)|(country)',
            no_header_error=True).run()
 
 
 def test_run_module_advanced_header_item_count_invalid(test_input_data_advanced_item_count_invalid):
-    from hunana import Hunana
-    from hunana.errorhandlers.exceptions import HeaderItemCountInvalid
+    from dima import Dima
+    from dima.errorhandlers.exceptions import HeaderItemCountInvalid
 
     handle1 = StringIO(test_input_data_advanced_item_count_invalid)
     handle2 = StringIO(test_input_data_advanced_item_count_invalid)
 
     with pytest.raises(HeaderItemCountInvalid):
-        Hunana(handle1, header_decode=True, header_format='(type)|(accession)|(strain)|(country)',
+        Dima(handle1, header_decode=True, header_format='(type)|(accession)|(strain)|(country)',
                no_header_error=True).run()
 
     with pytest.raises(HeaderItemCountInvalid):
-        Hunana(handle2, header_decode=True, header_format='(type)|(accession)|(strain)|(country)').run()
+        Dima(handle2, header_decode=True, header_format='(type)|(accession)|(strain)|(country)').run()
 
 
 def test_run_cli_advanced(test_input_data_advanced, test_output_data_advanced):
-    process = subprocess.run(['hunana', '-he', '-f', '(type)|(accession)|(strain)|(country)'],
+    process = subprocess.run(['dima-cli', '-he', '-f', '(type)|(accession)|(strain)|(country)'],
                              input=test_input_data_advanced.encode('utf-8'), stdout=subprocess.PIPE,
                              stderr=subprocess.PIPE)
 
