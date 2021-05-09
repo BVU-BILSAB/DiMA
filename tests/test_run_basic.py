@@ -338,10 +338,10 @@ def test_output_data_basic():
 
 
 def test_run_module_basic(test_input_data_basic, test_output_data_basic):
-    from hunana import Hunana
+    from dima import Dima
     handle = StringIO(test_input_data_basic)
 
-    results = Hunana(handle).run()
+    results = Dima(handle).run()
 
     for results, test in zip(results, test_output_data_basic):
         assert results.get('position') == test.get('position')
@@ -351,7 +351,7 @@ def test_run_module_basic(test_input_data_basic, test_output_data_basic):
 
 
 def test_run_cli_basic(test_input_data_basic, test_output_data_basic):
-    process = subprocess.run(['hunana'], input=test_input_data_basic.encode('utf-8'), shell=True,
+    process = subprocess.run(['dima-cli'], input=test_input_data_basic.encode('utf-8'), shell=True,
                              stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
     assert process.returncode == 0
@@ -366,30 +366,30 @@ def test_run_cli_basic(test_input_data_basic, test_output_data_basic):
 
 
 def test_run_module_basic_unaligned(test_input_data_basic_unaligned):
-    from hunana import Hunana
-    from hunana.errorhandlers.exceptions import SequenceLengthError
+    from dima import Dima
+    from dima.errorhandlers.exceptions import SequenceLengthError
 
     handle = StringIO(test_input_data_basic_unaligned)
 
     with pytest.raises(SequenceLengthError):
-        Hunana(handle).run()
+        Dima(handle).run()
 
 
 def test_run_module_basic_kmer_len_invalid(test_input_data_basic):
-    from hunana.errorhandlers.exceptions import InvalidKmerLength
-    from hunana import Hunana
+    from dima.errorhandlers.exceptions import InvalidKmerLength
+    from dima import Dima
 
     handle = StringIO(test_input_data_basic)
 
     with pytest.raises(InvalidKmerLength):
-        Hunana(handle, kmer_len=61).run()
+        Dima(handle, kmer_len=61).run()
 
 
 def test_run_module_basic_no_seqs():
-    from hunana.errorhandlers.exceptions import NoSequencesProvided
-    from hunana import Hunana
+    from dima.errorhandlers.exceptions import NoSequencesProvided
+    from dima import Dima
 
     handle = StringIO('')
 
     with pytest.raises(NoSequencesProvided):
-        Hunana(handle).run()
+        Dima(handle).run()

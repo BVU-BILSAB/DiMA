@@ -2,12 +2,12 @@ import subprocess
 
 
 def test_if_installed():
-    assert not(subprocess.run(["pip", "show", "hunana"]).stdout)
+    assert not(subprocess.run(["pip", "show", "dima-cli"]).stdout)
 
 
 def test_if_can_import():
     try:
-        from hunana import Hunana
+        from dima import Dima
     except:
         assert False
 
@@ -15,6 +15,6 @@ def test_if_can_import():
 
 
 def test_cli():
-    process = subprocess.run(['hunana', '-h'])
+    process = subprocess.run(['dima-cli', '-h'])
 
     assert process.returncode == 0

@@ -16,7 +16,7 @@ from .errorhandlers.exceptions import SequenceLengthError, NoSequencesProvided, 
     HeaderItemCountInvalid, HeaderItemEmpty
 
 
-class Hunana(object):
+class Dima(object):
     DISALLOWED_CHARS = {'-', 'X', 'B', 'J', 'Z', 'O', 'U'}
 
     def __init__(self, seqs: Union[str, TextIOWrapper, StringIO], kmer_len: Optional[int] = 9,
@@ -47,7 +47,7 @@ class Hunana(object):
             :type no_header_error: Optional[bool]
 
             **Usage:**
-                >>> from hunana import Hunana
+                >>> from dima import Hunana
                 >>> results = Hunana('path/to/sequence.fasta').run()
         """
 
