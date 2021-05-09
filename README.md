@@ -21,13 +21,13 @@ dynamics analysis, within and between proteins of a virus species, and proteomes
 
 **OPTION 2**
 
-`pip install git+https://github.com/pu-sds/dima-cli.git`
+`pip install git+https://github.com/pu-sds/dima.git`
 
 **OPTION 3**
 
 ```
-git clone https://github.com/pu-sds/dima-cli.git
-cd dima-cli
+git clone https://github.com/pu-sds/dima.git
+cd dima
 python setup.py install
 ```
 
@@ -35,27 +35,27 @@ python setup.py install
 
 Download the latest distribution at:
 
-`https://github.com/pu-sds/dima-cli/releases/latest`
+`https://github.com/pu-sds/dima/releases/latest`
 
 Install using:
 
-`$ pip install dima-cli-{version}.whl`
+`$ pip install dima-{version}.whl`
 
 ### Command-Line Usage
 Once installation is complete, an executable will be added to PATH which can be accessed as below:
 
 **Linux**
 
-`dima -h`
+`dima-cli -h`
 
 **Windows**
 
-`dima.exe -h`
+`dima-cli.exe -h`
 
 #### Basic Usage
-`dima -i sequences.fasta -o output.json -l 9`
+`dima-cli -i sequences.fasta -o output.json -l 9`
 
-`dima -i sequences.fasta | grep supports`
+`dima-cli -i sequences.fasta | grep supports`
 
 ##### Basic Usage Output (Example)
 ```
@@ -95,7 +95,7 @@ Once installation is complete, an executable will be added to PATH which can be 
 #### Advanced Usage (Generate Variant Data)
 The flag --he/--header along with the -f/--format header can be used to generate data for each variant using the metadata from the fasta sequence header.
 
-`dima -i sequences.fasta -o output.json -he -f "(type)|(id)|(strain)"`
+`dima-cli -i sequences.fasta -o output.json -he -f "(type)|(id)|(strain)"`
 
 Each componant (ex: id, strain, country, etc)of the header needs to be wrapped in brackets. Any separator (Ex: |, /, _, etc) can be used.
 
@@ -155,29 +155,29 @@ Each componant (ex: id, strain, country, etc)of the header needs to be wrapped i
 #### Command-Line Arguments
 | Argument         	| Type    	| Default 	| Example                                                                                                   	| Description                                                                       	|
 |------------------	|---------	|---------	|-----------------------------------------------------------------------------------------------------------	|-----------------------------------------------------------------------------------	|
-| -h               	| N/A     	| N/A     	| `dima -h`                                                                                               	| Prints a summary of all available command-line arguments.                         	|
-| -i               	| String  	| N/A     	| `dima -i '/path/to/alignment.fasta'`                                                                    	| Absolute path to the aligned sequences file in FASTA format.                      	|
-| -o               	| String  	| N/A     	| `dima -i '/path/to/alignment.fasta' -o output.json`                                                     	| Absolute path to the output JSON file.                                            	|
-| -l               	| Integer 	| 9       	| `dima -i '/path/to/alignment.fasta' -l 12`                                                              	| The length of the generated k-mers.                                               	|
-| -s               	| Integer 	| 10000   	| `dima -i '/path/to/alignment.fasta' -s 20000`                                                           	| Maximum number of samples use when calculating entropy.                           	|
-| -it              	| Integer 	| 10      	| `dima -i '/path/to/alignment.fasta' -it 100`                                                            	| Maximum number of iterations used when calculating entropy.                       	|
-| -he              	| Boolean 	| False   	| `dima -i '/path/to/alignment.fasta' -he -f '(type)\|(accession)\|(strain)\|(country)'`                  	| Enables decoding of the FASTA headers to derive details for each generated k-mer. 	|
-| -f               	| String  	| N/A     	| `dima -i '/path/to/alignment.fasta' -he -f '(type)\|(accession)\|(strain)\|(country)'`                  	| The format of the FASTA header in the FASTA Multiple Sequence Alignment.          	|
-| -no_header_error 	| Boolean 	| False   	| `dima -i '/path/to/alignment.fasta' -he -f '(type)\|(accession)\|(strain)\|(country)' -no_header_error` 	| Whether to raise an error if empty items are found in any of the FASTA headers.   	|
+| -h               	| N/A     	| N/A     	| `dima-cli -h`                                                                                               	| Prints a summary of all available command-line arguments.                         	|
+| -i               	| String  	| N/A     	| `dima-cli -i '/path/to/alignment.fasta'`                                                                    	| Absolute path to the aligned sequences file in FASTA format.                      	|
+| -o               	| String  	| N/A     	| `dima-cli -i '/path/to/alignment.fasta' -o output.json`                                                     	| Absolute path to the output JSON file.                                            	|
+| -l               	| Integer 	| 9       	| `dima-cli -i '/path/to/alignment.fasta' -l 12`                                                              	| The length of the generated k-mers.                                               	|
+| -s               	| Integer 	| 10000   	| `dima-cli -i '/path/to/alignment.fasta' -s 20000`                                                           	| Maximum number of samples use when calculating entropy.                           	|
+| -it              	| Integer 	| 10      	| `dima-cli -i '/path/to/alignment.fasta' -it 100`                                                            	| Maximum number of iterations used when calculating entropy.                       	|
+| -he              	| Boolean 	| False   	| `dima-cli -i '/path/to/alignment.fasta' -he -f '(type)\|(accession)\|(strain)\|(country)'`                  	| Enables decoding of the FASTA headers to derive details for each generated k-mer. 	|
+| -f               	| String  	| N/A     	| `dima-cli -i '/path/to/alignment.fasta' -he -f '(type)\|(accession)\|(strain)\|(country)'`                  	| The format of the FASTA header in the FASTA Multiple Sequence Alignment.          	|
+| -no_header_error 	| Boolean 	| False   	| `dima-cli -i '/path/to/alignment.fasta' -he -f '(type)\|(accession)\|(strain)\|(country)' -no_header_error` 	| Whether to raise an error if empty items are found in any of the FASTA headers.   	|
 
 #### More Examples
-`dima -i sequences.fasta -o output.json -he -f "(ncbid)/(strain)/(host)/(country)"`
+`dima-cli -i sequences.fasta -o output.json -he -f "(ncbid)/(strain)/(host)/(country)"`
 
-`dima -i sequences.fasta -o output.json -he -f "(ncbid)/(strain)/(host)|(country)"`
+`dima-cli -i sequences.fasta -o output.json -he -f "(ncbid)/(strain)/(host)|(country)"`
 
-`dima -i sequences.fasta -o output.json -he -f "(ab)/(cde)/(fghi)/(jklm)"`
+`dima-cli -i sequences.fasta -o output.json -he -f "(ab)/(cde)/(fghi)/(jklm)"`
 
-`dima -i sequences.fasta -o output.json -he -f "(ab)/(cde)/(fghi)/(jklm) -no_header_error"`
+`dima-cli -i sequences.fasta -o output.json -he -f "(ab)/(cde)/(fghi)/(jklm) -no_header_error"`
 
 ### Module Usage
 dima can also be imported and used within your Python projects as below:
 ```
-from dima import dima
+from dima import Dima
 Dima('/path/to/sequence.fasta').run()
 ```
 
