@@ -1,0 +1,27 @@
+site_name: DiMA - Protein Sequence Diversity Dynamics Analyser
+nav:
+  - Home: index.md
+  - Installation: installation.md
+  - Usage:
+      - Command-Line Usage: usage-cli.md
+      - Module Usage: usage-module.md
+theme:
+  name: material
+  palette:
+    primary: teal
+    accent: blue grey
+  icon:
+    logo: material/school
+
+markdown_extensions:
+  - admonition
+  - pymdownx.highlight
+  - pymdownx.superfences
+
+features:
+    # - navigation.instant
+    - navigation.sections
+    - navigation.tabs
+
+repo_url: https://github.com/PU-SDS/DiMA
+site_author:  Shan Tharanga
