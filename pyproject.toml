@@ -1,3 +1,14 @@
-[build-system]
-requires = ["setuptools", "wheel"]
-build-backend = "setuptools.build_meta"
+[tool.poetry]
+name = "dima-cli"
+version = "0.1.0"
+description = "A command-line tool that analyses the diversity and motifs of protein sequences"
+authors = ["Shan <stwm2@student.london.ac.uk>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+biopython = "^1.79"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2.4"
+maturin = "^0.11.1"
