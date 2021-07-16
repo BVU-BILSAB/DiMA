@@ -6,8 +6,10 @@ authors = ["Shan <stwm2@student.london.ac.uk>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = ">=3.8,<3.10"
 biopython = "^1.79"
+scipy = "^1.7.0"
+jsonpickle = "^2.0.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.4"
