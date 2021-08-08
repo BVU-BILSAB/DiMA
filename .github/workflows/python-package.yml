@@ -37,11 +37,13 @@ jobs:
           toolchain: nightly
           overide: true
 
+    - name: Debugging
+    - run: echo ${{ matrix.python_version }}
+
     - name: PyPi publish
       uses: messense/maturin-action@v1
       env:
         MATURIN_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
-      run: echo ${{ matrix.python_version }}
       with:
         maturin-version: latest
         command: publish
