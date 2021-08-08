@@ -2,7 +2,9 @@ import argparse
 import sys
 
 from io import StringIO
-from ..dima import Dima
+
+from dima import Dima
+
 
 def main():
     parser = argparse.ArgumentParser()
@@ -10,35 +12,19 @@ def main():
                         required=False)
     parser.add_argument('-o', '--output', help='Absolute path to the output file.', required=False)
     parser.add_argument('-l', '--length', help='The k-mer length (default: 9).', type=int, default=9,
-                        choices=range(1, 15),
+                        choices=range(1, 20),
                         required=False)
-    parser.add_argument('-s', '--samples', help='Max number of samples use when calculating entropy (default: 10000).',
-                        type=int, default=10000, required=False)
-    parser.add_argument('-it', '--iterations',
-                        help='Max number of iterations used when calculating entropy (default: 10).',
-                        type=int, default=10, required=False)
-    parser.add_argument('-he', '--header', help="Should the header data be used to derive the details for variants?. "
-                                                "(default: false)",
-                        action='store_true', required=False)
-    parser.add_argument('-no_header_error', '--no_header_error', help="Should empty items in the FASTA header raise "
-                                                                      "an error?. This flag is used in conjunction "
-                                                                      "with -he and -f (default: false)",
-                        action='store_true', required=False)
     parser.add_argument('-f', '--format',
-                        help="The format of the header. Ex: (id)|(species)|(country). Each item enclosed "
-                             "in brackets with any character used as separator.", required=False,
+                        help="The format of the header. Ex: accession|strain|year.", type=str, required=False,
                         default=None)
+    parser.add_argument('-s', '--support', help='The minimum threshold for support. (default: 30)', type=int,
+                        required=False, default=30)
+    parser.add_argument('-p', '--protein', help='The name of the protein being processed. (default: Unknown Protein',
+                        type=str, required=False, default='Unknown Protein')
 
     arguments = parser.parse_args()
-
-    if arguments.header:
-        if not arguments.format:
-            parser.error(
-                "The header format (-f/--format) needs to be provided if header parsing (-he/--header) parsing "
-                "is enabled")
-            sys.exit(6)
-
     inputx = arguments.input
+    sequences_source = 'file'
 
     if not inputx:
         if sys.stdin.isatty():
@@ -47,10 +33,18 @@ def main():
 
         # TODO: Here the pipe could just be empty. Need to have a check for that.
         inputx = StringIO(sys.stdin.read())
+        sequences_source = 'string'
 
     try:
-        results = Dima(inputx, arguments.length, arguments.header, True, arguments.samples,
-                         arguments.iterations, arguments.format, arguments.no_header_error).run()
+        results = Dima(
+            sequences=inputx,
+            kmer_length=arguments.length,
+            header_format=arguments.format,
+            json=True,
+            sequences_source=sequences_source,
+            protein_name=arguments.protein,
+            support_threshold=arguments.support
+        ).run()
     except Exception as ex:
         parser.error(f'Exception while calculating kmers for sequences file {arguments.input}\n{ex}')
         sys.exit(5)

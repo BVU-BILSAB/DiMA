@@ -1,1 +1,1 @@
-from dima.dima import Dima
+from .dima import Dima
