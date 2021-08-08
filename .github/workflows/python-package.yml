@@ -45,3 +45,4 @@ jobs:
         maturin-version: v0.11.3-beta.2
         command: publish
         args: --username __token__
+        manylinux: auto
