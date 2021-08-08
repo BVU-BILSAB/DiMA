@@ -38,11 +38,22 @@ jobs:
           overide: true
 
     - name: PyPi publish
+      if:  matrix.os != 'windows-latest'
       uses: messense/maturin-action@v1
       env:
         MATURIN_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
       with:
         maturin-version: latest
         command: publish
-        args: --username __token__ --skip-existing --universal2 --no-sdist --interpreter ${{ matrix.python-version }}
+        args: --username __token__ --skip-existing --universal2 --no-sdist --interpreter python${{ matrix.python-version }}
         manylinux: auto
+
+    - name: PyPi publish
+      if:  matrix.os == 'windows-latest'
+      uses: messense/maturin-action@v1
+      env:
+        MATURIN_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+      with:
+        maturin-version: latest
+        command: publish
+        args: --username __token__ --skip-existing --universal2 --no-sdist --interpreter python
