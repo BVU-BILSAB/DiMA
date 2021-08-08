@@ -56,4 +56,4 @@ jobs:
       with:
         maturin-version: latest
         command: publish
-        args: --username __token__ --skip-existing --universal2 --no-sdist --interpreter python
+        args: --username __token__ --skip-existing --no-sdist --interpreter python
