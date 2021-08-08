@@ -47,3 +47,8 @@ jobs:
     - name: List wheels
       if: matrix.os != 'windows-latest'
       run: find ./target/wheels/
+
+    - name: PyPi publish
+      env:
+        MATURIN_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+      run: poetry run maturin publish --username __token__
