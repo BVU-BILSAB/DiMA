@@ -38,7 +38,7 @@ jobs:
           overide: true
 
     - name: Debugging
-    - run: echo ${{ matrix.python_version }}
+      run: echo ${{ matrix.python_version }}
 
     - name: PyPi publish
       uses: messense/maturin-action@v1
