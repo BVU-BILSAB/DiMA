@@ -44,5 +44,5 @@ jobs:
       with:
         maturin-version: v0.11.3-beta.2
         command: publish
-        args: --username __token__
+        args: --username __token__ --interpreter python${{matrix.python_version}}
         manylinux: auto
