@@ -57,6 +57,7 @@ jobs:
       env:
         MATURIN_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
       run: |
+        ls -lh
         ls -lh /target
         ls -lh /target/wheels
         poetry run maturin publish --username __token__
