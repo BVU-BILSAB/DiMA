@@ -38,7 +38,12 @@ jobs:
           overide: true
 
     - name: Build Python package
+      if: matrix.os != 'ubuntu-latest'
       run: poetry run maturin build --release --no-sdist --strip --interpreter python${{matrix.python_version}}
+
+    - name: Build Python package
+      if: matrix.os == 'ubuntu-latest'
+      run: docker run --rm -v $(pwd):/io konstin2/maturin build --release --no-sdist --strip --interpreter python${{matrix.python_version}}
 
     - name: List wheels
       if: matrix.os == 'windows-latest'
