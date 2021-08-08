@@ -38,12 +38,8 @@ jobs:
           overide: true
 
     - name: Build Python package
-      if: matrix.os == 'windows-latest'
+      if: matrix.os != 'ubuntu-latest'
       run: poetry run maturin build --release --no-sdist --strip --interpreter python${{matrix.python_version}}
-
-    - name: Build Python package
-      if: matrix.os == 'macos-latest'
-      run: sudo poetry run maturin build --release --no-sdist --strip --interpreter python${{matrix.python_version}}
 
     - name: Build Python package
       if: matrix.os == 'ubuntu-latest'
@@ -58,6 +54,13 @@ jobs:
       run: find ./target/wheels/
 
     - name: PyPi publish
+      if: matrix.os != 'ubuntu-latest'
       env:
         MATURIN_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
       run: poetry run maturin publish --username __token__
+
+    - name: PyPi publish
+      if: matrix.os == 'ubuntu-latest'
+      env:
+        MATURIN_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+      run: sudo poetry run maturin publish --username __token__
