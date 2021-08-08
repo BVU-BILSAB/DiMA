@@ -44,4 +44,4 @@ jobs:
       with:
         maturin-version: v0.11.3-beta.2
         command: publish
-        args: --build --username __token__
+        args: --username __token__
