@@ -54,13 +54,13 @@ jobs:
       run: find ./target/wheels/
 
     - name: PyPi publish
-      if: matrix.os != 'ubuntu-latest'
+      if: matrix.os == 'windows-latest'
       env:
         MATURIN_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
       run: poetry run maturin publish --username __token__
 
     - name: PyPi publish
-      if: matrix.os == 'ubuntu-latest'
+      if: matrix.os != 'windows-latest'
       env:
         MATURIN_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
       run: sudo poetry run maturin publish --username __token__
