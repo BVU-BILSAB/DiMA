@@ -54,10 +54,15 @@ jobs:
       run: find ./target/wheels/
 
     - name: PyPi publish
+      uses: actions-rs/toolchain@v1
+      with:
+        profile: minimal
+        toolchain: stable
+        override: true
+    - uses: messense/maturin-action@v1
       env:
         MATURIN_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
-      run: |
-        ls -lh
-        ls -lh /target
-        ls -lh /target/wheels
-        poetry run maturin publish --username __token__
+      with:
+        maturin-version: v0.11.3-beta.2
+        command: publish
+        args: --build --username __token__
