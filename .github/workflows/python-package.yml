@@ -54,12 +54,7 @@ jobs:
       run: find ./target/wheels/
 
     - name: PyPi publish
-      uses: actions-rs/toolchain@v1
-      with:
-        profile: minimal
-        toolchain: stable
-        override: true
-    - uses: messense/maturin-action@v1
+      uses: messense/maturin-action@v1
       env:
         MATURIN_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
       with:
