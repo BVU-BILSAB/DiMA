@@ -345,8 +345,7 @@ fn get_kmers_and_headers(
 
     transposed_kmers
         .iter_mut()
-        .for_each(|kmer_position| kmer_position.retain(|kmer| kmer != "NA" &&
-            kmer.len() >= support_threshold));
+        .for_each(|kmer_position| kmer_position.retain(|kmer| kmer != "NA"));
 
     (transposed_kmers, if headers.is_empty() { None } else { Some(headers) }, sequence_count)
 }
