@@ -44,9 +44,9 @@ jobs:
       uses: messense/maturin-action@v1
       env:
         MATURIN_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
-        PYTHONG_VERSION: ${{ matrix.python_version }}
+        PYTHON_VERSION: ${{ matrix.python_version }}
       with:
         maturin-version: latest
         command: publish
-        args: --username __token__ --interpreter python"$PYTHONG_VERSION"
+        args: --username __token__ --interpreter python${PYTHON_VERSION}
         manylinux: auto
