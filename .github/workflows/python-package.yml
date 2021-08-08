@@ -14,7 +14,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        python-version: [3.6]
+        python-version: [3.6, 3.7, 3.8]
         os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
     - name: Checkout
@@ -44,5 +44,5 @@ jobs:
       with:
         maturin-version: latest
         command: publish
-        args: --username __token__
+        args: --username __token__ --skip-existing --universal2 --no-sdist --interpreter ${{ matrix.python-version }}
         manylinux: auto
