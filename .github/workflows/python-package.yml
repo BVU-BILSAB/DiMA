@@ -38,8 +38,12 @@ jobs:
           overide: true
 
     - name: Build Python package
-      if: matrix.os != 'ubuntu-latest'
+      if: matrix.os == 'windows-latest'
       run: poetry run maturin build --release --no-sdist --strip --interpreter python${{matrix.python_version}}
+
+    - name: Build Python package
+      if: matrix.os == 'macos-latest'
+      run: sudo poetry run maturin build --release --no-sdist --strip --interpreter python${{matrix.python_version}}
 
     - name: Build Python package
       if: matrix.os == 'ubuntu-latest'
