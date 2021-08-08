@@ -18,4 +18,4 @@ jobs:
         os: [windows-latest]
     steps:
     - name: Checkout
-      run: python3.6
+      run: python36
