@@ -4,6 +4,7 @@ extern crate linreg;
 extern crate bio;
 extern crate serde_json;
 extern crate serde;
+extern crate rayon;
 
 use std::collections::{HashMap};
 use pyo3::prelude::*;
@@ -12,6 +13,7 @@ use linreg::linear_regression_of;
 use bio::io::fasta;
 use std::fs::File;
 use serde::{Deserialize, Serialize};
+use rayon::prelude::*;
 
 #[pyclass]
 #[derive(Serialize, Deserialize)]
@@ -344,7 +346,7 @@ fn get_kmers_and_headers(
     let mut transposed_kmers = transpose_kmers(sequence_kmers);
 
     transposed_kmers
-        .iter_mut()
+        .par_iter_mut()
         .for_each(|kmer_position| kmer_position.retain(|kmer| kmer != "NA"));
 
     (transposed_kmers, if headers.is_empty() { None } else { Some(headers) }, sequence_count)
@@ -408,13 +410,13 @@ pub fn get_results_objs(
     let position_kmer_counts = kmers.iter().map(|position_kmers| count_kmers(position_kmers));
 
     let position_entropies = kmers
-        .iter()
+        .par_iter()
         .map(|position_kmers| calculate_entropy(position_kmers))
         .collect::<Vec<f64>>();
     let mut positions: Vec<Position> = Vec::new();
 
     position_kmer_counts.enumerate().for_each(|(idx, position_count)| {
-        let mut variants = position_count.iter().map(|(sequence, count_data)| {
+        let mut variants = position_count.par_iter().map(|(sequence, count_data)| {
 
             let mut variant = Variant {
                 sequence: sequence.to_owned(),

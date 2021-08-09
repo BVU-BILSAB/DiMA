@@ -1,6 +1,6 @@
 [package]
 name = "dima-cli"
-version = "2.0.0-alpha.6"
+version = "2.0.0-alpha.7"
 authors = ["Shan Tharanga <stwm2@student.london.ac.uk>"]
 
 [lib]
@@ -8,6 +8,7 @@ crate-type = ["cdylib"]
 name = "dima"
 
 [dependencies]
+rayon = "1.5"
 rand = "0.8.4"
 linreg = "0.2.0"
 maplit = "1.0.2"
