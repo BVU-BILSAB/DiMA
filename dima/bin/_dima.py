@@ -49,7 +49,9 @@ def main():
         parser.error(f'Exception while calculating kmers for sequences file {arguments.input}\n{ex}')
         sys.exit(5)
 
-    print(f'Results successfully saved at {arguments.output}')
+    if arguments.output:
+        print(f'Results successfully saved at {arguments.output}')
+
     sys.exit(0)
 
 
