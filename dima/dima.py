@@ -1,5 +1,5 @@
 import tempfile
-from typing import Union, Optional, Literal, overload
+from typing import Union, Optional, overload
 from .helpers import get_results_json, Results, get_results_objs
 
 from dima.exceptions import InvalidSequenceSource
@@ -23,7 +23,7 @@ class Dima(object):
     def __init__(
             self,
             sequences: str,
-            sequences_source: Literal['string', 'file'],
+            sequences_source: str,
             kmer_length: Optional[int] = 9,
             json: Optional[bool] = False,
             header_format: Optional[str] = None,
