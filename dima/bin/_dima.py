@@ -10,10 +10,9 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', '--input', help='Absolute path to the aligned sequences file in FASTA format.',
                         required=False)
-    parser.add_argument('-o', '--output', help='Absolute path to the output file.', required=False)
+    parser.add_argument('-o', '--output', help='Absolute path to the output file.', required=False, default=None)
     parser.add_argument('-l', '--length', help='The k-mer length (default: 9).', type=int, default=9,
-                        choices=range(1, 20),
-                        required=False)
+                        choices=range(1, 20), required=False)
     parser.add_argument('-f', '--format',
                         help="The format of the header. Ex: accession|strain|year.", type=str, required=False,
                         default=None)
@@ -36,25 +35,19 @@ def main():
         sequences_source = 'string'
 
     try:
-        results = Dima(
+        Dima(
             sequences=inputx,
             kmer_length=arguments.length,
             header_format=arguments.format,
             json=True,
             sequences_source=sequences_source,
             protein_name=arguments.protein,
-            support_threshold=arguments.support
+            support_threshold=arguments.support,
+            json_save_path=arguments.output
         ).run()
     except Exception as ex:
         parser.error(f'Exception while calculating kmers for sequences file {arguments.input}\n{ex}')
         sys.exit(5)
-
-    if not arguments.output:
-        print(results)
-        sys.exit(0)
-
-    with open(arguments.output, 'w') as output:
-        output.write(results)
 
     print(f'Results successfully saved at {arguments.output}')
     sys.exit(0)

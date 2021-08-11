@@ -15,7 +15,8 @@ class Dima(object):
             json: Optional[bool] = False,
             header_format: Optional[str] = None,
             support_threshold: Optional[int] = 30,
-            protein_name: Optional[str] = 'Unknown Protein'
+            protein_name: Optional[str] = 'Unknown Protein',
+            json_save_path: Optional[str] = None
     ):
         pass
 
@@ -27,7 +28,8 @@ class Dima(object):
             json: Optional[bool] = False,
             header_format: Optional[str] = None,
             support_threshold: Optional[int] = 30,
-            protein_name: Optional[str] = 'Unknown Protein'
+            protein_name: Optional[str] = 'Unknown Protein',
+            json_save_path: Optional[str] = None
     ):
         """
             The DiMA algorithm returns a list of Position objects each corresponding to a kmer position.
@@ -40,6 +42,7 @@ class Dima(object):
             :param support_threshold: The support threshold below which k-mer positions will be considered
                 to have low support.
             :param protein_name: The name of the protein we are dealing with.
+            :param json_save_path: The path to save the JSON results.
 
             :type sequences: str
             :type kmer_length: Optional[int]
@@ -48,6 +51,7 @@ class Dima(object):
             :type sequences_source: Literal['string', 'file']
             :type support_threshold: Optional[int]
             :type protein_name: str
+            :type json_save_path: Optional[str]
         """
 
         if sequences_source != 'string' and sequences_source != 'file':
@@ -59,6 +63,7 @@ class Dima(object):
         self.header_format = header_format
         self.support_threshold = support_threshold
         self.protein_name = protein_name
+        self.json_save_path = json_save_path
 
     @classmethod
     def _save_sequences_file(cls, sequences: str) -> str:
@@ -86,6 +91,7 @@ class Dima(object):
         }
 
         if self.json:
-            return get_results_json(**arguments)
+            arguments['save_path'] = self.json_save_path
+            get_results_json(**arguments)
         else:
             return get_results_objs(**arguments)

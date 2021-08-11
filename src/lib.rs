@@ -14,6 +14,7 @@ use bio::io::fasta;
 use std::fs::File;
 use serde::{Deserialize, Serialize};
 use rayon::prelude::*;
+use std::io::Write;
 
 #[pyclass]
 #[derive(Serialize, Deserialize)]
@@ -44,6 +45,9 @@ pub struct Position {
     position: usize,
 
     #[pyo3(get)]
+    low_support: bool,
+
+    #[pyo3(get)]
     entropy: f64,
 
     #[pyo3(get)]
@@ -51,9 +55,6 @@ pub struct Position {
 
     #[pyo3(get)]
     variants: Option<Vec<Variant>>,
-
-    #[pyo3(get)]
-    low_support: bool
 }
 
 #[pyclass]
@@ -356,12 +357,16 @@ fn get_kmers_and_headers(
 /// It uses the get_results_obj function to generate the results, and then converts the results
 /// into JSON.
 ///
+/// This function does not return anything. If a save path is defined, it will save the JSON
+/// results to this path, or else send the results to STDOUT.
+///
 /// # Parameters:
 /// * `path` - The full path to the FASTA file.
 /// * `kmer_length` - The length of k-mers to generate.
 /// * `header_format` - The format of the FASTA header.
 /// * `support_threshold` - Minimum support needed for a k-mer position to be considered valid.
 /// * `protein_name` - The name of the protein being analysed.
+/// * `save_path` - The file path to save the JSON results to.
 #[pyfunction]
 pub fn get_results_json(
     _py: Python,
@@ -369,9 +374,10 @@ pub fn get_results_json(
     kmer_length: usize,
     header_format: Option<Vec<String>>,
     support_threshold: usize,
-    protein_name: String
-) -> String {
-    serde_json::to_string_pretty(&get_results_objs(
+    protein_name: String,
+    save_path: Option<String>
+) {
+    let json_results = serde_json::to_string_pretty(&get_results_objs(
         _py,
         path,
         kmer_length,
@@ -379,7 +385,20 @@ pub fn get_results_json(
         support_threshold,
         protein_name
     )
-    ).unwrap()
+    ).unwrap();
+
+    if save_path.is_some() {
+        let mut f = File::create(
+            save_path.unwrap()
+        ).expect("Unable to create JSON file on disk.");
+
+        f.write_all(json_results.as_bytes())
+            .expect("Unable to write JSON to the created file.");
+
+        return
+    }
+
+    println!("{}", json_results);
 }
 
 /// This is one of the two main functions that are accessible from Python side.
