@@ -426,7 +426,6 @@ pub fn get_results_objs(
         support_threshold
     );
 
-    let position_kmer_counts = kmers.iter().map(|position_kmers| count_kmers(position_kmers));
 
     let position_entropies = kmers
         .par_iter()
