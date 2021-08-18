@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "dima-cli"
-version = "2.0.0-alpha.10"
+version = "2.0.0-alpha.11"
 description = "A command-line tool that analyses the diversity and motifs of protein sequences"
 authors = ["Shan <stwm2@student.london.ac.uk>"]
 license = "MIT"

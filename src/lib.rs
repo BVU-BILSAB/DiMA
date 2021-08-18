@@ -426,60 +426,59 @@ pub fn get_results_objs(
         support_threshold
     );
 
-    let position_kmer_counts = kmers.iter().map(|position_kmers| count_kmers(position_kmers));
-
-    let position_entropies = kmers
+    let position_entropies = &kmers
         .par_iter()
         .map(|position_kmers| calculate_entropy(position_kmers))
         .collect::<Vec<f64>>();
-    let mut positions: Vec<Position> = Vec::new();
 
-    position_kmer_counts.enumerate().for_each(|(idx, position_count)| {
-        let mut variants = position_count.par_iter().map(|(sequence, count_data)| {
+    let positions = &kmers
+        .par_iter()
+        .map(|position_kmers| count_kmers(position_kmers))
+        .enumerate()
+        .map(|(idx, position_count)| {
+            let mut variants = position_count.par_iter().map(|(sequence, count_data)| {
 
-            let mut variant = Variant {
-                sequence: sequence.to_owned(),
-                count: count_data.0,
-                incidence: ((count_data.0 as f32 / kmers[idx].len() as f32) * 100_f32),
-                metadata: None,
-                motif_short: None,
-                motif_long: None
-            };
+                let mut variant = Variant {
+                    sequence: sequence.to_owned(),
+                    count: count_data.0,
+                    incidence: ((count_data.0 as f32 / kmers[idx].len() as f32) * 100_f32),
+                    metadata: None,
+                    motif_short: None,
+                    motif_long: None
+                };
 
-            let mut metadata: HashMap<String, Vec<String>> = HashMap::new();
+                let mut metadata: HashMap<String, Vec<String>> = HashMap::new();
 
-            if header_format.is_some() {
-                count_data.1.iter().for_each(|idx| {
-                    header_format.as_ref().unwrap().iter().for_each(|item| {
-                        let entry = metadata.entry(item.to_owned()).or_insert(
-                            vec![]
-                        );
-                        entry.push(
-                            headers.as_ref().unwrap()[*idx].get(item).unwrap().to_owned()
-                        );
+                if header_format.is_some() {
+                    count_data.1.iter().for_each(|idx| {
+                        header_format.as_ref().unwrap().iter().for_each(|item| {
+                            let entry = metadata.entry(item.to_owned()).or_insert(
+                                vec![]
+                            );
+                            entry.push(
+                                headers.as_ref().unwrap()[*idx].get(item).unwrap().to_owned()
+                            );
+                        });
                     });
-                });
 
-                variant.metadata = Some(metadata);
-            } else {
-                variant.metadata = None;
-            };
+                    variant.metadata = Some(metadata);
+                } else {
+                    variant.metadata = None;
+                };
 
-            variant
-        }).collect::<Vec<Variant>>();
+                variant
+            }).collect::<Vec<Variant>>();
 
-        let support = kmers[idx].len();
+            let support = kmers[idx].len();
 
-        positions.push(
-            Position::new(
+            return Position::new(
                 idx+1,
                 position_entropies[idx],
                 support,
                 if variants.is_empty() { None } else { Some(&mut variants) },
                 if support >= support_threshold { false } else { true }
             )
-        )
-    });
+        }).collect::<Vec<Position>>();
 
     Results {
         support_threshold,
@@ -487,7 +486,7 @@ pub fn get_results_objs(
         sequence_count,
         low_support: if sequence_count >= support_threshold { false } else { true },
         protein_name,
-        results: positions
+        results: positions.to_owned()
     }
 }
 
