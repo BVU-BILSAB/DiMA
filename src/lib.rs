@@ -426,17 +426,15 @@ pub fn get_results_objs(
         support_threshold
     );
 
+    let position_kmer_counts = kmers.iter().map(|position_kmers| count_kmers(position_kmers));
 
     let position_entropies = kmers
         .par_iter()
         .map(|position_kmers| calculate_entropy(position_kmers))
         .collect::<Vec<f64>>();
+    let mut positions: Vec<Position> = Vec::new();
 
-    let positions = kmers
-        .par_iter()
-        .map(|position_kmers| count_kmers(position_kmers))
-        .enumerate()
-        .map(|(idx, position_count)| {
+    position_kmer_counts.enumerate().for_each(|(idx, position_count)| {
         let mut variants = position_count.par_iter().map(|(sequence, count_data)| {
 
             let mut variant = Variant {
@@ -472,14 +470,16 @@ pub fn get_results_objs(
 
         let support = kmers[idx].len();
 
-            return Position::new(
+        positions.push(
+            Position::new(
                 idx+1,
                 position_entropies[idx],
                 support,
                 if variants.is_empty() { None } else { Some(&mut variants) },
                 if support >= support_threshold { false } else { true }
             )
-    }).collect::<Vec<Position>>();
+        )
+    });
 
     Results {
         support_threshold,
