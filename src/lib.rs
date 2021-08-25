@@ -17,7 +17,7 @@ use rayon::prelude::*;
 use std::io::Write;
 
 #[pyclass]
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize)]
 pub struct Results {
     #[pyo3(get)]
     sequence_count: usize,
@@ -39,7 +39,7 @@ pub struct Results {
 }
 
 #[pyclass]
-#[derive(Serialize, Deserialize, Clone)]
+#[derive(Serialize, Clone)]
 pub struct Position {
     #[pyo3(get)]
     position: usize,
@@ -54,12 +54,17 @@ pub struct Position {
     support: usize,
 
     #[pyo3(get)]
+    distinct_variants_count: usize,
+
+    #[pyo3(get)]
+    distinct_variants_incidence: f32,
+
+    #[pyo3(get)]
     variants: Option<Vec<Variant>>,
 }
 
 #[pyclass]
-#[derive(Clone)]
-#[derive(Serialize, Deserialize)]
+#[derive(Clone, Serialize)]
 pub struct Variant {
     #[pyo3(get)]
     sequence: String,
@@ -102,6 +107,8 @@ impl Position {
             support,
             entropy,
             variants: None,
+            distinct_variants_count: 0,
+            distinct_variants_incidence: 0.0,
             low_support
         };
 
@@ -134,14 +141,24 @@ impl Position {
             .collect::<Vec<&mut Variant>>();
 
         if pending_classification.is_empty() {
+            let distinct_variants_count = variants_unwrapped
+                .into_par_iter()
+                .filter(|variant| variant.motif_short != Some('I'.to_string()))
+                .count();
+            position_obj.distinct_variants_count = distinct_variants_count;
+            position_obj.distinct_variants_incidence = (
+                distinct_variants_count as f32 / support as f32
+            ) * 100_f32;
             position_obj.variants = Some(variants_unwrapped.to_owned());
+
             return position_obj
         }
 
         max_incidence = pending_classification
             .into_iter()
             .reduce(|a, b| return if a.count < b.count { b } else { a })
-            .unwrap().count;
+            .unwrap()
+            .count;
 
         pending_classification.iter_mut().for_each(|variant| {
             if variant.count == max_incidence {
@@ -153,7 +170,16 @@ impl Position {
             }
         });
 
+        let distinct_variants_count = variants_unwrapped
+            .into_par_iter()
+            .filter(|variant| variant.motif_short != Some('I'.to_string()))
+            .count();
+        position_obj.distinct_variants_count = distinct_variants_count;
+        position_obj.distinct_variants_incidence = (
+            distinct_variants_count as f32 / support as f32
+        ) * 100_f32;
         position_obj.variants = Some(variants_unwrapped.to_owned());
+
         position_obj
     }
 }
@@ -235,9 +261,19 @@ fn parse_header(header: &String, format: &Vec<String>) -> HashMap<String, String
     let metadata = header.split("|").collect::<Vec<&str>>();
 
     assert_eq!(
+        metadata.iter().filter(|item| item.len() == 0).count(),
+        0,
+        "\n\nThe FASTA header looks invalid:\n\tFormat: {}\n\tHeader: {}\n\n",
+        format.join("|"),
+        header
+    );
+
+    assert_eq!(
         metadata.len(),
         format.len(),
-        "The header format provided does not match the header."
+        "\n\nThe header format provided does not match the header:\n\tFormat: {}\n\tHeader: {}\n\n",
+        format.join("|"),
+        header
     );
 
     format
@@ -254,6 +290,7 @@ fn parse_header(header: &String, format: &Vec<String>) -> HashMap<String, String
 /// * `sample_size` - The number of samples to be taken.
 fn get_random_samples(position_kmers: &Vec<String>, sample_size: usize) -> Vec<String> {
     (0..sample_size)
+        .into_par_iter()
         .map(|_| position_kmers.choose(&mut rand::thread_rng()).unwrap().to_owned())
         .collect::<Vec<String>>()
 }
@@ -269,30 +306,30 @@ fn calculate_entropy(position_kmers: &Vec<String>) -> f64 {
 
     if kmer_count == 0 { return 0.0_f64 }
 
-    let mut rng = rand::thread_rng();
-    let mut entropies: Vec<(f64, f64)> = Vec::new();
+    let entropies: Vec<(f64, f64)> = (1..100)
+        .into_par_iter()
+        .map(
+            |_i| {
+                let mut rng = rand::thread_rng();
+                let mut iter_entropy: f64 = 0.0;
+                // TODO: What if there are more than 1000 kmers?
+                let samples: usize = (1..1000).choose(&mut rng).unwrap();
 
-    (1..100).for_each(
-        |_| {
-            let mut iter_entropy: f64 = 0.0;
-            // TODO: What if there are more than 1000 kmers?
-            let samples: usize = (1..1000).choose(&mut rng).unwrap();
+                let random_samples = get_random_samples(position_kmers, samples);
+                let sample_counted =  count_kmers(&random_samples)
+                    .into_iter()
+                    .map(|(_i, d)| d.0);
 
-            let random_samples = get_random_samples(position_kmers, samples);
-            let sample_counted =  count_kmers(&random_samples)
-                .into_iter()
-                .map(|(_, d)| d.0);
+                sample_counted.for_each(|count| {
+                    let p: f64 = count as f64 / samples as f64;
+                    iter_entropy += p * p.log2();
+                });
 
-            sample_counted.for_each(|count| {
-                let p: f64 = count as f64 / samples as f64;
-                iter_entropy += p * p.log2();
-            });
+                if iter_entropy < 0_f64 { iter_entropy *= -1 as f64 };
 
-            if iter_entropy < 0_f64 { iter_entropy *= -1 as f64 };
-
-            entropies.push((1.0/samples as f64, iter_entropy));
-        }
-    );
+                return (1.0/samples as f64, iter_entropy)
+            }
+        ).collect::<Vec<(f64, f64)>>();
 
     let (_, y) = linear_regression_of(&entropies).unwrap();
     y
@@ -426,16 +463,18 @@ pub fn get_results_objs(
         support_threshold
     );
 
-    let position_kmer_counts = kmers.iter().map(|position_kmers| count_kmers(position_kmers));
 
     let position_entropies = kmers
         .par_iter()
         .map(|position_kmers| calculate_entropy(position_kmers))
         .collect::<Vec<f64>>();
-    let mut positions: Vec<Position> = Vec::new();
 
-    position_kmer_counts.enumerate().for_each(|(idx, position_count)| {
-        let mut variants = position_count.par_iter().map(|(sequence, count_data)| {
+    let positions = kmers
+        .iter()
+        .map(|position_kmers| count_kmers(position_kmers))
+        .enumerate()
+        .map(|(idx, position_count)| {
+            let mut variants = position_count.par_iter().map(|(sequence, count_data)| {
 
             let mut variant = Variant {
                 sequence: sequence.to_owned(),
@@ -470,16 +509,15 @@ pub fn get_results_objs(
 
         let support = kmers[idx].len();
 
-        positions.push(
-            Position::new(
-                idx+1,
-                position_entropies[idx],
-                support,
-                if variants.is_empty() { None } else { Some(&mut variants) },
-                if support >= support_threshold { false } else { true }
-            )
+        return Position::new(
+            idx+1,
+            position_entropies[idx],
+            support,
+            if variants.is_empty() { None } else { Some(&mut variants) },
+            if support >= support_threshold { false } else { true }
         )
-    });
+
+    }).collect::<Vec<Position>>();
 
     Results {
         support_threshold,
