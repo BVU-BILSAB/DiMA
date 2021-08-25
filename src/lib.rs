@@ -198,6 +198,17 @@ impl PyObjectProtocol for Position {
     }
 }
 
+#[pyproto]
+impl PyObjectProtocol for Variant {
+    fn __str__(&self) -> String {
+        serde_json::to_string_pretty(self).unwrap()
+    }
+
+    fn __repr__(&self) -> String {
+        serde_json::to_string_pretty(self).unwrap()
+    }
+}
+
 /// Transposes the k-mers of each provided FASTA sequence to k-mers of each k-mer position.
 ///
 /// # Explanation:
