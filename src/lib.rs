@@ -12,11 +12,13 @@ use rand::seq::{SliceRandom, IteratorRandom};
 use linreg::linear_regression_of;
 use bio::io::fasta;
 use std::fs::File;
-use serde::{Deserialize, Serialize};
+use serde::Serialize;
 use rayon::prelude::*;
 use std::io::Write;
+use pyo3::{PyObjectProtocol};
 
 #[pyclass]
+#[pyo3(text_signature = "(sequence_count, support_threshold, low_support, protein_name, kmer_length, results, /)")]
 #[derive(Serialize)]
 pub struct Results {
     #[pyo3(get)]
@@ -35,10 +37,11 @@ pub struct Results {
     kmer_length: usize,
 
     #[pyo3(get)]
-    results: Vec<Position>
+    results: Vec<Position>,
 }
 
 #[pyclass]
+#[pyo3(text_signature = "(position, low_support, entropy, support, distinct_variants_count, distinct_variants_incidence, variants , /)")]
 #[derive(Serialize, Clone)]
 pub struct Position {
     #[pyo3(get)]
@@ -64,6 +67,7 @@ pub struct Position {
 }
 
 #[pyclass]
+#[pyo3(text_signature = "(sequence, count, incidence, motif_short, motif_long, metadata, /)")]
 #[derive(Clone, Serialize)]
 pub struct Variant {
     #[pyo3(get)]
@@ -82,7 +86,7 @@ pub struct Variant {
     motif_long: Option<String>,
 
     #[pyo3(get)]
-    metadata: Option<HashMap<String, Vec<String>>>
+    metadata: Option<HashMap<String, Vec<String>>>,
 }
 
 impl Position {
@@ -99,9 +103,8 @@ impl Position {
         entropy: f64,
         support: usize,
         variants: Option<&mut Vec<Variant>>,
-        low_support: bool
+        low_support: bool,
     ) -> Self {
-
         let mut position_obj = Self {
             position,
             support,
@@ -109,10 +112,10 @@ impl Position {
             variants: None,
             distinct_variants_count: 0,
             distinct_variants_incidence: 0.0,
-            low_support
+            low_support,
         };
 
-        if variants.is_none() { return position_obj }
+        if variants.is_none() { return position_obj; }
         let variants_unwrapped = variants.unwrap();
 
         let mut max_incidence = variants_unwrapped
@@ -151,7 +154,7 @@ impl Position {
             ) * 100_f32;
             position_obj.variants = Some(variants_unwrapped.to_owned());
 
-            return position_obj
+            return position_obj;
         }
 
         max_incidence = pending_classification
@@ -181,6 +184,17 @@ impl Position {
         position_obj.variants = Some(variants_unwrapped.to_owned());
 
         position_obj
+    }
+}
+
+#[pyproto]
+impl PyObjectProtocol for Position {
+    fn __str__(&self) -> String {
+        serde_json::to_string_pretty(self).unwrap()
+    }
+
+    fn __repr__(&self) -> String {
+        serde_json::to_string_pretty(self).unwrap()
     }
 }
 
@@ -223,7 +237,7 @@ fn sliding_window(sequence: &String, kmer_length: &usize, illegal_chars: &Vec<ch
         .windows(*kmer_length)
         .map(|kmer_chars| {
             let iter = kmer_chars.into_iter();
-            if iter.clone().any(|f| { illegal_chars.contains(f) }) { return String::from("NA") }
+            if iter.clone().any(|f| { illegal_chars.contains(f) }) { return String::from("NA"); }
             iter.collect()
         })
         .collect::<Vec<String>>()
@@ -240,7 +254,7 @@ fn count_kmers(position_kmers: &Vec<String>) -> HashMap<String, (usize, Vec<usiz
     position_kmers
         .into_iter()
         .enumerate()
-        .for_each(|(idx, kmer)|{
+        .for_each(|(idx, kmer)| {
             let entry = counts.entry(kmer.to_owned()).or_insert((0, vec![]));
             entry.0 += 1;
             entry.1.push(idx);
@@ -304,7 +318,7 @@ fn get_random_samples(position_kmers: &Vec<String>, sample_size: usize) -> Vec<S
 fn calculate_entropy(position_kmers: &Vec<String>) -> f64 {
     let kmer_count = position_kmers.len();
 
-    if kmer_count == 0 { return 0.0_f64 }
+    if kmer_count == 0 { return 0.0_f64; }
 
     let entropies: Vec<(f64, f64)> = (1..100)
         .into_par_iter()
@@ -316,7 +330,7 @@ fn calculate_entropy(position_kmers: &Vec<String>) -> f64 {
                 let samples: usize = (1..1000).choose(&mut rng).unwrap();
 
                 let random_samples = get_random_samples(position_kmers, samples);
-                let sample_counted =  count_kmers(&random_samples)
+                let sample_counted = count_kmers(&random_samples)
                     .into_iter()
                     .map(|(_i, d)| d.0);
 
@@ -327,7 +341,7 @@ fn calculate_entropy(position_kmers: &Vec<String>) -> f64 {
 
                 if iter_entropy < 0_f64 { iter_entropy *= -1 as f64 };
 
-                return (1.0/samples as f64, iter_entropy)
+                return (1.0 / samples as f64, iter_entropy);
             }
         ).collect::<Vec<(f64, f64)>>();
 
@@ -349,9 +363,8 @@ fn get_kmers_and_headers(
     path: &String,
     kmer_length: &usize,
     header_format: Option<&Vec<String>>,
-    support_threshold: usize
+    support_threshold: usize,
 ) -> (Vec<Vec<String>>, Option<Vec<HashMap<String, String>>>, usize) {
-
     let illegal_chars: &Vec<char> = &vec!['-', 'X', 'B', 'J', 'Z', 'O', 'U'];
     let mut sequence_kmers: Vec<Vec<String>> = vec![];
     let mut headers: Vec<HashMap<String, String>> = vec![];
@@ -370,7 +383,7 @@ fn get_kmers_and_headers(
             sliding_window(
                 &String::from_utf8(Vec::from(record.seq())).unwrap(),
                 &kmer_length,
-                illegal_chars
+                illegal_chars,
             )
         );
 
@@ -405,6 +418,7 @@ fn get_kmers_and_headers(
 /// * `protein_name` - The name of the protein being analysed.
 /// * `save_path` - The file path to save the JSON results to.
 #[pyfunction]
+#[pyo3(text_signature = "(path, kmer_length, header_format, support_threshold, protein_name, save_path, /)")]
 pub fn get_results_json(
     _py: Python,
     path: String,
@@ -412,7 +426,7 @@ pub fn get_results_json(
     header_format: Option<Vec<String>>,
     support_threshold: usize,
     protein_name: String,
-    save_path: Option<String>
+    save_path: Option<String>,
 ) {
     let json_results = serde_json::to_string_pretty(&get_results_objs(
         _py,
@@ -420,7 +434,7 @@ pub fn get_results_json(
         kmer_length,
         header_format,
         support_threshold,
-        protein_name
+        protein_name,
     )
     ).unwrap();
 
@@ -432,7 +446,7 @@ pub fn get_results_json(
         f.write_all(json_results.as_bytes())
             .expect("Unable to write JSON to the created file.");
 
-        return
+        return;
     }
 
     println!("{}", json_results);
@@ -453,14 +467,13 @@ pub fn get_results_objs(
     kmer_length: usize,
     header_format: Option<Vec<String>>,
     support_threshold: usize,
-    protein_name: String
+    protein_name: String,
 ) -> Results {
-
     let (kmers, headers, sequence_count) = get_kmers_and_headers(
         &path,
         &kmer_length,
         Option::from(&header_format),
-        support_threshold
+        support_threshold,
     );
 
 
@@ -475,49 +488,47 @@ pub fn get_results_objs(
         .enumerate()
         .map(|(idx, position_count)| {
             let mut variants = position_count.par_iter().map(|(sequence, count_data)| {
+                let mut variant = Variant {
+                    sequence: sequence.to_owned(),
+                    count: count_data.0,
+                    incidence: ((count_data.0 as f32 / kmers[idx].len() as f32) * 100_f32),
+                    metadata: None,
+                    motif_short: None,
+                    motif_long: None,
+                };
 
-            let mut variant = Variant {
-                sequence: sequence.to_owned(),
-                count: count_data.0,
-                incidence: ((count_data.0 as f32 / kmers[idx].len() as f32) * 100_f32),
-                metadata: None,
-                motif_short: None,
-                motif_long: None
-            };
+                let mut metadata: HashMap<String, Vec<String>> = HashMap::new();
 
-            let mut metadata: HashMap<String, Vec<String>> = HashMap::new();
-
-            if header_format.is_some() {
-                count_data.1.iter().for_each(|idx| {
-                    header_format.as_ref().unwrap().iter().for_each(|item| {
-                        let entry = metadata.entry(item.to_owned()).or_insert(
-                            vec![]
-                        );
-                        entry.push(
-                            headers.as_ref().unwrap()[*idx].get(item).unwrap().to_owned()
-                        );
+                if header_format.is_some() {
+                    count_data.1.iter().for_each(|idx| {
+                        header_format.as_ref().unwrap().iter().for_each(|item| {
+                            let entry = metadata.entry(item.to_owned()).or_insert(
+                                vec![]
+                            );
+                            entry.push(
+                                headers.as_ref().unwrap()[*idx].get(item).unwrap().to_owned()
+                            );
+                        });
                     });
-                });
 
-                variant.metadata = Some(metadata);
-            } else {
-                variant.metadata = None;
-            };
+                    variant.metadata = Some(metadata);
+                } else {
+                    variant.metadata = None;
+                };
 
-            variant
-        }).collect::<Vec<Variant>>();
+                variant
+            }).collect::<Vec<Variant>>();
 
-        let support = kmers[idx].len();
+            let support = kmers[idx].len();
 
-        return Position::new(
-            idx+1,
-            position_entropies[idx],
-            support,
-            if variants.is_empty() { None } else { Some(&mut variants) },
-            if support >= support_threshold { false } else { true }
-        )
-
-    }).collect::<Vec<Position>>();
+            return Position::new(
+                idx + 1,
+                position_entropies[idx],
+                support,
+                if variants.is_empty() { None } else { Some(&mut variants) },
+                if support >= support_threshold { false } else { true },
+            );
+        }).collect::<Vec<Position>>();
 
     Results {
         support_threshold,
@@ -525,7 +536,7 @@ pub fn get_results_objs(
         sequence_count,
         low_support: if sequence_count >= support_threshold { false } else { true },
         protein_name,
-        results: positions
+        results: positions,
     }
 }
 
