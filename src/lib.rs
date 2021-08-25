@@ -593,6 +593,22 @@ pub fn get_results_objs(
     }
 }
 
+/// This is the C extensions module of DiMA. Most of the heavy-lifting of DiMA is done by methods
+/// defined in this module.
+///
+/// There are two methods defined in this module:
+///
+/// - get_results_json
+/// - get_results_objs
+///
+/// Three classes:
+///
+/// - Position
+/// - Variant
+/// - Results
+///
+/// Author: Shan Tharanga <stwm2@student.london.ac.uk>
+/// ♥
 #[pymodule]
 fn dima(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(get_results_objs, m)?)?;
