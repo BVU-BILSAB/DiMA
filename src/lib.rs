@@ -209,6 +209,17 @@ impl PyObjectProtocol for Variant {
     }
 }
 
+#[pyproto]
+impl PyObjectProtocol for Results {
+    fn __str__(&self) -> String {
+        serde_json::to_string_pretty(self).unwrap()
+    }
+
+    fn __repr__(&self) -> String {
+        serde_json::to_string_pretty(self).unwrap()
+    }
+}
+
 /// Transposes the k-mers of each provided FASTA sequence to k-mers of each k-mer position.
 ///
 /// # Explanation:
@@ -428,6 +439,22 @@ fn get_kmers_and_headers(
 /// * `support_threshold` - Minimum support needed for a k-mer position to be considered valid.
 /// * `protein_name` - The name of the protein being analysed.
 /// * `save_path` - The file path to save the JSON results to.
+///
+/// :param path: The full path to the FASTA file.
+/// :param kmer_length: The length of k-mers to generate (default: 9).
+/// :param header_format: The format of the FASTA header.
+/// :param support_threshold: Minimum support needed for a k-mer position to be considered valid (default: 30).
+/// :param protein_name: The name of the protein being analysed (default: Unknown Protein).
+/// :param save_path: The file path to save the JSON results to.
+///
+/// :type path: str
+/// :type kmer_length: int
+/// :type header_format: Optional[List[str]]
+/// :type support_threshold: int
+/// :type protein_name: str
+/// :type save_path: Optional[str]
+///
+/// :return: None
 #[pyfunction]
 #[pyo3(text_signature = "(path, kmer_length, header_format, support_threshold, protein_name, save_path, /)")]
 pub fn get_results_json(
@@ -471,7 +498,22 @@ pub fn get_results_json(
 /// * `header_format` - The format of the FASTA header.
 /// * `support_threshold` - Minimum support needed for a k-mer position to be considered valid.
 /// * `protein_name` - The name of the protein being analysed.
+///
+/// :param path: The full path to the FASTA file.
+/// :param kmer_length: The length of k-mers to generate (default: 9).
+/// :param header_format: The format of the FASTA header.
+/// :param support_threshold: Minimum support needed for a k-mer position to be considered valid (default: 30).
+/// :param protein_name: The name of the protein being analysed (default: Unknown Protein).
+///
+/// :type path: str
+/// :type kmer_length: int
+/// :type header_format: Optional[List[str]]
+/// :type support_threshold: int
+/// :type protein_name: str
+///
+/// :return: A Results object
 #[pyfunction]
+#[pyo3(text_signature = "(path, kmer_length, header_format, support_threshold, protein_name, save_path, /)")]
 pub fn get_results_objs(
     _py: Python,
     path: String,
