@@ -1,6 +1,6 @@
 [package]
 name = "dima-cli"
-version = "2.0.0-alpha.22"
+version = "2.0.0-alpha.23"
 authors = ["Shan Tharanga <stwm2@student.london.ac.uk>"]
 
 [lib]

@@ -111,8 +111,19 @@ impl Position {
             .map(|variant| variant.to_owned())
             .collect::<Vec<Variant>>();
 
-
-        variant_matches.sort_by(|a, b| return if sort.as_ref().is_none() | (sort.as_ref().unwrap() == "asc") { a.count.cmp(&b.count) } else { b.count.cmp(&a.count) });
+        ///return if sort.as_ref().is_none() | (sort.as_ref().unwrap() == "asc") { a.count.cmp(&b.count) } else { b.count.cmp(&a.count) }
+        variant_matches
+            .sort_by(|a, b| {
+                if sort.as_ref().is_none() {
+                    a.count.cmp(&b.count)
+                } else if sort.as_ref().unwrap() == "asc" {
+                    a.count.cmp(&b.count)
+                } else if sort.as_ref().unwrap() == "desc"{
+                    b.count.cmp(&a.count)
+                } else {
+                    panic!("{}", "\n\nUnrecognized sorting option. Should either be empty, or one of:\n\t- asc\n\t- desc\n\n")
+                }
+            });
 
         Some(variant_matches)
     }
