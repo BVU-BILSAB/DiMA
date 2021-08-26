@@ -102,7 +102,7 @@ impl Position {
     /// Example:
     /// >>> results[10].get_minors('asc')
     #[pyo3(text_signature = "(sort)")]
-    fn get_minors(&self, sort: String) -> Option<Vec<Variant>> {
+    fn get_minors(&self, sort: Option<String>) -> Option<Vec<Variant>> {
         let mut variant_matches = self
             .variants
             .as_ref()?
@@ -111,7 +111,8 @@ impl Position {
             .map(|variant| variant.to_owned())
             .collect::<Vec<Variant>>();
 
-        variant_matches.sort_by(|a, b| return if sort == "desc" { b.count.cmp(&a.count) } else { a.count.cmp(&b.count) });
+
+        variant_matches.sort_by(|a, b| return if sort.as_ref().is_none() | (sort.as_ref().unwrap() == "asc") { a.count.cmp(&b.count) } else { b.count.cmp(&a.count) });
 
         Some(variant_matches)
     }
