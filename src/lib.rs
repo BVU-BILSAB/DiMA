@@ -94,28 +94,24 @@ impl Position {
     /// This method allows one to get a particular variant from a kmer position.
     ///
     /// # Parameters:
-    /// * `short_motif_name` - The short motif name (ie: I, Ma, Mi, U)
     /// * `sort` - The sorting order (ie: asc, desc)
     ///
-    /// :param short_motif_name: The short motif name (ie: I, Ma, Mi, U)
     /// :param sort: The sorting order (ie: asc, desc)
-    ///
-    /// :type short_motif_name: Literal['I', 'Ma', 'Mi', 'U']
     /// :type sort: Literal['asc', 'desc']
     ///
     /// Example:
-    /// >>> results[10].get_variant('Ma', 'asc')
-    #[pyo3(text_signature = "(short_motif_name, sort)")]
-    fn get_variant(&self, short_motif_name: String, sort: String) -> Option<Vec<Variant>> {
+    /// >>> results[10].get_minors('asc')
+    #[pyo3(text_signature = "(sort)")]
+    fn get_minors(&self, sort: String) -> Option<Vec<Variant>> {
         let mut variant_matches = self
             .variants
             .as_ref()?
-            .iter()
-            .filter(|variant| variant.motif_short.as_ref().unwrap() == &short_motif_name)
+            .into_par_iter()
+            .filter(|variant| variant.motif_short.as_ref().unwrap() == "Mi")
             .map(|variant| variant.to_owned())
             .collect::<Vec<Variant>>();
 
-        variant_matches.sort_by(|a, b| return if sort == "asc" { b.count.cmp(&a.count) } else { a.count.cmp(&b.count) });
+        variant_matches.sort_by(|a, b| return if sort == "desc" { b.count.cmp(&a.count) } else { a.count.cmp(&b.count) });
 
         Some(variant_matches)
     }
