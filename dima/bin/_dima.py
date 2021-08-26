@@ -6,6 +6,14 @@ from io import StringIO
 from dima import Dima
 
 
+def get_version():
+    if sys.version_info >= (3, 8):
+        from importlib.metadata import version
+        return version('dima-cli')
+    else:
+        import pkg_resources
+        return pkg_resources.get_distribution('dima-cli').version
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', '--input', help='Absolute path to the aligned sequences file in FASTA format.',
@@ -20,6 +28,8 @@ def main():
                         required=False, default=30)
     parser.add_argument('-p', '--protein', help='The name of the protein being processed. (default: Unknown Protein',
                         type=str, required=False, default='Unknown Protein')
+    parser.add_argument('-v', '--version', help='Print the currently installed version of dima-cli', action='version',
+                        version='%(prog)s ' + get_version())
 
     arguments = parser.parse_args()
     inputx = arguments.input
