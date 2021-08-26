@@ -91,16 +91,17 @@ pub struct Variant {
 
 #[pymethods]
 impl Position {
-    /// This method allows one to get a particular variant from a kmer position.
+    /// This method allows one to get a sorted list of Minor variants from a kmer position.
     ///
     /// # Parameters:
     /// * `sort` - The sorting order (ie: asc, desc)
     ///
     /// :param sort: The sorting order (ie: asc, desc)
-    /// :type sort: Literal['asc', 'desc']
+    /// :type sort: Optional[Literal['asc', 'desc']]
     ///
     /// Example:
     /// >>> results[10].get_minors('asc')
+    /// >>> results[10].get_minors() # defaults to ascending order
     #[pyo3(text_signature = "(sort)")]
     fn get_minors(&self, sort: Option<String>) -> Option<Vec<Variant>> {
         let mut variant_matches = self
@@ -111,7 +112,6 @@ impl Position {
             .map(|variant| variant.to_owned())
             .collect::<Vec<Variant>>();
 
-        ///return if sort.as_ref().is_none() | (sort.as_ref().unwrap() == "asc") { a.count.cmp(&b.count) } else { b.count.cmp(&a.count) }
         variant_matches
             .sort_by(|a, b| {
                 if sort.as_ref().is_none() {
