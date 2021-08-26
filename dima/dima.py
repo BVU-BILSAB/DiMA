@@ -38,7 +38,7 @@ class Dima(object):
             :param kmer_length: The length of the kmers to generate (default:  9).
             :param json: Whether the results should be returned in json format (default: False).
             :param header_format: The format of the header (ex: (id)|(species)|(country)) (default: False).
-            :param sequences_source: The source used for the sequences (ie: whether file, or string)
+            :param sequences_source: The source used for the sequences (ie: "file", or "string")
             :param support_threshold: The support threshold below which k-mer positions will be considered
                 to have low support.
             :param protein_name: The name of the protein we are dealing with.

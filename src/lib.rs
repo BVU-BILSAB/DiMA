@@ -18,7 +18,7 @@ use std::io::Write;
 use pyo3::{PyObjectProtocol};
 
 #[pyclass]
-#[pyo3(text_signature = "(sequence_count, support_threshold, low_support, protein_name, kmer_length, results, /)")]
+#[pyo3(text_signature = "(sequence_count, support_threshold, low_support, protein_name, kmer_length, results)")]
 #[derive(Serialize)]
 pub struct Results {
     #[pyo3(get)]
@@ -41,7 +41,7 @@ pub struct Results {
 }
 
 #[pyclass]
-#[pyo3(text_signature = "(position, low_support, entropy, support, distinct_variants_count, distinct_variants_incidence, variants , /)")]
+#[pyo3(text_signature = "(position, low_support, entropy, support, distinct_variants_count, distinct_variants_incidence, variants)")]
 #[derive(Serialize, Clone)]
 pub struct Position {
     #[pyo3(get)]
@@ -67,7 +67,7 @@ pub struct Position {
 }
 
 #[pyclass]
-#[pyo3(text_signature = "(sequence, count, incidence, motif_short, motif_long, metadata, /)")]
+#[pyo3(text_signature = "(sequence, count, incidence, motif_short, motif_long, metadata)")]
 #[derive(Clone, Serialize)]
 pub struct Variant {
     #[pyo3(get)]
@@ -87,6 +87,38 @@ pub struct Variant {
 
     #[pyo3(get)]
     metadata: Option<HashMap<String, Vec<String>>>,
+}
+
+#[pymethods]
+impl Position {
+    /// This method allows one to get a particular variant from a kmer position.
+    ///
+    /// # Parameters:
+    /// * `short_motif_name` - The short motif name (ie: I, Ma, Mi, U)
+    /// * `sort` - The sorting order (ie: asc, desc)
+    ///
+    /// :param short_motif_name: The short motif name (ie: I, Ma, Mi, U)
+    /// :param sort: The sorting order (ie: asc, desc)
+    ///
+    /// :type short_motif_name: Literal['I', 'Ma', 'Mi', 'U']
+    /// :type sort: Literal['asc', 'desc']
+    ///
+    /// Example:
+    /// >>> results[10].get_variant('Ma', 'asc')
+    #[pyo3(text_signature = "(short_motif_name, sort)")]
+    fn get_variant(&self, short_motif_name: String, sort: String) -> Option<Vec<Variant>> {
+        let mut variant_matches = self
+            .variants
+            .as_ref()?
+            .iter()
+            .filter(|variant| variant.motif_short.as_ref().unwrap() == &short_motif_name)
+            .map(|variant| variant.to_owned())
+            .collect::<Vec<Variant>>();
+
+        variant_matches.sort_by(|a, b| return if sort == "asc" { b.count.cmp(&a.count) } else { a.count.cmp(&b.count) });
+
+        Some(variant_matches)
+    }
 }
 
 impl Position {
@@ -456,7 +488,7 @@ fn get_kmers_and_headers(
 ///
 /// :return: None
 #[pyfunction]
-#[pyo3(text_signature = "(path, kmer_length, header_format, support_threshold, protein_name, save_path, /)")]
+#[pyo3(text_signature = "(path, kmer_length, header_format, support_threshold, protein_name, save_path)")]
 pub fn get_results_json(
     _py: Python,
     path: String,
@@ -513,7 +545,7 @@ pub fn get_results_json(
 ///
 /// :return: A Results object
 #[pyfunction]
-#[pyo3(text_signature = "(path, kmer_length, header_format, support_threshold, protein_name, save_path, /)")]
+#[pyo3(text_signature = "(path, kmer_length, header_format, support_threshold, protein_name, save_path)")]
 pub fn get_results_objs(
     _py: Python,
     path: String,
