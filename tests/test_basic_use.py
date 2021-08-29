@@ -32,6 +32,14 @@ def _assert_all_properties(results, output_data):
         assert new_position.distinct_variants_count == old_position.get('distinct_variants_count')
         assert round(new_position.distinct_variants_incidence) == round(old_position.get('distinct_variants_incidence'))
 
+        new_entropy = new_position.entropy
+        old_entropy = old_position.get('entropy')
+
+        if new_entropy == 0 or old_entropy == 0:
+            assert new_entropy == old_entropy
+        else:
+            assert (min(new_entropy, old_entropy) / max(new_entropy, old_entropy)) > 0.88
+
         if not new_position.variants or not old_position.get('variants'):
             continue
 
