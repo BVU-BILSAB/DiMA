@@ -44,8 +44,7 @@ jobs:
       run:  poetry run coverage run -m pytest -v
 
   release:
-    needs: [ build ]
-    if: github.event.pull_request.merged == true
+    if: github.event.pull_request.merged
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
