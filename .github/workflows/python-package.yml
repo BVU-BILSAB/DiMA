@@ -38,7 +38,7 @@ jobs:
           overide: true
 
     - name: Build Rust Bindings
-      run:  maturin develop --release
+      run:  poetry maturin develop --release
 
     - name: Run Python Tests
       run:  coverage run -m pytest -v
