@@ -11,6 +11,7 @@ python = ">=3.6,<3.10"
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.4"
 maturin = "maturin>=0.11,<0.12"
+coverage = "^5.5"
 
 [build-system]
 requires = ["poetry-core>=1.0.0", "maturin>=0.11,<0.12"]
