@@ -1,8 +1,6 @@
 import pytest
 from dima import Dima
 
-import pytest_check as check
-
 @pytest.fixture
 def test_input_data():
     return """>YP_009724390.1 |Severe acute respiratory syndrome-related coronavirus|China|2020-01-13T00:00:00Z
