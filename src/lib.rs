@@ -334,7 +334,10 @@ fn count_kmers(position_kmers: &Vec<String>) -> HashMap<String, (usize, Vec<usiz
 ///
 /// Returns a HashMap (dictionary) containing the components of the header.
 fn parse_header(header: &String, format: &Vec<String>) -> HashMap<String, String> {
-    let metadata = header.split("|").collect::<Vec<&str>>();
+    let metadata = header
+        .split("|")
+        .map(|component| component.trim())
+        .collect::<Vec<&str>>();
 
     assert_eq!(
         metadata.iter().filter(|item| item.len() == 0).count(),
@@ -450,8 +453,16 @@ fn get_kmers_and_headers(
         );
 
         if header_format.is_some() {
+            let mut header: String = String::new();
+
+            if let Some(desc) = record.desc() {
+                header = [record.id(), desc].join(" ");
+            } else {
+                header = record.id().to_string();
+            }
+
             headers.push(
-                parse_header(&record.id().to_string(), header_format.unwrap())
+                parse_header(&header, header_format.unwrap())
             );
         }
     });
