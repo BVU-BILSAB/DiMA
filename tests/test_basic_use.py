@@ -1,22 +1,22 @@
 import pytest
 import json
-from os.path import join
+from os.path import join, dirname
 from dima import Dima
 
 
 @pytest.fixture
 def test_input_data():
-    return open(join('data', 'input.afa'), 'r').read()
+    return open(join(dirname(__file__), 'data/input.afa'), 'r').read()
 
 
 @pytest.fixture
 def test_basic_output_data():
-    return json.load(open(join('data', 'basic_output.json'), 'r'))
+    return json.load(open(join(dirname(__file__), 'data/basic_output.json'), 'r'))
 
 
 @pytest.fixture
 def test_advance_output_data():
-    return json.load(open(join('data', 'advance_output.json'), 'r'))
+    return json.load(open(join(dirname(__file__), 'data/advance_output.json'), 'r'))
 
 
 def _assert_all_properties(results, output_data):
