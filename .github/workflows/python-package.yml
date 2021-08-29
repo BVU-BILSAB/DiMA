@@ -4,13 +4,13 @@
 name: Python package
 
 on:
-  push:
-    branches: [ main ]
   pull_request:
     branches: [ main ]
+    types: [synchronize, closed]
 
 jobs:
   build:
+    if: github.event.pull_request.merged == false
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
