@@ -1,3 +1,38 @@
+[tool.poetry]
+name = "dima-cli"
+version = "2.0.0"
+description = "A command-line tool that analyses the diversity and motifs of protein sequences"
+authors = ["Shan Weera <stwm2@student.london.ac.uk>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/PU-SDS/DiMA"
+
+keywords = ["bioinformatics", "biology", "protein", "virus", "diversity"]
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Science/Research",
+    "Natural Language :: English"]
+
+[tool.poetry.dependencies]
+python = ">=3.6,<3.10"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2.4"
+maturin = "maturin>=0.11,<0.12"
+coverage = "^5.5"
+
 [build-system]
-requires = ["setuptools", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["poetry-core>=1.0.0", "maturin>=0.11,<0.12"]
+build-backend = "maturin"
+
+[project]
+name = "dima-cli"
+
+[project.scripts]
+dima-cli = "dima.bin._dima:main"
+
+[features]
+markdown-readme = ["pypandoc"]
