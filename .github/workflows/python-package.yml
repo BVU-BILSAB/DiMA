@@ -10,6 +10,7 @@ on:
 
 jobs:
   build:
+    if: github.event.pull_request.merged == false
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
