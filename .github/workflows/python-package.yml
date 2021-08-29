@@ -41,7 +41,7 @@ jobs:
       run:  poetry run maturin develop --release
 
     - name: Run Python Tests
-      run:  coverage run -m pytest -v
+      run:  poetry coverage run -m pytest -v
 
   release:
     needs: [build]
