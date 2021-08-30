@@ -1,4 +1,6 @@
 # DiMA - Diversity Motif Analyser
+[![Python package](https://github.com/PU-SDS/DiMA/actions/workflows/python-package.yml/badge.svg)](https://github.com/PU-SDS/DiMA/actions/workflows/python-package.yml)
+[![Python package](https://github.com/PU-SDS/DiMA/actions/workflows/python-package.yml/badge.svg?event=issues)](https://github.com/PU-SDS/DiMA/actions/workflows/python-package.yml)
 ## Table of Contents
 - [What is DiMA?](#what-is-dima)
 - [Installation](#installation)
