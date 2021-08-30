@@ -709,13 +709,13 @@ results = Dima(sequences="aligned_sequences.afa", sequences_source='file', heade
 #### Command-Line Arguments
 | **Argument** | **Type** | **Required** | **Default**                   | **Example**                                                       | **Description**                                                                                 |
 |--------------|----------|--------------|-------------------------------|-------------------------------------------------------------------|-------------------------------------------------------------------------------------------------|
-| \-h          | N/A      | False        | N/A                           | \`dima\-cli \-h`                                                  | Prints a summary of all available command\-line arguments\.                                     |
-| \-v          | N/A      | False        | N/A                           | \`dima\-cli \-v`                                                  | Prints the version of dima\-cli that is currently installed\.                                   |
-| \-n          | String   | False        | Unknown Protein               | \`dima\-cli \-n "Coronavirus Surface Protein" \-i sequences\.afa` | The name of the protein that will appear on the results\.                                       |
-| \-i          | String   | True         | N/A                           | \`dima\-cli \-i sequences\.afa`                                   | The path to the FASTA Multiple Sequence Alignment file\.                                        |
-| \-o          | String   | False        | STDOUT \(Prints the results\) | \`dima\-cli \-i sequences\.afa \-o results,json`                  | The location where the results shall be saved\.                                                 |
-| \-l          | Integer  | False        | 9                             | \`dima\-cli \-i sequences\.afa \-l 12`                            | The length of the kmers generated\.                                                             |
-| \-f          | String   | False        | N/A                           | \`dima\-cli \-i sequences\.afa \-f "accession\|strain\|country"`  | The format of the FASTA header\. Labels where each variant of a kmer position originated from\. |
+| \-h          | N/A      | False        | N/A                           | `dima\-cli \-h`                                                  | Prints a summary of all available command\-line arguments\.                                     |
+| \-v          | N/A      | False        | N/A                           | `dima\-cli \-v`                                                  | Prints the version of dima\-cli that is currently installed\.                                   |
+| \-n          | String   | False        | Unknown Protein               | `dima\-cli \-n "Coronavirus Surface Protein" \-i sequences\.afa` | The name of the protein that will appear on the results\.                                       |
+| \-i          | String   | True         | N/A                           | `dima\-cli \-i sequences\.afa`                                   | The path to the FASTA Multiple Sequence Alignment file\.                                        |
+| \-o          | String   | False        | STDOUT \(Prints the results\) | `dima\-cli \-i sequences\.afa \-o results,json`                  | The location where the results shall be saved\.                                                 |
+| \-l          | Integer  | False        | 9                             | `dima\-cli \-i sequences\.afa \-l 12`                            | The length of the kmers generated\.                                                             |
+| \-f          | String   | False        | N/A                           | `dima\-cli \-i sequences\.afa \-f "accession\|strain\|country"`  | The format of the FASTA header\. Labels where each variant of a kmer position originated from\. |
 
 
 ### Module Usage
