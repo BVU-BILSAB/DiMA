@@ -33,6 +33,3 @@ name = "dima-cli"
 
 [project.scripts]
 dima-cli = "dima.bin._dima:main"
-
-[features]
-markdown-readme = ["pypandoc"]
