@@ -6,7 +6,6 @@ authors = ["Shan Weera <stwm2@student.london.ac.uk>"]
 license = "MIT"
 readme = "README.md"
 repository = "https://github.com/PU-SDS/DiMA"
-requires-python = ">=3.6,<3.9"
 
 keywords = ["bioinformatics", "biology", "protein", "virus", "diversity"]
 
