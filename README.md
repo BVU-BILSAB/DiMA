@@ -716,6 +716,7 @@ results = Dima(sequences="aligned_sequences.afa", sequences_source='file', heade
 | \-o          | String   | False        | STDOUT \(Prints the results\) | `dima\-cli \-i sequences\.afa \-o results,json`                  | The location where the results shall be saved\.                                                 |
 | \-l          | Integer  | False        | 9                             | `dima\-cli \-i sequences\.afa \-l 12`                            | The length of the kmers generated\.                                                             |
 | \-f          | String   | False        | N/A                           | `dima\-cli \-i sequences\.afa \-f "accession\|strain\|country"`  | The format of the FASTA header\. Labels where each variant of a kmer position originated from\. |
+| \-s          | Integer  | False        | 30                            | `dima\-cli \-i sequences\.afa \-l 12 \-s 40`                     | The minimum required support for each kmer position\.                                           |
 
 
 ### Module Usage
@@ -726,13 +727,13 @@ Dima('/path/to/sequence.fasta').run()
 ```
 
 #### Module Parameters
-|    Argument   |             Type             | Default |                             Description                             |
-|:-------------:|:----------------------------:|:-------:|:-------------------------------------------------------------------:|
-| seqs          | str, TextIOWrapper, StringIO | N/A     | A file handle, a FASTA sequence wrapped in a handle, or a filepath. |
-| kmer_len      | int                          | 9       | The length of the kmers to generate.                                |
-| header_decode | bool                         | False   | Whether to use FASTA headers to derive kmer information.            |
-| header_format | str                          | N/A     | The format of the header (ex: (id)\|(species)\|(country)).          |
-| json_result   | bool                         | False   | Whether the results should be returned in json format.              |
-| max_samples   | int                          | 10000    | The maximum number of samples to use when calculating entropy.      |
-| iterations    | int                          | 10      | The maximum number of iterations to use when calculating entropy.   |
-| no_header_error | bool                       | False   | Whether to raise an error if empty items are found in any of the FASTA headers.   |
+| **Parameter**     | **Type** | **Required** | **Default**                | **Description**                                                                               |
+|-------------------|----------|--------------|----------------------------|-----------------------------------------------------------------------------------------------|
+| sequences         | String   | True         | N/A                        | The path to a FASTA Multiple Sequence Alignment file (MSA), or a string containing FASTA MSA. |
+| sequences_source  | String   | True         | N/A                        | The source of the sequences (ie: "file"/"string")                                             |
+| kmer_length       | Integer  | False        | 9                          | The length of the kmers generated.                                                            |
+| json              | Boolean  | False        | False                      | Whether the result is a JSON string, or a Python object.                                      |
+| header_format     | String   | False        | N/A                        | The format of the FASTA header. Labels where each variant of a kmer position originated from. |
+| support_threshold | Integer  | False        | 30                         | The minimum required support for each kmer position.                                          |
+| protein_name      | String   | False        | Unknown Protein            | The name of the protein that will appear on the results.                                      |
+| json_save_path    | String   | False        | STDOUT (prints to console) | The location where the results shall be saved (only required when ```python json = True```).  |
