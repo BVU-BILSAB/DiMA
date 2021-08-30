@@ -1,17 +1,24 @@
 # DiMA - Diversity Motif Analyser
+[![Python package](https://github.com/PU-SDS/DiMA/actions/workflows/python-package.yml/badge.svg)](https://github.com/PU-SDS/DiMA/actions/workflows/python-package.yml)
+![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/PU-SDS/DiMA)
+![GitHub issues](https://img.shields.io/github/issues-raw/PU-SDS/DiMA)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/dima-cli)
+![PyPI](https://img.shields.io/pypi/v/dima-cli)
+![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/PU-SDS/DiMA)
+
 ## Table of Contents
 - [What is DiMA?](#what-is-dima)
-  - [Installation](#installation)
-  - [Basic Usage](#basic-usage)
-    - [Shell Command](#shell-command)
-    - [Python](#python)
-    - [Results](#results)
-  - [Advance Usage](#advance-usage)
-    - [Shell Command](#shell-command)
-    - [Python](#python)
-    - [Results](#results)
-  - [Command-Line Arguments](#command-line-arguments)
-  - [Module Parameters](#module-parameters)
+- [Installation](#installation)
+- [Basic Usage](#basic-usage)
+  - [Shell Command](#shell-command)
+  - [Python](#python)
+  - [Results](#results)
+- [Advance Usage](#advance-usage)
+  - [Shell Command](#shell-command)
+  - [Python](#python)
+  - [Results](#results)
+- [Command-Line Arguments](#command-line-arguments)
+- [Module Parameters](#module-parameters)
 
 ## What is DiMA?
 
@@ -19,31 +26,36 @@ Protein sequence diversity is one of the major challenges in the design of diagn
 interventions against viruses. DiMA is a tool designed to facilitate the dissection of protein sequence diversity 
 dynamics for viruses. DiMA provides a quantitative measure of sequence diversity by use of Shannon’s entropy, 
 applied via a user-defined k-mer sliding window. Further, the entropy value is corrected for sample size bias by 
-applying a statistical adjustment. Additionally, DiMA further interrogates the 
-diversity by dissecting the entropy value at each k-mer position to various diversity motifs. The distinct k-mer 
-sequences at each position are classified into the following motifs based on their incidence. Index is the predominant 
-sequence, and all other distinct k-mers are referred to as total variants, sub-classified into major 
-variant (the predominant variant), minor variants (k-mers with incidence in between major and unique motifs) and unique 
-variants (seen once in the alignment). Moreover, the description line of the sequences in the alignment can be 
+applying a statistical adjustment. 
+Additionally, DiMA further interrogates the diversity by dissecting the entropy value at each k-mer position to various 
+diversity motifs. The distinct k-mer sequences at each position are classified into the following motifs based on 
+their incidence. 
+
+  - **Index**: The predominant sequence. 
+  - **Major**: The sequence with the second highest incidence after the Index.
+  - **Minor**: Kmers with incidence in between major and unique motifs
+  - **Unique**: Kmers which are only seen once in a particular kmer position. 
+  
+Moreover, the description line of the sequences in the alignment can be 
 formatted for inclusion of meta-data that can be tagged to the diversity motifs. DiMA enables comparative diversity 
 dynamics analysis, within and between proteins of a virus species, and proteomes of different viral species.
 
-### Installation
+## Installation
 
 `pip install dima-cli`
 
-### Basic Usage
-#### Shell Command
+## Basic Usage
+### Shell Command
 ```shell
 dima-cli -i aligned_sequences.afa -o results.json
 ```
 
-#### Python
+### Python
 ```python
 from dima import Dima
 results = Dima(sequences="aligned_sequences.afa", sequences_source='file').run()
 ```
-#### Results
+### Results
 ```
 {
    "sequence_count":203,
@@ -106,18 +118,18 @@ results = Dima(sequences="aligned_sequences.afa", sequences_source='file').run()
 }
 ```
 
-### Advance Usage
-#### Shell Command
+## Advance Usage
+### Shell Command
 ```shell
 dima-cli -i aligned_sequences.afa -o results.json -f "accession|strain|country|date"
 ```
 
-#### Python
+### Python
 ```python
 from dima import Dima
 results = Dima(sequences="aligned_sequences.afa", sequences_source='file', header_format="accession|strain|country|date").run()
 ```
-#### Results
+### Results
 ```
 {
    "sequence_count":203,
@@ -721,12 +733,12 @@ results = Dima(sequences="aligned_sequences.afa", sequences_source='file', heade
 }
 ```
 
-### Command-Line Arguments
+## Command-Line Arguments
 | **Argument** | **Type** | **Required** | **Default**                   | **Example**                                                       | **Description**                                                                                 |
 |--------------|----------|--------------|-------------------------------|-------------------------------------------------------------------|-------------------------------------------------------------------------------------------------|
 | \-h          | N/A      | False        | N/A                           | `dima-cli -h`                                                  | Prints a summary of all available command\-line arguments\.                                     |
 | \-v          | N/A      | False        | N/A                           | `dima-cli -v`                                                  | Prints the version of dima\-cli that is currently installed\.                                   |
-| \-n          | String   | False        | Unknown Protein               | `dima-cli -n "Coronavirus Surface Protein" -i sequences.afa` | The name of the protein that will appear on the results\.                                       |
+| \-p          | String   | False        | Unknown Protein               | `dima-cli -n "Coronavirus Surface Protein" -i sequences.afa` | The name of the protein that will appear on the results\.                                       |
 | \-i          | String   | True         | N/A                           | `dima-cli -i sequences.afa`                                   | The path to the FASTA Multiple Sequence Alignment file\.                                        |
 | \-o          | String   | False        | STDOUT \(Prints the results\) | `dima-cli -i sequences.afa -o results,json`                  | The location where the results shall be saved\.                                                 |
 | \-l          | Integer  | False        | 9                             | `dima-cli -i sequences.afa -l 12`                            | The length of the kmers generated\.                                                             |
@@ -734,7 +746,7 @@ results = Dima(sequences="aligned_sequences.afa", sequences_source='file', heade
 | \-s          | Integer  | False        | 30                            | `dima-cli -i sequences.afa -l 12 -s 40`                     | The minimum required support for each kmer position\.                                           |
 
 
-### Module Parameters
+## Module Parameters
 | **Parameter**     | **Type** | **Required** | **Default**                | **Description**                                                                               |
 |-------------------|----------|--------------|----------------------------|-----------------------------------------------------------------------------------------------|
 | sequences         | String   | True         | N/A                        | The path to a FASTA Multiple Sequence Alignment file (MSA), or a string containing FASTA MSA. |
@@ -744,4 +756,4 @@ results = Dima(sequences="aligned_sequences.afa", sequences_source='file', heade
 | header_format     | String   | False        | N/A                        | The format of the FASTA header. Labels where each variant of a kmer position originated from. |
 | support_threshold | Integer  | False        | 30                         | The minimum required support for each kmer position.                                          |
 | protein_name      | String   | False        | Unknown Protein            | The name of the protein that will appear on the results.                                      |
-| json_save_path    | String   | False        | STDOUT (prints to console) | The location where the results shall be saved (only required when ```python json = True```).  |
+| json_save_path    | String   | False        | STDOUT (prints to console) | The location where the results shall be saved (only required when ```json = True```).  |
