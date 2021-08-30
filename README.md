@@ -1,18 +1,17 @@
 # DiMA - Diversity Motif Analyser
 ## Contents
-- [What is DiMA?](#what-is-dima-)
-  * [Installation](#installation)
-  * [Basic Usage](#basic-usage)
-    + [Shell Command](#shell-command)
-    + [Python](#python)
-    + [Results](#results)
-  * [Advance Usage](#advance-usage)
-    + [Shell Command](#shell-command-1)
-    + [Python](#python-1)
-    + [Results](#results-1)
-      - [Command-Line Arguments](#command-line-arguments)
-    + [Module Usage](#module-usage)
-      - [Module Parameters](#module-parameters)
+- [What is DiMA?](#what-is-dima)
+  - [Installation](#installation)
+  - [Basic Usage](#basic-usage)
+    - [Shell Command](#shell-command)
+    - [Python](#python)
+    - [Results](#results)
+  - [Advance Usage](#advance-usage)
+    - [Shell Command](#shell-command)
+    - [Python](#python)
+    - [Results](#results)
+  - [Command-Line Arguments](#command-line-arguments)
+  - [Module Parameters](#module-parameters)
 
 ## What is DiMA?
 
@@ -722,7 +721,7 @@ results = Dima(sequences="aligned_sequences.afa", sequences_source='file', heade
 }
 ```
 
-##### Command-Line Arguments
+### Command-Line Arguments
 | **Argument** | **Type** | **Required** | **Default**                   | **Example**                                                       | **Description**                                                                                 |
 |--------------|----------|--------------|-------------------------------|-------------------------------------------------------------------|-------------------------------------------------------------------------------------------------|
 | \-h          | N/A      | False        | N/A                           | `dima-cli -h`                                                  | Prints a summary of all available command\-line arguments\.                                     |
@@ -735,14 +734,7 @@ results = Dima(sequences="aligned_sequences.afa", sequences_source='file', heade
 | \-s          | Integer  | False        | 30                            | `dima-cli -i sequences.afa -l 12 -s 40`                     | The minimum required support for each kmer position\.                                           |
 
 
-#### Module Usage
-dima can also be imported and used within your Python projects as below:
-```
-from dima import Dima
-Dima('/path/to/sequence.fasta').run()
-```
-
-##### Module Parameters
+### Module Parameters
 | **Parameter**     | **Type** | **Required** | **Default**                | **Description**                                                                               |
 |-------------------|----------|--------------|----------------------------|-----------------------------------------------------------------------------------------------|
 | sequences         | String   | True         | N/A                        | The path to a FASTA Multiple Sequence Alignment file (MSA), or a string containing FASTA MSA. |
