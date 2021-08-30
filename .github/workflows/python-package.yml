@@ -6,7 +6,7 @@ name: Python package
 on:
   pull_request:
     branches: [ main ]
-    types: [synchronize, closed]
+    types: [opened, synchronize, closed]
 
 jobs:
   build:
