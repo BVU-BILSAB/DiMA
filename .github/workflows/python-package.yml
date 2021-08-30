@@ -45,6 +45,7 @@ jobs:
 
   release:
     needs: [ build ]
+    if: github.event.pull_request.merged
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
