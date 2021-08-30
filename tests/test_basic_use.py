@@ -38,7 +38,7 @@ def _assert_all_properties(results, output_data):
         if new_entropy == 0 or old_entropy == 0:
             assert new_entropy == old_entropy
         else:
-            assert (min(new_entropy, old_entropy) / max(new_entropy, old_entropy)) > 0.88
+            assert (min(new_entropy, old_entropy) / max(new_entropy, old_entropy)) > 0.86
 
         if not new_position.variants or not old_position.get('variants'):
             continue
@@ -64,6 +64,7 @@ def test_module_basic_use(test_input_data, test_basic_output_data):
 
 
 def test_module_advance_use(test_input_data, test_advance_output_data):
-    results = Dima(sequences=test_input_data, sequences_source='string', header_format="accession|strain|country|date").run()
+    results = Dima(sequences=test_input_data, sequences_source='string', header_format="accession|strain|country|date")\
+        .run()
 
     _assert_all_properties(results, test_advance_output_data)
