@@ -1,6 +1,7 @@
 # DiMA - Diversity Motif Analyser
 [![Python package](https://github.com/PU-SDS/DiMA/actions/workflows/python-package.yml/badge.svg)](https://github.com/PU-SDS/DiMA/actions/workflows/python-package.yml)
-[![GitHub issues open](https://img.shields.io/github/issues/network-tools/shconfparser.svg?)](https://github.com/PU-SDS/DiMA/issues)
+![GitHub closed issues](https://img.shields.io/github/issues-closed-raw/PU-SDS/DiMA)
+![GitHub issues](https://img.shields.io/github/issues-raw/PU-SDS/DiMA)
 ## Table of Contents
 - [What is DiMA?](#what-is-dima)
 - [Installation](#installation)
