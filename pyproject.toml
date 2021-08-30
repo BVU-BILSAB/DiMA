@@ -5,6 +5,16 @@ description = "A command-line tool that analyses the diversity and motifs of pro
 authors = ["Shan <stwm2@student.london.ac.uk>"]
 license = "MIT"
 readme = "README.md"
+repository = "https://github.com/PU-SDS/DiMA"
+
+keywords = ["bioinformatics", "biology", "protein", "virus", "diversity"]
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Science/Research",
+    "Natural Language :: English"]
 
 [tool.poetry.dependencies]
 python = ">=3.6,<3.10"
@@ -23,3 +33,6 @@ name = "dima-cli"
 
 [project.scripts]
 dima-cli = "dima.bin._dima:main"
+
+[features]
+markdown-readme = ["pypandoc"]
