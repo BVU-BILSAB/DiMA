@@ -38,7 +38,7 @@ def _assert_all_properties(results, output_data):
         if new_entropy == 0 or old_entropy == 0:
             assert new_entropy == old_entropy
         else:
-            assert (min(new_entropy, old_entropy) / max(new_entropy, old_entropy)) > 0.86
+            assert (min(new_entropy, old_entropy) / max(new_entropy, old_entropy)) > 0.80
 
         if not new_position.variants or not old_position.get('variants'):
             continue
