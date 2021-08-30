@@ -1,5 +1,5 @@
 # DiMA - Diversity Motif Analyser
-## Contents
+## Table of Contents
 - [What is DiMA?](#what-is-dima)
   - [Installation](#installation)
   - [Basic Usage](#basic-usage)
