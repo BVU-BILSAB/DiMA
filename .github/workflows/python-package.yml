@@ -56,7 +56,7 @@ jobs:
       with:
         maturin-version: latest
         command: publish
-        args: --username __token__ --skip-existing --universal2 --no-sdist --interpreter python${{ matrix.python-version }}
+        args: --username __token__ --skip-existing --out dist --universal2 --no-sdist --interpreter python${{ matrix.python-version }}
         manylinux: auto
     - name: PyPi publish
       if: matrix.os == 'windows-latest'
@@ -66,4 +66,13 @@ jobs:
       with:
         maturin-version: latest
         command: publish
-        args: --username __token__ --skip-existing --no-sdist --interpreter python
+        args: --username __token__ --skip-existing --out dist --no-sdist --interpreter python
+    - name: Release
+      uses: svenstaro/upload-release-action@2.2.1
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: dist/*
+        tag: ${{ github.head_ref }}
+        body: ${{ github.event.head_commit.message }}
+        overwrite: true
+        file_glob: true
