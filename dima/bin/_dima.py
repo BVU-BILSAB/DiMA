@@ -14,6 +14,7 @@ def get_version():
         import pkg_resources
         return pkg_resources.get_distribution('dima-cli').version
 
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', '--input', help='Absolute path to the aligned sequences file in FASTA format.',

@@ -3,6 +3,7 @@ from io import StringIO
 import pytest
 import json
 from os.path import join, dirname
+from itertools import product
 from dima import Dima
 
 
@@ -21,7 +22,7 @@ def test_advance_output_data():
     return json.load(open(join(dirname(__file__), 'data/advance_output.json'), 'r'))
 
 
-def _assert_all_properties(results, output_data):
+def assert_all_properties(results, output_data):
     assert results.low_support == output_data.get('low_support')
     assert results.protein_name == output_data.get('protein_name')
     assert results.sequence_count == output_data.get('sequence_count')
@@ -45,28 +46,24 @@ def _assert_all_properties(results, output_data):
         if not new_position.variants or not old_position.get('variants'):
             continue
 
-        for new_variant, old_variant in zip(sorted(new_position.variants, key=lambda x: x.count),
-                                            sorted(old_position.get('variants'), key=lambda x: x['count'])):
-            if (new_variant.motif_short == "I" and old_variant.get('motif_short') == "I") and (
-                    new_variant.sequence != old_variant.get('sequence')):
-                continue
-
-            assert new_variant.sequence == old_variant.get('sequence')
-            assert new_variant.motif_long == old_variant.get('motif_long')
-            assert new_variant.motif_short == old_variant.get('motif_short')
-            assert round(new_variant.incidence) == round(old_variant.get('incidence'))
-            assert new_variant.count == old_variant.get('count')
-            assert new_variant.metadata == old_variant.get('metadata')
+        for new_variant, old_variant in product(new_position.variants, old_position.get('variants')):
+            if new_variant.sequence == old_variant.get('sequence'):
+                assert new_variant.sequence == old_variant.get('sequence')
+                assert new_variant.motif_long == old_variant.get('motif_long')
+                assert new_variant.motif_short == old_variant.get('motif_short')
+                assert round(new_variant.incidence) == round(old_variant.get('incidence'))
+                assert new_variant.count == old_variant.get('count')
+                assert new_variant.metadata == old_variant.get('metadata')
 
 
 def test_module_basic_use(test_input_data, test_basic_output_data):
     results = Dima(sequences=StringIO(test_input_data)).run()
 
-    _assert_all_properties(results, test_basic_output_data)
+    assert_all_properties(results, test_basic_output_data)
 
 
 def test_module_advance_use(test_input_data, test_advance_output_data):
     results = Dima(sequences=StringIO(test_input_data), header_format="accession|strain|country|date")\
         .run()
 
-    _assert_all_properties(results, test_advance_output_data)
+    assert_all_properties(results, test_advance_output_data)

@@ -16,7 +16,8 @@ class Dima(object):
             header_format: Optional[str] = None,
             support_threshold: Optional[int] = 30,
             protein_name: Optional[str] = 'Unknown Protein',
-            json_save_path: Optional[str] = None
+            json_save_path: Optional[str] = None,
+            header_fillna: Optional[str] = None
     ):
         """
             The DiMA algorithm returns a list of Position objects each corresponding to a kmer position.
@@ -29,6 +30,8 @@ class Dima(object):
                 to have low support.
             :param protein_name: The name of the protein we are dealing with.
             :param json_save_path: The path to save the JSON results.
+            :param header_fillna: If there are empty items in the FASTA header (when header_format != None), replace with
+            this value.
 
             :type sequences: Union[StringIO, str]
             :type kmer_length: Optional[int]
@@ -37,6 +40,7 @@ class Dima(object):
             :type support_threshold: Optional[int]
             :type protein_name: str
             :type json_save_path: Optional[str]
+            :type header_fillna: Optional[str]
 
             Example 1:
 
@@ -61,6 +65,7 @@ class Dima(object):
         self.support_threshold = support_threshold
         self.protein_name = protein_name
         self.json_save_path = json_save_path
+        self.header_fillna = header_fillna
 
     @classmethod
     def _save_sequences_file(cls, sequences: StringIO) -> str:
@@ -85,7 +90,8 @@ class Dima(object):
             'kmer_length': self.kmer_length,
             'header_format': self.header_format.split('|') if self.header_format else None,
             'support_threshold': self.support_threshold,
-            'protein_name': self.protein_name
+            'protein_name': self.protein_name,
+            'header_fillna': self.header_fillna
         }
 
         if self.json:
