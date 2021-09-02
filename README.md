@@ -53,7 +53,7 @@ dima-cli -i aligned_sequences.afa -o results.json
 ### Python
 ```python
 from dima import Dima
-results = Dima(sequences="aligned_sequences.afa", sequences_source='file').run()
+results = Dima(sequences="aligned_sequences.afa").run()
 ```
 ### Results
 ```
@@ -127,7 +127,7 @@ dima-cli -i aligned_sequences.afa -o results.json -f "accession|strain|country|d
 ### Python
 ```python
 from dima import Dima
-results = Dima(sequences="aligned_sequences.afa", sequences_source='file', header_format="accession|strain|country|date").run()
+results = Dima(sequences="aligned_sequences.afa", header_format="accession|strain|country|date").run()
 ```
 ### Results
 ```
@@ -734,26 +734,28 @@ results = Dima(sequences="aligned_sequences.afa", sequences_source='file', heade
 ```
 
 ## Command-Line Arguments
-| **Argument** | **Type** | **Required** | **Default**                   | **Example**                                                       | **Description**                                                                                 |
-|--------------|----------|--------------|-------------------------------|-------------------------------------------------------------------|-------------------------------------------------------------------------------------------------|
-| \-h          | N/A      | False        | N/A                           | `dima-cli -h`                                                  | Prints a summary of all available command\-line arguments\.                                     |
-| \-v          | N/A      | False        | N/A                           | `dima-cli -v`                                                  | Prints the version of dima\-cli that is currently installed\.                                   |
-| \-p          | String   | False        | Unknown Protein               | `dima-cli -p "Coronavirus Surface Protein" -i sequences.afa` | The name of the protein that will appear on the results\.                                       |
-| \-i          | String   | True         | N/A                           | `dima-cli -i sequences.afa`                                   | The path to the FASTA Multiple Sequence Alignment file\.                                        |
-| \-o          | String   | False        | STDOUT \(Prints the results\) | `dima-cli -i sequences.afa -o results,json`                  | The location where the results shall be saved\.                                                 |
-| \-l          | Integer  | False        | 9                             | `dima-cli -i sequences.afa -l 12`                            | The length of the kmers generated\.                                                             |
-| \-f          | String   | False        | N/A                           | `dima-cli -i sequences.afa -f "accession\|strain\|country"`  | The format of the FASTA header\. Labels where each variant of a kmer position originated from\. |
-| \-s          | Integer  | False        | 30                            | `dima-cli -i sequences.afa -l 12 -s 40`                     | The minimum required support for each kmer position\.                                           |
+| **Argument** | **Type** | **Required** | **Default**                 | **Example**                                                              | **Description**                                                                               |
+|--------------|----------|--------------|-----------------------------|--------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
+| -h           | N/A      | False        | N/A                         | `dima-cli -h`                                                            | Prints a summary of all available command-line arguments.                                     |
+| -n           | String   | False        | N/A (raise error)           | `dima-cli -i sequences.afa -f "accession\|strain\|country" -n "Unknown"` | Silently fix missing values in the FASTA header with given value.                             |
+| -v           | N/A      | False        | N/A                         | `dima-cli -v`                                                            | Prints the version of dima-cli that is currently installed.                                   |
+| -p           | String   | False        | Unknown Protein             | `dima-cli -n "Coronavirus Surface Protein" -i sequences.afa`             | The name of the protein that will appear on the results.                                      |
+| -i           | String   | True         | N/A                         | `dima-cli -i sequences.afa`                                              | The path to the FASTA Multiple Sequence Alignment file.                                       |
+| -o           | String   | False        | stdout (prints the results) | `dima-cli -i sequences.afa -o results,json`                              | The location where the results shall be saved.                                                |
+| -l           | Integer  | False        | 9                           | `dima-cli -i sequences.afa -l 12`                                        | The length of the kmers generated.                                                            |
+| -f           | String   | False        | N/A                         | `dima-cli -i sequences.afa -f "accession\|strain\|country"`              | The format of the FASTA header. Labels where each variant of a kmer position originated from. |
+| -s           | Integer  | False        | 30                          | `dima-cli -i sequences.afa -l 12 -s 40`                                  | The minimum required support for each kmer position.                                          |
+
 
 
 ## Module Parameters
-| **Parameter**     | **Type** | **Required** | **Default**                | **Description**                                                                               |
-|-------------------|----------|--------------|----------------------------|-----------------------------------------------------------------------------------------------|
-| sequences         | String   | True         | N/A                        | The path to a FASTA Multiple Sequence Alignment file (MSA), or a string containing FASTA MSA. |
-| sequences_source  | String   | True         | N/A                        | The source of the sequences (ie: "file" or "string")                                             |
-| kmer_length       | Integer  | False        | 9                          | The length of the kmers generated.                                                            |
-| json              | Boolean  | False        | False                      | Whether the result is a JSON string, or a Python object.                                      |
-| header_format     | String   | False        | N/A                        | The format of the FASTA header. Labels where each variant of a kmer position originated from. |
-| support_threshold | Integer  | False        | 30                         | The minimum required support for each kmer position.                                          |
-| protein_name      | String   | False        | Unknown Protein            | The name of the protein that will appear on the results.                                      |
-| json_save_path    | String   | False        | STDOUT (prints to console) | The location where the results shall be saved (only required when ```json = True```).  |
+| **Parameter**     | **Type**        | **Required** | **Default**                | **Description**                                                                                                 |
+|-------------------|-----------------|--------------|----------------------------|-----------------------------------------------------------------------------------------------------------------|
+| sequences         | String/StringIO | True         | N/A                        | The path to a FASTA Multiple Sequence Alignment file (MSA), or a StringIO object containing FASTA MSA.          |
+| kmer_length       | Integer         | False        | 9                          | The length of the kmers generated.                                                                              |
+| header_fillna     | String          | False        | None                       | Silently fix missing values in the FASTA header with given value (only required when `header_format` is given). |
+| json              | Boolean         | False        | False                      | Whether the result is a JSON string, or a Python object.                                                        |
+| header_format     | String          | False        | N/A                        | The format of the FASTA header. Labels where each variant of a kmer position originated from.                   |
+| support_threshold | Integer         | False        | 30                         | The minimum required support for each kmer position.                                                            |
+| protein_name      | String          | False        | Unknown Protein            | The name of the protein that will appear on the results.                                                        |
+| json_save_path    | String          | False        | stdout (prints to console) | The location where the results shall be saved (only required when ```json = True```).                           |

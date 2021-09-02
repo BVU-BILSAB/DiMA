@@ -1,4 +1,4 @@
 class InvalidSequenceSource(Exception):
-    def __init__(self, source: str):
-        super(InvalidSequenceSource, self).__init__(f'\nThe sequence source "{source}" is invalid.'
-                                                    f'\nNeeds to be one of:\n\t- file\n\t- string')
+    def __init__(self):
+        super(InvalidSequenceSource, self).__init__(f'\nThe sequence source is invalid.\n'
+                                                    f'Needs to be of type StringIO, or str')

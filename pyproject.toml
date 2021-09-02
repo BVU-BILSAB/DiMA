@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "dima-cli"
-version = "2.0.1"
+version = "2.0.2"
 description = "A command-line tool that analyses the diversity and motifs of protein sequences"
 authors = ["Shan Weera <stwm2@student.london.ac.uk>"]
 license = "MIT"
@@ -13,13 +13,14 @@ classifiers = [
     "Programming Language :: Python :: 3.6",
     "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Intended Audience :: Science/Research",
     "Natural Language :: English"]
 
 [tool.poetry.dependencies]
-python = ">=3.6,<3.9"
+python = ">=3.6,<3.10"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.4"
@@ -32,6 +33,7 @@ build-backend = "maturin"
 
 [project]
 name = "dima-cli"
+requires-python = ">=3.6,<3.10"
 
 [project.scripts]
 dima-cli = "dima.bin._dima:main"

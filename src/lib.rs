@@ -333,10 +333,22 @@ fn count_kmers(position_kmers: &Vec<String>) -> HashMap<String, (usize, Vec<usiz
 /// * `format` - The format of the header as provided by the user.
 ///
 /// Returns a HashMap (dictionary) containing the components of the header.
-fn parse_header(header: &String, format: &Vec<String>) -> HashMap<String, String> {
+fn parse_header(header: &String, format: &Vec<String>, header_fillna: &Option<String>) -> HashMap<String, String> {
     let metadata = header
         .split("|")
-        .map(|component| component.trim())
+        .map(|component| {
+            return if !component.is_empty() {
+                component.trim()
+            } else {
+                if header_fillna.is_some() {
+                    return header_fillna
+                        .as_ref()
+                        .unwrap()
+                        .as_str();
+                }
+                component
+            }
+        })
         .collect::<Vec<&str>>();
 
     assert_eq!(
@@ -424,11 +436,13 @@ fn calculate_entropy(position_kmers: &Vec<String>) -> f64 {
 /// * `kmer_length` - The length of the k-mers that need to be generated.
 /// * `header_format` - The format of the FASTA headers.
 /// * `support_threshold` - Minimum support needed for a k-mer position to be considered valid.
+/// * `header_fillna` - If there are empty items in the FASTA header (when header_format != None), replace with this value.
 fn get_kmers_and_headers(
     path: &String,
     kmer_length: &usize,
-    header_format: Option<&Vec<String>>,
-    support_threshold: usize,
+    header_format: &Option<Vec<String>>,
+    _support_threshold: usize,
+    header_fillna: &Option<String>
 ) -> (Vec<Vec<String>>, Option<Vec<HashMap<String, String>>>, usize) {
     let illegal_chars: &Vec<char> = &vec!['-', 'X', 'B', 'J', 'Z', 'O', 'U'];
     let mut sequence_kmers: Vec<Vec<String>> = vec![];
@@ -453,7 +467,7 @@ fn get_kmers_and_headers(
         );
 
         if header_format.is_some() {
-            let mut header: String = String::new();
+            let header: String;
 
             if let Some(desc) = record.desc() {
                 header = [record.id(), desc].join(" ");
@@ -462,7 +476,7 @@ fn get_kmers_and_headers(
             }
 
             headers.push(
-                parse_header(&header, header_format.unwrap())
+                parse_header(&header, &header_format.as_ref().unwrap(), header_fillna)
             );
         }
     });
@@ -490,6 +504,7 @@ fn get_kmers_and_headers(
 /// * `support_threshold` - Minimum support needed for a k-mer position to be considered valid.
 /// * `protein_name` - The name of the protein being analysed.
 /// * `save_path` - The file path to save the JSON results to.
+/// * `header_fillna` - If there are empty items in the FASTA header (when header_format != None), replace with this value.
 ///
 /// :param path: The full path to the FASTA file.
 /// :param kmer_length: The length of k-mers to generate (default: 9).
@@ -497,6 +512,7 @@ fn get_kmers_and_headers(
 /// :param support_threshold: Minimum support needed for a k-mer position to be considered valid (default: 30).
 /// :param protein_name: The name of the protein being analysed (default: Unknown Protein).
 /// :param save_path: The file path to save the JSON results to.
+/// :param header_fillna: If there are empty items in the FASTA header (when header_format != None), replace with this value.
 ///
 /// :type path: str
 /// :type kmer_length: int
@@ -504,10 +520,11 @@ fn get_kmers_and_headers(
 /// :type support_threshold: int
 /// :type protein_name: str
 /// :type save_path: Optional[str]
+/// :type header_fillna: Optional[str]
 ///
 /// :return: None
 #[pyfunction]
-#[pyo3(text_signature = "(path, kmer_length, header_format, support_threshold, protein_name, save_path)")]
+#[pyo3(text_signature = "(path, kmer_length, header_format, support_threshold, protein_name, save_path, header_fillna)")]
 pub fn get_results_json(
     _py: Python,
     path: String,
@@ -516,6 +533,7 @@ pub fn get_results_json(
     support_threshold: usize,
     protein_name: String,
     save_path: Option<String>,
+    header_fillna: Option<String>
 ) {
     let json_results = serde_json::to_string_pretty(&get_results_objs(
         _py,
@@ -524,6 +542,7 @@ pub fn get_results_json(
         header_format,
         support_threshold,
         protein_name,
+        header_fillna
     )
     ).unwrap();
 
@@ -549,22 +568,25 @@ pub fn get_results_json(
 /// * `header_format` - The format of the FASTA header.
 /// * `support_threshold` - Minimum support needed for a k-mer position to be considered valid.
 /// * `protein_name` - The name of the protein being analysed.
+/// * `header_fillna` - If there are empty items in the FASTA header (when header_format != None), replace with this value.
 ///
 /// :param path: The full path to the FASTA file.
 /// :param kmer_length: The length of k-mers to generate (default: 9).
 /// :param header_format: The format of the FASTA header.
 /// :param support_threshold: Minimum support needed for a k-mer position to be considered valid (default: 30).
 /// :param protein_name: The name of the protein being analysed (default: Unknown Protein).
+/// :param header_fillna: If there are empty items in the FASTA header (when header_format != None), replace with this value.
 ///
 /// :type path: str
 /// :type kmer_length: int
 /// :type header_format: Optional[List[str]]
 /// :type support_threshold: int
 /// :type protein_name: str
+/// :type header_fillna: Optional[str]
 ///
 /// :return: A Results object
 #[pyfunction]
-#[pyo3(text_signature = "(path, kmer_length, header_format, support_threshold, protein_name, save_path)")]
+#[pyo3(text_signature = "(path, kmer_length, header_format, support_threshold, protein_name, header_fillna)")]
 pub fn get_results_objs(
     _py: Python,
     path: String,
@@ -572,12 +594,14 @@ pub fn get_results_objs(
     header_format: Option<Vec<String>>,
     support_threshold: usize,
     protein_name: String,
+    header_fillna: Option<String>
 ) -> Results {
     let (kmers, headers, sequence_count) = get_kmers_and_headers(
         &path,
         &kmer_length,
-        Option::from(&header_format),
+        &header_format,
         support_threshold,
+        &header_fillna
     );
 
 
