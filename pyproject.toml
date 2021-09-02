@@ -9,16 +9,6 @@ repository = "https://github.com/PU-SDS/DiMA"
 
 keywords = ["bioinformatics", "biology", "protein", "virus", "diversity"]
 
-classifiers = [
-    "Programming Language :: Python :: 3.6",
-    "Programming Language :: Python :: 3.7",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
-    "License :: OSI Approved :: MIT License",
-    "Operating System :: OS Independent",
-    "Intended Audience :: Science/Research",
-    "Natural Language :: English"]
-
 [tool.poetry.dependencies]
 python = ">=3.6,<3.10"
 
@@ -34,6 +24,15 @@ build-backend = "maturin"
 [project]
 name = "dima-cli"
 requires-python = ">=3.6,<3.10"
+classifiers = [
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Science/Research",
+    "Natural Language :: English"]
 
 [project.scripts]
 dima-cli = "dima.bin._dima:main"
