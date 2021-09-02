@@ -440,7 +440,7 @@ fn calculate_entropy(position_kmers: &Vec<String>) -> f64 {
 fn get_kmers_and_headers(
     path: &String,
     kmer_length: &usize,
-    header_format: Option<&Vec<String>>,
+    header_format: &Option<Vec<String>>,
     _support_threshold: usize,
     header_fillna: &Option<String>
 ) -> (Vec<Vec<String>>, Option<Vec<HashMap<String, String>>>, usize) {
@@ -476,7 +476,7 @@ fn get_kmers_and_headers(
             }
 
             headers.push(
-                parse_header(&header, header_format.unwrap(), header_fillna)
+                parse_header(&header, &header_format.as_ref().unwrap(), header_fillna)
             );
         }
     });
@@ -599,7 +599,7 @@ pub fn get_results_objs(
     let (kmers, headers, sequence_count) = get_kmers_and_headers(
         &path,
         &kmer_length,
-        Option::from(&header_format),
+        &header_format,
         support_threshold,
         &header_fillna
     );
