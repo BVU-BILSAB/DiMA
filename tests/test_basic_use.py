@@ -1,3 +1,5 @@
+from io import StringIO
+
 import pytest
 import json
 from os.path import join, dirname
@@ -58,13 +60,13 @@ def _assert_all_properties(results, output_data):
 
 
 def test_module_basic_use(test_input_data, test_basic_output_data):
-    results = Dima(sequences=test_input_data, sequences_source='string').run()
+    results = Dima(sequences=StringIO(test_input_data)).run()
 
     _assert_all_properties(results, test_basic_output_data)
 
 
 def test_module_advance_use(test_input_data, test_advance_output_data):
-    results = Dima(sequences=test_input_data, sequences_source='string', header_format="accession|strain|country|date")\
+    results = Dima(sequences=StringIO(test_input_data), header_format="accession|strain|country|date")\
         .run()
 
     _assert_all_properties(results, test_advance_output_data)
