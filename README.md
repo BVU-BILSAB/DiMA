@@ -53,7 +53,7 @@ dima-cli -i aligned_sequences.afa -o results.json
 ### Python
 ```python
 from dima import Dima
-results = Dima(sequences="aligned_sequences.afa", sequences_source='file').run()
+results = Dima(sequences="aligned_sequences.afa").run()
 ```
 ### Results
 ```
@@ -127,7 +127,7 @@ dima-cli -i aligned_sequences.afa -o results.json -f "accession|strain|country|d
 ### Python
 ```python
 from dima import Dima
-results = Dima(sequences="aligned_sequences.afa", sequences_source='file', header_format="accession|strain|country|date").run()
+results = Dima(sequences="aligned_sequences.afa", header_format="accession|strain|country|date").run()
 ```
 ### Results
 ```
@@ -749,8 +749,7 @@ results = Dima(sequences="aligned_sequences.afa", sequences_source='file', heade
 ## Module Parameters
 | **Parameter**     | **Type** | **Required** | **Default**                | **Description**                                                                               |
 |-------------------|----------|--------------|----------------------------|-----------------------------------------------------------------------------------------------|
-| sequences         | String   | True         | N/A                        | The path to a FASTA Multiple Sequence Alignment file (MSA), or a string containing FASTA MSA. |
-| sequences_source  | String   | True         | N/A                        | The source of the sequences (ie: "file" or "string")                                             |
+| sequences         | String/StringIO   | True         | N/A                        | The path to a FASTA Multiple Sequence Alignment file (MSA), or a StringIO object containing FASTA MSA. |
 | kmer_length       | Integer  | False        | 9                          | The length of the kmers generated.                                                            |
 | json              | Boolean  | False        | False                      | Whether the result is a JSON string, or a Python object.                                      |
 | header_format     | String   | False        | N/A                        | The format of the FASTA header. Labels where each variant of a kmer position originated from. |
