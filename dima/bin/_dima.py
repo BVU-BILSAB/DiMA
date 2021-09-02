@@ -29,8 +29,10 @@ def main():
                         required=False, default=30)
     parser.add_argument('-p', '--protein', help='The name of the protein being processed. (default: Unknown Protein',
                         type=str, required=False, default='Unknown Protein')
-    parser.add_argument('-v', '--version', help='Print the currently installed version of dima-cli', action='version',
+    parser.add_argument('-v', '--version', help='Print the currently installed version of dima-cli.', action='version',
                         version='%(prog)s ' + get_version())
+    parser.add_argument('-n', '--fillna', help='Silently fix missing values in the FASTA header with given value.',
+                        default=None)
 
     arguments = parser.parse_args()
     inputx = arguments.input
@@ -51,7 +53,8 @@ def main():
             json=True,
             protein_name=arguments.protein,
             support_threshold=arguments.support,
-            json_save_path=arguments.output
+            json_save_path=arguments.output,
+            header_fillna=arguments.fillna
         ).run()
     except Exception as ex:
         parser.error(f'Exception while calculating kmers for sequences file {arguments.input}\n{ex}')
