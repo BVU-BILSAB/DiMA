@@ -758,4 +758,4 @@ results = Dima(sequences="aligned_sequences.afa", header_format="accession|strai
 | header_format     | String          | False        | N/A                        | The format of the FASTA header. Labels where each variant of a kmer position originated from.                   |
 | support_threshold | Integer         | False        | 30                         | The minimum required support for each kmer position.                                                            |
 | protein_name      | String          | False        | Unknown Protein            | The name of the protein that will appear on the results.                                                        |
-| json_save_path    | String          | False        | STDOUT (prints to console) | The location where the results shall be saved (only required when ```json = True```).                           |
+| json_save_path    | String          | False        | stdout (prints to console) | The location where the results shall be saved (only required when ```json = True```).                           |
