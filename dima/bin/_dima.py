@@ -33,7 +33,6 @@ def main():
 
     arguments = parser.parse_args()
     inputx = arguments.input
-    sequences_source = 'file'
 
     if not inputx:
         if sys.stdin.isatty():
@@ -42,7 +41,6 @@ def main():
 
         # TODO: Here the pipe could just be empty. Need to have a check for that.
         inputx = StringIO(sys.stdin.read())
-        sequences_source = 'string'
 
     try:
         Dima(
@@ -50,7 +48,6 @@ def main():
             kmer_length=arguments.length,
             header_format=arguments.format,
             json=True,
-            sequences_source=sequences_source,
             protein_name=arguments.protein,
             support_threshold=arguments.support,
             json_save_path=arguments.output
