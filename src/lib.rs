@@ -28,7 +28,7 @@ pub struct Results {
     support_threshold: usize,
 
     #[pyo3(get)]
-    low_support: bool,
+    low_support_count: usize,
 
     #[pyo3(get)]
     protein_name: String,
@@ -610,7 +610,7 @@ pub fn get_results_objs(
         .map(|position_kmers| calculate_entropy(position_kmers))
         .collect::<Vec<f64>>();
 
-    let positions = kmers
+    let positions: Vec<Position> = kmers
         .iter()
         .map(|position_kmers| count_kmers(position_kmers))
         .enumerate()
@@ -662,7 +662,10 @@ pub fn get_results_objs(
         support_threshold,
         kmer_length,
         sequence_count,
-        low_support: if sequence_count >= support_threshold { false } else { true },
+        low_support_count: positions
+            .iter()
+            .filter(|position| position.low_support == true)
+            .count(),
         protein_name,
         results: positions,
     }
