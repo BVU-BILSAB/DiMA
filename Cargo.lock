@@ -246,7 +246,7 @@ dependencies = [
 
 [[package]]
 name = "dima-cli"
-version = "2.0.2"
+version = "2.0.3"
 dependencies = [
  "bio",
  "linreg",
