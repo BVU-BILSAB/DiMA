@@ -18,7 +18,7 @@ use std::io::Write;
 use pyo3::{PyObjectProtocol};
 
 #[pyclass]
-#[pyo3(text_signature = "(sequence_count, support_threshold, low_support, protein_name, kmer_length, results)")]
+#[pyo3(text_signature = "(sequence_count, support_threshold, low_support_count, protein_name, kmer_length, results)")]
 #[derive(Serialize)]
 pub struct Results {
     #[pyo3(get)]
