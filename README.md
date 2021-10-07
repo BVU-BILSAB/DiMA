@@ -60,7 +60,7 @@ results = Dima(sequences="aligned_sequences.afa").run()
 {
    "sequence_count":203,
    "support_threshold":30,
-   "low_support":false,
+   "low_support_count":15,
    "protein_name":"Unknown Protein",
    "kmer_length":9,
    "results":[
@@ -134,7 +134,7 @@ results = Dima(sequences="aligned_sequences.afa", header_format="accession|strai
 {
    "sequence_count":203,
    "support_threshold":30,
-   "low_support":false,
+   "low_support_count":15,
    "protein_name":"Unknown Protein",
    "kmer_length":9,
    "results":[

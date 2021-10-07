@@ -1,7 +1,7 @@
 {
   "sequence_count": 26,
   "support_threshold": 30,
-  "low_support": true,
+  "low_support_count": 1267,
   "protein_name": "Unknown Protein",
   "kmer_length": 9,
   "results": [

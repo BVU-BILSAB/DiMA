@@ -23,7 +23,7 @@ def test_advance_output_data():
 
 
 def assert_all_properties(results, output_data):
-    assert results.low_support == output_data.get('low_support')
+    assert results.low_support_count == output_data.get('low_support_count')
     assert results.protein_name == output_data.get('protein_name')
     assert results.sequence_count == output_data.get('sequence_count')
     assert results.support_threshold == output_data.get('support_threshold')
