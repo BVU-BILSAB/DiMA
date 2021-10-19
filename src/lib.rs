@@ -17,6 +17,7 @@ use rayon::prelude::*;
 use std::io::Write;
 use pyo3::{PyObjectProtocol};
 
+
 #[pyclass]
 #[pyo3(text_signature = "(sequence_count, support_threshold, low_support_count, protein_name, kmer_length, results)")]
 #[derive(Serialize)]
@@ -107,7 +108,7 @@ impl Position {
         let mut variant_matches = self
             .variants
             .as_ref()?
-            .into_par_iter()
+            .iter()
             .filter(|variant| variant.motif_short.as_ref().unwrap() == "Mi")
             .map(|variant| variant.to_owned())
             .collect::<Vec<Variant>>();
