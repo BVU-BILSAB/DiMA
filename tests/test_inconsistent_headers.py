@@ -16,6 +16,7 @@ def test_input_data():
 def test_incons_headers_output_data():
     return json.load(open(join(dirname(__file__), 'data/incons_headers_output.json'), 'r'))
 
+
 @pytest.fixture
 def test_incons_headers_fillna_output_data():
     return json.load(open(join(dirname(__file__), 'data/incons_headers_fillna_output.json'), 'r'))
