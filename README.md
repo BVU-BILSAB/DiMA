@@ -58,6 +58,80 @@ results = Dima(sequences="aligned_sequences.afa").run()
 ### Results
 ```
 {
+   "sequence_count":203,
+   "support_threshold":30,
+   "low_support_count":15,
+   "protein_name":"Unknown Protein",
+   "kmer_length":9,
+   "results":[
+      {
+         "position":1,
+         "low_support":false,
+         "entropy":0.8383740426713246,
+         "support":124,
+         "distinct_variants_count":4,
+         "distinct_variants_incidence":3.2258062,
+         "variants":[
+            {
+               "sequence":"MKTIIALSC",
+               "count":2,
+               "incidence":1.6129031,
+               "motif_short":"Mi",
+               "motif_long":"Minor",
+               "metadata":null
+            },
+            {
+               "sequence":"MKTIIALSH",
+               "count":3,
+               "incidence":2.4193547,
+               "motif_short":"Mi",
+               "motif_long":"Minor",
+               "metadata":null
+            },
+            {
+               "sequence":"METISLISM",
+               "count":1,
+               "incidence":0.80645156,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
+            },
+            {
+               "sequence":"MKNIIALSY",
+               "count":13,
+               "incidence":10.4838705,
+               "motif_short":"Ma",
+               "motif_long":"Major",
+               "metadata":null
+            },
+            {
+               "sequence":"MKTIIALSY",
+               "count":105,
+               "incidence":84.67742,
+               "motif_short":"I",
+               "motif_long":"Index",
+               "metadata":null
+            }
+         ]
+      }
+   ]
+}
+```
+
+## Advance Usage
+### Shell Command
+```shell
+dima-cli -i aligned_sequences.afa -o results.json -f "accession|strain|country|date"
+```
+
+### Python
+```python
+from dima import Dima
+results = Dima(sequences="aligned_sequences.afa", header_format="accession|strain|country|date").run()
+```
+### Results
+```
+{
   "sequence_count": 3,
   "support_threshold": 30,
   "low_support_count": 18,
@@ -943,7 +1017,7 @@ results = Dima(sequences="aligned_sequences.afa").run()
 | **Argument** | **Type** | **Required** | **Default**                 | **Example**                                                              | **Description**                                                                               |
 |--------------|----------|--------------|-----------------------------|--------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
 | -h           | N/A      | False        | N/A                         | `dima-cli -h`                                                            | Prints a summary of all available command-line arguments.                                     |
-| -n           | String   | False        | Unknown                     | `dima-cli -i sequences.afa -f "accession\|strain\|country" -n "Unknown"` | Silently fix missing values in the FASTA header with given value.                             |
+| -n           | String   | False        | N/A (raise error)           | `dima-cli -i sequences.afa -f "accession\|strain\|country" -n "Unknown"` | Silently fix missing values in the FASTA header with given value.                             |
 | -v           | N/A      | False        | N/A                         | `dima-cli -v`                                                            | Prints the version of dima-cli that is currently installed.                                   |
 | -p           | String   | False        | Unknown Protein             | `dima-cli -n "Coronavirus Surface Protein" -i sequences.afa`             | The name of the protein that will appear on the results.                                      |
 | -i           | String   | True         | N/A                         | `dima-cli -i sequences.afa`                                              | The path to the FASTA Multiple Sequence Alignment file.                                       |
@@ -959,9 +1033,9 @@ results = Dima(sequences="aligned_sequences.afa").run()
 |-------------------|-----------------|--------------|----------------------------|-----------------------------------------------------------------------------------------------------------------|
 | sequences         | String/StringIO | True         | N/A                        | The path to a FASTA Multiple Sequence Alignment file (MSA), or a StringIO object containing FASTA MSA.          |
 | kmer_length       | Integer         | False        | 9                          | The length of the kmers generated.                                                                              |
-| header_fillna     | String          | False        | Unknown                    | Silently fix missing values in the FASTA header with given value (only required when `header_format` is given). |
+| header_fillna     | String          | False        | None                       | Silently fix missing values in the FASTA header with given value (only required when `header_format` is given). |
 | json              | Boolean         | False        | False                      | Whether the result is a JSON string, or a Python object.                                                        |
 | header_format     | String          | False        | N/A                        | The format of the FASTA header. Labels where each variant of a kmer position originated from.                   |
 | support_threshold | Integer         | False        | 30                         | The minimum required support for each kmer position.                                                            |
 | protein_name      | String          | False        | Unknown Protein            | The name of the protein that will appear on the results.                                                        |
-| json_save_path    | String          | False        | stdout (prints to console) | The location where the results will be saved (only required when ```json = True```).                            |
+| json_save_path    | String          | False        | stdout (prints to console) | The location where the results shall be saved (only required when ```json = True```).                           |
