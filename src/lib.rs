@@ -1,25 +1,26 @@
+extern crate bio;
+extern crate linreg;
 extern crate pyo3;
 extern crate rand;
-extern crate linreg;
-extern crate bio;
-extern crate serde_json;
-extern crate serde;
 extern crate rayon;
+extern crate serde;
+extern crate serde_json;
 
-use std::collections::{HashMap};
-use pyo3::prelude::*;
-use rand::seq::{SliceRandom, IteratorRandom};
-use linreg::linear_regression_of;
 use bio::io::fasta;
-use std::fs::File;
-use serde::Serialize;
+use linreg::linear_regression_of;
+use pyo3::prelude::*;
+use pyo3::PyObjectProtocol;
+use rand::seq::{IteratorRandom, SliceRandom};
 use rayon::prelude::*;
+use serde::Serialize;
+use std::collections::HashMap;
+use std::fs::File;
 use std::io::Write;
-use pyo3::{PyObjectProtocol};
-
 
 #[pyclass]
-#[pyo3(text_signature = "(sequence_count, support_threshold, low_support_count, protein_name, kmer_length, results)")]
+#[pyo3(
+    text_signature = "(sequence_count, support_threshold, low_support_count, protein_name, kmer_length, results)"
+)]
 #[derive(Serialize)]
 pub struct Results {
     #[pyo3(get)]
@@ -42,7 +43,9 @@ pub struct Results {
 }
 
 #[pyclass]
-#[pyo3(text_signature = "(position, low_support, entropy, support, distinct_variants_count, distinct_variants_incidence, variants)")]
+#[pyo3(
+    text_signature = "(position, low_support, entropy, support, distinct_variants_count, distinct_variants_incidence, variants)"
+)]
 #[derive(Serialize, Clone)]
 pub struct Position {
     #[pyo3(get)]
@@ -87,7 +90,7 @@ pub struct Variant {
     motif_long: Option<String>,
 
     #[pyo3(get)]
-    metadata: Option<HashMap<String, Vec<String>>>,
+    metadata: Option<HashMap<String, HashMap<String, usize>>>,
 }
 
 #[pymethods]
@@ -119,7 +122,7 @@ impl Position {
                     a.count.cmp(&b.count)
                 } else if sort.as_ref().unwrap() == "asc" {
                     a.count.cmp(&b.count)
-                } else if sort.as_ref().unwrap() == "desc"{
+                } else if sort.as_ref().unwrap() == "desc" {
                     b.count.cmp(&a.count)
                 } else {
                     panic!("{}", "\n\nUnrecognized sorting option. Should either be empty, or one of:\n\t- asc\n\t- desc\n\n")
@@ -156,7 +159,9 @@ impl Position {
             low_support,
         };
 
-        if variants.is_none() { return position_obj; }
+        if variants.is_none() {
+            return position_obj;
+        }
         let variants_unwrapped = variants.unwrap();
 
         let mut max_incidence = variants_unwrapped
@@ -190,9 +195,8 @@ impl Position {
                 .filter(|variant| variant.motif_short != Some('I'.to_string()))
                 .count();
             position_obj.distinct_variants_count = distinct_variants_count;
-            position_obj.distinct_variants_incidence = (
-                distinct_variants_count as f32 / support as f32
-            ) * 100_f32;
+            position_obj.distinct_variants_incidence =
+                (distinct_variants_count as f32 / support as f32) * 100_f32;
             position_obj.variants = Some(variants_unwrapped.to_owned());
 
             return position_obj;
@@ -219,9 +223,8 @@ impl Position {
             .filter(|variant| variant.motif_short != Some('I'.to_string()))
             .count();
         position_obj.distinct_variants_count = distinct_variants_count;
-        position_obj.distinct_variants_incidence = (
-            distinct_variants_count as f32 / support as f32
-        ) * 100_f32;
+        position_obj.distinct_variants_incidence =
+            (distinct_variants_count as f32 / support as f32) * 100_f32;
         position_obj.variants = Some(variants_unwrapped.to_owned());
 
         position_obj
@@ -273,16 +276,18 @@ impl PyObjectProtocol for Results {
 ///
 /// # Parameters
 /// * `kmers` - A vector containing the k-mers for each user-given sequence.
-fn transpose_kmers<T>(kmers: Vec<Vec<T>>) -> Vec<Vec<T>> {
+fn transpose_kmers(kmers: &Vec<&Vec<String>>) -> Vec<Vec<String>> {
     assert!(!kmers.is_empty());
+
     let len = kmers[0].len();
     let mut iters: Vec<_> = kmers.into_iter().map(|n| n.into_iter()).collect();
+
     (0..len)
         .map(|_| {
             iters
                 .iter_mut()
-                .map(|n| n.next().unwrap())
-                .collect::<Vec<T>>()
+                .map(|n| n.next().unwrap().to_owned())
+                .collect::<Vec<String>>()
         })
         .collect()
 }
@@ -293,14 +298,20 @@ fn transpose_kmers<T>(kmers: Vec<Vec<T>>) -> Vec<Vec<T>> {
 /// * `sequence` - The sequence of amino-acids.
 /// * `kmer_length` - The length of the k-mers to be generated.
 /// * `illegal_chars` - Characters that are not allowed in a valid k-mer.
-fn sliding_window(sequence: &String, kmer_length: &usize, illegal_chars: &Vec<char>) -> Vec<String> {
+fn sliding_window(
+    sequence: &String,
+    kmer_length: &usize,
+    illegal_chars: &Vec<char>,
+) -> Vec<String> {
     sequence
         .chars()
         .collect::<Vec<char>>()
         .windows(*kmer_length)
         .map(|kmer_chars| {
             let iter = kmer_chars.into_iter();
-            if iter.clone().any(|f| { illegal_chars.contains(f) }) { return String::from("NA"); }
+            if iter.clone().any(|f| illegal_chars.contains(f)) {
+                return String::from("NA");
+            }
             iter.collect()
         })
         .collect::<Vec<String>>()
@@ -334,21 +345,22 @@ fn count_kmers(position_kmers: &Vec<String>) -> HashMap<String, (usize, Vec<usiz
 /// * `format` - The format of the header as provided by the user.
 ///
 /// Returns a HashMap (dictionary) containing the components of the header.
-fn parse_header(header: &String, format: &Vec<String>, header_fillna: &Option<String>) -> HashMap<String, String> {
+fn parse_header(
+    header: &String,
+    format: &Vec<String>,
+    fill_na: &String,
+) -> HashMap<String, String> {
     let metadata = header
         .split("|")
         .map(|component| {
             return if !component.is_empty() {
                 component.trim()
             } else {
-                if header_fillna.is_some() {
-                    return header_fillna
-                        .as_ref()
-                        .unwrap()
-                        .as_str();
+                if !fill_na.is_empty() {
+                    return fill_na.as_str();
                 }
                 component
-            }
+            };
         })
         .collect::<Vec<&str>>();
 
@@ -371,7 +383,7 @@ fn parse_header(header: &String, format: &Vec<String>, header_fillna: &Option<St
     format
         .iter()
         .enumerate()
-        .map(|(idx, item)| (item.to_owned(), metadata[idx].to_owned()))
+        .map(|(idx, item)| (item.to_string(), metadata[idx].to_owned()))
         .collect::<HashMap<String, String>>()
 }
 
@@ -383,7 +395,12 @@ fn parse_header(header: &String, format: &Vec<String>, header_fillna: &Option<St
 fn get_random_samples(position_kmers: &Vec<String>, sample_size: usize) -> Vec<String> {
     (0..sample_size)
         .into_par_iter()
-        .map(|_| position_kmers.choose(&mut rand::thread_rng()).unwrap().to_owned())
+        .map(|_| {
+            position_kmers
+                .choose(&mut rand::thread_rng())
+                .unwrap()
+                .to_owned()
+        })
         .collect::<Vec<String>>()
 }
 
@@ -396,32 +413,33 @@ fn get_random_samples(position_kmers: &Vec<String>, sample_size: usize) -> Vec<S
 fn calculate_entropy(position_kmers: &Vec<String>) -> f64 {
     let kmer_count = position_kmers.len();
 
-    if kmer_count == 0 { return 0.0_f64; }
+    if kmer_count == 0 {
+        return 0.0_f64;
+    }
 
     let entropies: Vec<(f64, f64)> = (1..100)
         .into_par_iter()
-        .map(
-            |_i| {
-                let mut rng = rand::thread_rng();
-                let mut iter_entropy: f64 = 0.0;
-                // TODO: What if there are more than 1000 kmers?
-                let samples: usize = (1..1000).choose(&mut rng).unwrap();
+        .map(|_i| {
+            let mut rng = rand::thread_rng();
+            let mut iter_entropy: f64 = 0.0;
+            // TODO: What if there are more than 1000 kmers?
+            let samples: usize = (1..1000).choose(&mut rng).unwrap();
 
-                let random_samples = get_random_samples(position_kmers, samples);
-                let sample_counted = count_kmers(&random_samples)
-                    .into_iter()
-                    .map(|(_i, d)| d.0);
+            let random_samples = get_random_samples(position_kmers, samples);
+            let sample_counted = count_kmers(&random_samples).into_iter().map(|(_i, d)| d.0);
 
-                sample_counted.for_each(|count| {
-                    let p: f64 = count as f64 / samples as f64;
-                    iter_entropy += p * p.log2();
-                });
+            sample_counted.for_each(|count| {
+                let p: f64 = count as f64 / samples as f64;
+                iter_entropy += p * p.log2();
+            });
 
-                if iter_entropy < 0_f64 { iter_entropy *= -1 as f64 };
+            if iter_entropy < 0_f64 {
+                iter_entropy *= -1 as f64
+            };
 
-                return (1.0 / samples as f64, iter_entropy);
-            }
-        ).collect::<Vec<(f64, f64)>>();
+            return (1.0 / samples as f64, iter_entropy);
+        })
+        .collect::<Vec<(f64, f64)>>();
 
     let (_, y) = linear_regression_of(&entropies).unwrap();
     y
@@ -441,54 +459,76 @@ fn calculate_entropy(position_kmers: &Vec<String>) -> f64 {
 fn get_kmers_and_headers(
     path: &String,
     kmer_length: &usize,
-    header_format: &Option<Vec<String>>,
-    _support_threshold: usize,
-    header_fillna: &Option<String>
-) -> (Vec<Vec<String>>, Option<Vec<HashMap<String, String>>>, usize) {
+    header_format: Option<&Vec<String>>,
+    header_fillna: Option<&String>,
+) -> (
+    Vec<Vec<String>>,
+    Option<Vec<Option<HashMap<String, String>>>>,
+    usize,
+) {
     let illegal_chars: &Vec<char> = &vec!['-', 'X', 'B', 'J', 'Z', 'O', 'U'];
-    let mut sequence_kmers: Vec<Vec<String>> = vec![];
-    let mut headers: Vec<HashMap<String, String>> = vec![];
 
-    let records = fasta::Reader::new(File::open(path)
-        .expect("Failed to read FASTA file"))
-        .records();
+    let kmers_and_headers =
+        fasta::Reader::new(File::open(path).expect("Failed to read FASTA file"))
+            .records()
+            .map(|record| {
+                let record_unwrapped = record.as_ref().unwrap();
 
-    let mut sequence_count: usize = 0;
+                let kmers = sliding_window(
+                    &String::from_utf8(Vec::from(record_unwrapped.seq())).unwrap(),
+                    &kmer_length,
+                    illegal_chars,
+                );
 
-    records.for_each(|r| {
-        sequence_count += 1;
-        let record = r.unwrap().clone();
+                let mut headers: Option<HashMap<String, String>> = None;
 
-        sequence_kmers.push(
-            sliding_window(
-                &String::from_utf8(Vec::from(record.seq())).unwrap(),
-                &kmer_length,
-                illegal_chars,
-            )
-        );
+                if let Some(headers_components) = header_format {
+                    let fixed_header: String;
 
-        if header_format.is_some() {
-            let header: String;
+                    if let Some(desc) = record_unwrapped.desc() {
+                        fixed_header = [record_unwrapped.id(), desc].join(" ");
+                    } else {
+                        fixed_header = record_unwrapped.id().to_string();
+                    }
 
-            if let Some(desc) = record.desc() {
-                header = [record.id(), desc].join(" ");
-            } else {
-                header = record.id().to_string();
-            }
+                    if let Some(fill_na) = header_fillna {
+                        headers = Some(parse_header(&fixed_header, headers_components, fill_na));
+                    } else {
+                        headers = Some(parse_header(
+                            &fixed_header,
+                            headers_components,
+                            &"Unknown".to_string(),
+                        ));
+                    }
+                }
 
-            headers.push(
-                parse_header(&header, &header_format.as_ref().unwrap(), header_fillna)
-            );
-        }
-    });
+                return (kmers, headers);
+            })
+            .collect::<Vec<(Vec<String>, Option<HashMap<String, String>>)>>();
 
-    let mut transposed_kmers = transpose_kmers(sequence_kmers);
+    let kmer_iters = &kmers_and_headers
+        .iter()
+        .map(|record| &record.0)
+        .collect::<Vec<&Vec<String>>>();
+
+    let mut transposed_kmers = transpose_kmers(kmer_iters);
 
     transposed_kmers
         .par_iter_mut()
         .for_each(|kmer_position| kmer_position.retain(|kmer| kmer != "NA"));
 
-    (transposed_kmers, if headers.is_empty() { None } else { Some(headers) }, sequence_count)
+    let headers: Option<Vec<Option<HashMap<String, String>>>> = if header_format.is_none() {
+        None
+    } else {
+        Some(
+            kmers_and_headers
+                .iter()
+                .map(|record| record.1.to_owned())
+                .collect::<Vec<Option<HashMap<String, String>>>>(),
+        )
+    };
+
+    (transposed_kmers, headers, kmers_and_headers.len())
 }
 
 /// This is one of the two main functions that are accessible from Python side.
@@ -525,7 +565,9 @@ fn get_kmers_and_headers(
 ///
 /// :return: None
 #[pyfunction]
-#[pyo3(text_signature = "(path, kmer_length, header_format, support_threshold, protein_name, save_path, header_fillna)")]
+#[pyo3(
+    text_signature = "(path, kmer_length, header_format, support_threshold, protein_name, save_path, header_fillna)"
+)]
 pub fn get_results_json(
     _py: Python,
     path: String,
@@ -534,7 +576,7 @@ pub fn get_results_json(
     support_threshold: usize,
     protein_name: String,
     save_path: Option<String>,
-    header_fillna: Option<String>
+    header_fillna: Option<String>,
 ) {
     let json_results = serde_json::to_string_pretty(&get_results_objs(
         _py,
@@ -543,14 +585,12 @@ pub fn get_results_json(
         header_format,
         support_threshold,
         protein_name,
-        header_fillna
-    )
-    ).unwrap();
+        header_fillna,
+    ))
+    .unwrap();
 
     if save_path.is_some() {
-        let mut f = File::create(
-            save_path.unwrap()
-        ).expect("Unable to create JSON file on disk.");
+        let mut f = File::create(save_path.unwrap()).expect("Unable to create JSON file on disk.");
 
         f.write_all(json_results.as_bytes())
             .expect("Unable to write JSON to the created file.");
@@ -587,7 +627,9 @@ pub fn get_results_json(
 ///
 /// :return: A Results object
 #[pyfunction]
-#[pyo3(text_signature = "(path, kmer_length, header_format, support_threshold, protein_name, header_fillna)")]
+#[pyo3(
+    text_signature = "(path, kmer_length, header_format, support_threshold, protein_name, header_fillna)"
+)]
 pub fn get_results_objs(
     _py: Python,
     path: String,
@@ -595,16 +637,14 @@ pub fn get_results_objs(
     header_format: Option<Vec<String>>,
     support_threshold: usize,
     protein_name: String,
-    header_fillna: Option<String>
+    header_fillna: Option<String>,
 ) -> Results {
     let (kmers, headers, sequence_count) = get_kmers_and_headers(
         &path,
         &kmer_length,
-        &header_format,
-        support_threshold,
-        &header_fillna
+        header_format.as_ref(),
+        header_fillna.as_ref(),
     );
-
 
     let position_entropies = kmers
         .par_iter()
@@ -612,41 +652,52 @@ pub fn get_results_objs(
         .collect::<Vec<f64>>();
 
     let positions: Vec<Position> = kmers
-        .iter()
+        .par_iter()
         .map(|position_kmers| count_kmers(position_kmers))
         .enumerate()
         .map(|(idx, position_count)| {
-            let mut variants = position_count.par_iter().map(|(sequence, count_data)| {
-                let mut variant = Variant {
-                    sequence: sequence.to_owned(),
-                    count: count_data.0,
-                    incidence: ((count_data.0 as f32 / kmers[idx].len() as f32) * 100_f32),
-                    metadata: None,
-                    motif_short: None,
-                    motif_long: None,
-                };
+            let mut variants = position_count
+                .par_iter()
+                .map(|(sequence, count_data)| {
+                    let mut variant = Variant {
+                        sequence: sequence.to_owned(),
+                        count: count_data.0,
+                        incidence: ((count_data.0 as f32 / kmers[idx].len() as f32) * 100_f32),
+                        metadata: None,
+                        motif_short: None,
+                        motif_long: None,
+                    };
 
-                let mut metadata: HashMap<String, Vec<String>> = HashMap::new();
+                    let mut metadata: HashMap<String, HashMap<String, usize>> = HashMap::new();
 
-                if header_format.is_some() {
-                    count_data.1.iter().for_each(|idx| {
-                        header_format.as_ref().unwrap().iter().for_each(|item| {
-                            let entry = metadata.entry(item.to_owned()).or_insert(
-                                vec![]
-                            );
-                            entry.push(
-                                headers.as_ref().unwrap()[*idx].get(item).unwrap().to_owned()
-                            );
+                    if let Some(header_components) = &header_format {
+                        count_data.1.iter().for_each(|idx| {
+                            header_components.iter().for_each(|item| {
+                                let metadata_entry_hashmap =
+                                    metadata.entry(item.to_string()).or_insert(HashMap::new());
+
+                                let metadata_entry = headers.as_ref().unwrap()[*idx]
+                                    .as_ref()
+                                    .unwrap()
+                                    .get(item)
+                                    .unwrap()
+                                    .to_owned();
+
+                                metadata_entry_hashmap
+                                    .entry(metadata_entry)
+                                    .and_modify(|count| *count += 1)
+                                    .or_insert(1);
+                            });
                         });
-                    });
 
-                    variant.metadata = Some(metadata);
-                } else {
-                    variant.metadata = None;
-                };
+                        variant.metadata = Some(metadata);
+                    } else {
+                        variant.metadata = None;
+                    }
 
-                variant
-            }).collect::<Vec<Variant>>();
+                    variant
+                })
+                .collect::<Vec<Variant>>();
 
             let support = kmers[idx].len();
 
@@ -654,10 +705,19 @@ pub fn get_results_objs(
                 idx + 1,
                 position_entropies[idx],
                 support,
-                if variants.is_empty() { None } else { Some(&mut variants) },
-                if support >= support_threshold { false } else { true },
+                if variants.is_empty() {
+                    None
+                } else {
+                    Some(&mut variants)
+                },
+                if support >= support_threshold {
+                    false
+                } else {
+                    true
+                },
             );
-        }).collect::<Vec<Position>>();
+        })
+        .collect::<Vec<Position>>();
 
     Results {
         support_threshold,
