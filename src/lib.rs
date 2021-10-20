@@ -117,7 +117,7 @@ impl Position {
             .collect::<Vec<Variant>>();
 
         variant_matches
-            .sort_by(|a, b| {
+            .par_sort_by(|a, b| {
                 if sort.as_ref().is_none() {
                     a.count.cmp(&b.count)
                 } else if sort.as_ref().unwrap() == "asc" {
