@@ -14,11 +14,22 @@ def test_input_data():
 
 @pytest.fixture
 def test_incons_headers_output_data():
-    return json.load(open(join(dirname(__file__), 'data/incons_input_results.json'), 'r'))
+    return json.load(open(join(dirname(__file__), 'data/incons_headers_output.json'), 'r'))
+
+
+@pytest.fixture
+def test_incons_headers_fillna_output_data():
+    return json.load(open(join(dirname(__file__), 'data/incons_headers_fillna_output.json'), 'r'))
 
 
 def test_incons_headers_use(test_input_data, test_incons_headers_output_data):
-    results = Dima(StringIO(test_input_data), header_format="accession|strain|species|date",
-                   header_fillna="Not Given").run()
+    results = Dima(StringIO(test_input_data), header_format="accession|strain|species|date").run()
 
     assert_all_properties(results, test_incons_headers_output_data)
+
+
+def test_incons_headers_use_fillna(test_input_data, test_incons_headers_fillna_output_data):
+    results = Dima(sequences=StringIO(test_input_data), header_format="accession|strain|species|date",
+                   header_fillna="NAN").run()
+
+    assert_all_properties(results, test_incons_headers_fillna_output_data)

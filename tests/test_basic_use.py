@@ -35,14 +35,6 @@ def assert_all_properties(results, output_data):
         assert new_position.distinct_variants_count == old_position.get('distinct_variants_count')
         assert round(new_position.distinct_variants_incidence) == round(old_position.get('distinct_variants_incidence'))
 
-        # new_entropy = new_position.entropy
-        # old_entropy = old_position.get('entropy')
-        #
-        # if new_entropy == 0 or old_entropy == 0:
-        #     assert new_entropy == old_entropy
-        # else:
-        #     assert (min(new_entropy, old_entropy) / max(new_entropy, old_entropy)) > 0.75
-
         if not new_position.variants or not old_position.get('variants'):
             continue
 
@@ -63,7 +55,7 @@ def test_module_basic_use(test_input_data, test_basic_output_data):
 
 
 def test_module_advance_use(test_input_data, test_advance_output_data):
-    results = Dima(sequences=StringIO(test_input_data), header_format="accession|strain|country|date")\
-        .run()
+    results = Dima(sequences=StringIO(test_input_data), header_format="accession|strain|country|date").run()
 
     assert_all_properties(results, test_advance_output_data)
+

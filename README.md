@@ -132,604 +132,884 @@ results = Dima(sequences="aligned_sequences.afa", header_format="accession|strai
 ### Results
 ```
 {
-   "sequence_count":203,
-   "support_threshold":30,
-   "low_support_count":15,
-   "protein_name":"Unknown Protein",
-   "kmer_length":9,
-   "results":[
-      {
-         "position":1,
-         "low_support":false,
-         "entropy":0.8361476856397749,
-         "support":124,
-         "distinct_variants_count":4,
-         "distinct_variants_incidence":3.2258062,
-         "variants":[
-            {
-               "sequence":"MKNIIALSY",
-               "count":13,
-               "incidence":10.4838705,
-               "motif_short":"Ma",
-               "motif_long":"Major",
-               "metadata":{
-                  "strain":[
-                     "A/India/Pun_1922030/2019",
-                     "A/India/Pun_1922292/2019",
-                     "A/India/Pun_1921693/2019",
-                     "A/India/Pun_1922218/2019",
-                     "A/India/Pun_1922278/2019",
-                     "A/India/Pun_1924667/2019",
-                     "A/India/Pun_1923708/2019",
-                     "A/India/Pun_1921994/2019",
-                     "A/India/Pun_1922260/2019",
-                     "A/India/Pun_1922016/2019",
-                     "A/India/Pun_1923690/2019",
-                     "A/India/Pun_1922295/2019",
-                     "A/India/Pun_1923665/2019"
-                  ],
-                  "country":[
-                     "India",
-                     "India",
-                     "India",
-                     "India",
-                     "India",
-                     "India",
-                     "India",
-                     "India",
-                     "India",
-                     "India",
-                     "India",
-                     "India",
-                     "India"
-                  ],
-                  "accession":[
-                     "MN955496",
-                     "MN955492",
-                     "MN955499",
-                     "MN955502",
-                     "MN955493",
-                     "MN955488",
-                     "MN955487",
-                     "MN955498",
-                     "MN955494",
-                     "MN955497",
-                     "MN955489",
-                     "MN955491",
-                     "MN955490"
-                  ],
-                  "date":[
-                     "08/04/2019",
-                     "08/19/2019",
-                     "07/17/2019",
-                     "08/09/2019",
-                     "08/18/2019",
-                     "08/01/2019",
-                     "09/07/2019",
-                     "07/26/2019",
-                     "08/16/2019",
-                     "07/30/2019",
-                     "08/31/2019",
-                     "08/20/2019",
-                     "09/01/2019"
-                  ]
-               }
+  "sequence_count": 3,
+  "support_threshold": 30,
+  "low_support_count": 18,
+  "protein_name": "Unknown Protein",
+  "kmer_length": 9,
+  "results": [
+    {
+      "position": 1,
+      "low_support": true,
+      "entropy": 0.0,
+      "support": 3,
+      "distinct_variants_count": 0,
+      "distinct_variants_incidence": 0.0,
+      "variants": [
+        {
+          "sequence": "MSASKEIKS",
+          "count": 3,
+          "incidence": 100.0,
+          "motif_short": "I",
+          "motif_long": "Index",
+          "metadata": {
+            "accession": {
+              "AYD75325.1": 1,
+              "QEP52131.1": 1,
+              "AYD75365.1": 1
             },
-            {
-               "sequence":"MKTIIALSY",
-               "count":105,
-               "incidence":84.67742,
-               "motif_short":"I",
-               "motif_long":"Index",
-               "metadata":{
-                  "date":[
-                     "01/02/2019",
-                     "02/17/2019",
-                     "01/14/2019",
-                     "02/17/2019",
-                     "01/17/2019",
-                     "03/14/2019",
-                     "02/13/2019",
-                     "01/02/2019",
-                     "02/06/2019",
-                     "01/18/2019",
-                     "10/11/2019",
-                     "11/15/2019",
-                     "01/10/2019",
-                     "01/17/2019",
-                     "01/17/2019",
-                     "01/24/2019",
-                     "02/01/2019",
-                     "02/01/2019",
-                     "02/01/2019",
-                     "02/14/2019",
-                     "03/14/2019",
-                     "07/25/2019",
-                     "08/21/2019",
-                     "09/05/2019",
-                     "09/05/2019",
-                     "03/2019",
-                     "02/2019",
-                     "01/28/2019",
-                     "10/08/2019",
-                     "03/27/2019",
-                     "02/14/2019",
-                     "03/14/2019",
-                     "01/15/2019",
-                     "01/19/2019",
-                     "01/28/2019",
-                     "01/18/2019",
-                     "02/14/2019",
-                     "01/04/2019",
-                     "01/08/2019",
-                     "01/07/2019",
-                     "01/28/2019",
-                     "01/2019",
-                     "01/10/2019",
-                     "01/11/2019",
-                     "01/13/2019",
-                     "01/24/2019",
-                     "01/08/2019",
-                     "01/09/2019",
-                     "01/14/2019",
-                     "01/10/2019",
-                     "02/2019",
-                     "01/2019",
-                     "09/05/2019",
-                     "01/19/2019",
-                     "01/03/2019",
-                     "01/23/2019",
-                     "02/01/2019",
-                     "02/21/2019",
-                     "02/28/2019",
-                     "02/05/2019",
-                     "01/07/2019",
-                     "01/08/2019",
-                     "01/08/2019",
-                     "01/28/2019",
-                     "01/28/2019",
-                     "01/29/2019",
-                     "01/29/2019",
-                     "01/29/2019",
-                     "01/30/2019",
-                     "01/30/2019",
-                     "01/30/2019",
-                     "01/31/2019",
-                     "01/31/2019",
-                     "01/31/2019",
-                     "01/09/2019",
-                     "02/27/2019",
-                     "03/05/2019",
-                     "03/05/2019",
-                     "03/05/2019",
-                     "03/05/2019",
-                     "03/08/2019",
-                     "03/08/2019",
-                     "03/04/2019",
-                     "03/12/2019",
-                     "01/05/2019",
-                     "01/28/2019",
-                     "01/29/2019",
-                     "01/31/2019",
-                     "02/22/2019",
-                     "03/05/2019",
-                     "01/23/2019",
-                     "02/19/2019",
-                     "04/14/2019",
-                     "01/17/2019",
-                     "04/04/2019",
-                     "02/01/2019",
-                     "02/01/2019",
-                     "03/21/2019",
-                     "05/24/2019",
-                     "08/13/2019",
-                     "08/05/2019",
-                     "01/08/2019",
-                     "01/14/2019",
-                     "01/21/2019",
-                     "01/12/2019"
-                  ],
-                  "country":[
-                     "Iran",
-                     "Iran",
-                     "Turkey",
-                     "Iran",
-                     "China",
-                     "China",
-                     "India",
-                     "Iran",
-                     "India",
-                     "Japan",
-                     "China",
-                     "China",
-                     "China",
-                     "China",
-                     "China",
-                     "China",
-                     "China",
-                     "China",
-                     "China",
-                     "China",
-                     "China",
-                     "China",
-                     "China",
-                     "China",
-                     "China",
-                     "China",
-                     "China",
-                     "Japan",
-                     "China",
-                     "Japan",
-                     "China",
-                     "China",
-                     "Japan",
-                     "Japan",
-                     "Japan",
-                     "South_Korea",
-                     "Japan",
-                     "Japan",
-                     "Japan",
-                     "Japan",
-                     "Japan",
-                     "China",
-                     "Japan",
-                     "Japan",
-                     "Japan",
-                     "Japan",
-                     "South_Korea",
-                     "South_Korea",
-                     "South_Korea",
-                     "South_Korea",
-                     "China",
-                     "China",
-                     "China",
-                     "Japan",
-                     "Japan",
-                     "Japan",
-                     "Japan",
-                     "Japan",
-                     "Japan",
-                     "Japan",
-                     "Japan",
-                     "Japan",
-                     "Japan",
-                     "Japan",
-                     "Japan",
-                     "Japan",
-                     "Japan",
-                     "Japan",
-                     "Japan",
-                     "Japan",
-                     "Japan",
-                     "Japan",
-                     "Japan",
-                     "Japan",
-                     "South_Korea",
-                     "South_Korea",
-                     "South_Korea",
-                     "South_Korea",
-                     "South_Korea",
-                     "South_Korea",
-                     "South_Korea",
-                     "South_Korea",
-                     "South_Korea",
-                     "South_Korea",
-                     "Japan",
-                     "Japan",
-                     "Japan",
-                     "Japan",
-                     "South_Korea",
-                     "South_Korea",
-                     "Japan",
-                     "South_Korea",
-                     "South_Korea",
-                     "Japan",
-                     "South_Korea",
-                     "China",
-                     "China",
-                     "China",
-                     "India",
-                     "India",
-                     "India",
-                     "South_Korea",
-                     "South_Korea",
-                     "South_Korea",
-                     "South_Korea"
-                  ],
-                  "accession":[
-                     "MK592790",
-                     "MK648247",
-                     "MK840323",
-                     "MK648248",
-                     "MT102500",
-                     "MT102510",
-                     "MK592841",
-                     "MK592791",
-                     "MK592842",
-                     "MK785815",
-                     "MT102520",
-                     "MT102521",
-                     "MT102498",
-                     "MT102499",
-                     "MT102501",
-                     "MT102502",
-                     "MT102504",
-                     "MT102506",
-                     "MT102507",
-                     "MT102508",
-                     "MT102512",
-                     "MT102514",
-                     "MT102515",
-                     "MT102516",
-                     "MT102517",
-                     "MN594842",
-                     "MN594840",
-                     "MK869211",
-                     "MT102519",
-                     "MN074410",
-                     "MT102509",
-                     "MT102511",
-                     "MK785807",
-                     "MK785831",
-                     "MK633673",
-                     "MK763864",
-                     "MN873980",
-                     "MK905306",
-                     "MK633641",
-                     "MK576906",
-                     "MK633649",
-                     "MN594838",
-                     "MK743434",
-                     "MK743442",
-                     "MK743450",
-                     "MK785847",
-                     "MK763014",
-                     "MK786319",
-                     "MK869555",
-                     "MK869563",
-                     "MN594841",
-                     "MN594839",
-                     "MT102518",
-                     "MK785823",
-                     "MK576890",
-                     "MK785839",
-                     "MK869203",
-                     "MK912758",
-                     "MK912766",
-                     "MK927223",
-                     "MK633617",
-                     "MK633625",
-                     "MK633633",
-                     "MK633657",
-                     "MK633681",
-                     "MK633689",
-                     "MK633697",
-                     "MK898645",
-                     "MK633705",
-                     "MK633713",
-                     "MK633721",
-                     "MK633729",
-                     "MK633737",
-                     "MK898652",
-                     "MK868723",
-                     "MK913110",
-                     "MK913126",
-                     "MK913134",
-                     "MK913142",
-                     "MK913158",
-                     "MK913166",
-                     "MK913174",
-                     "MK913182",
-                     "MN169149",
-                     "MK576898",
-                     "MK633665",
-                     "MK898639",
-                     "MK898657",
-                     "MK913102",
-                     "MK913150",
-                     "MK762978",
-                     "MK913118",
-                     "MN081410",
-                     "MK742954",
-                     "MN074010",
-                     "MT102503",
-                     "MT102505",
-                     "MT102513",
-                     "MN955500",
-                     "MN955495",
-                     "MN955501",
-                     "MK763848",
-                     "MK763856",
-                     "MK763872",
-                     "MK869539"
-                  ],
-                  "strain":[
-                     "A/Alborz/153084/2019",
-                     "A/Iran/Clinical_Sample/2019",
-                     "A/Turkey/8543/2019",
-                     "A/Iran/Clinical_Sample/2019",
-                     "A/Homo_sapien/China/LS320/2019",
-                     "A/Homo_sapien/China/LS330/2019",
-                     "A/India/Pun_19615/2019",
-                     "A/Alborz/153427/2019",
-                     "A/India/Pun_19533/2019",
-                     "A/Japan/8262/2019",
-                     "A/Homo_sapien/China/LS340/2019",
-                     "A/Homo_sapien/China/LS341/2019",
-                     "A/Homo_sapien/China/LS318/2019",
-                     "A/Homo_sapien/China/LS319/2019",
-                     "A/Homo_sapien/China/LS321/2019",
-                     "A/Homo_sapien/China/LS322/2019",
-                     "A/Homo_sapien/China/LS324/2019",
-                     "A/Homo_sapien/China/LS326/2019",
-                     "A/Homo_sapien/China/LS327/2019",
-                     "A/Homo_sapien/China/LS328/2019",
-                     "A/Homo_sapien/China/LS332/2019",
-                     "A/Homo_sapien/China/LS334/2019",
-                     "A/Homo_sapien/China/LS335/2019",
-                     "A/Homo_sapien/China/LS336/2019",
-                     "A/Homo_sapien/China/LS337/2019",
-                     "A/Wuhan/11193/2019",
-                     "A/Wuhan/1120/2019",
-                     "A/Japan/8604/2019",
-                     "A/Homo_sapien/China/LS339/2019",
-                     "A/Japan/9505/2019",
-                     "A/Homo_sapien/China/LS329/2019",
-                     "A/Homo_sapien/China/LS331/2019",
-                     "A/Japan/8261/2019",
-                     "A/Japan/8264/2019",
-                     "A/Japan/NHRC_OID_FDX70576/2019",
-                     "A/South_Korea/8207/2019",
-                     "A/Yokosuka/NHRC_OID_FDX70622/2019",
-                     "A/Japan/NHRC_OID_FDX70557/2019",
-                     "A/Japan/NHRC_OID_FDX70566/2019",
-                     "A/Japan/7848/2019",
-                     "A/Japan/NHRC_OID_FDX70571/2019",
-                     "A/Wuhan/345/2019",
-                     "A/Japan/8000/2019",
-                     "A/Japan/8001/2019",
-                     "A/Japan/8002/2019",
-                     "A/Japan/8266/2019",
-                     "A/South_Korea/8203/2019",
-                     "A/South_Korea/8352/2019",
-                     "A/South_Korea/8671/2019",
-                     "A/South_Korea/8674/2019",
-                     "A/Wuhan/5413/2019",
-                     "A/Wuhan/877/2019",
-                     "A/Homo_sapien/China/LS338/2019",
-                     "A/Japan/8263/2019",
-                     "A/Japan/7846/2019",
-                     "A/Japan/8265/2019",
-                     "A/Japan/8603/2019",
-                     "A/Japan/8768/2019",
-                     "A/Japan/8769/2019",
-                     "A/Japan/8957/2019",
-                     "A/Japan/NHRC_OID_FDX70561/2019",
-                     "A/Japan/NHRC_OID_FDX70563/2019",
-                     "A/Japan/NHRC_OID_FDX70564/2019",
-                     "A/Japan/NHRC_OID_FDX70572/2019",
-                     "A/Japan/NHRC_OID_FDX70577/2019",
-                     "A/Japan/NHRC_OID_FDX70579/2019",
-                     "A/Japan/NHRC_OID_FDX70583/2019",
-                     "A/Japan/NHRC_OID_FDX70584/2019",
-                     "A/Japan/NHRC_OID_FDX70586/2019",
-                     "A/Japan/NHRC_OID_FDX70587/2019",
-                     "A/Japan/NHRC_OID_FDX70589/2019",
-                     "A/Japan/NHRC_OID_FDX70590/2019",
-                     "A/Japan/NHRC_OID_FDX70591/2019",
-                     "A/Japan/NHRC_OID_FDX70592/2019",
-                     "A/South_Korea/8667/2019",
-                     "A/South_Korea/8823/2019",
-                     "A/South_Korea/8825/2019",
-                     "A/South_Korea/8826/2019",
-                     "A/South_Korea/8827/2019",
-                     "A/South_Korea/8829/2019",
-                     "A/South_Korea/8830/2019",
-                     "A/South_Korea/8831/2019",
-                     "A/South_Korea/8832/2019",
-                     "A/South_Korea/9116/2019",
-                     "A/Japan/7847/2019",
-                     "A/Japan/NHRC_OID_FDX70574/2019",
-                     "A/Japan/NHRC_OID_FDX70581/2019",
-                     "A/Japan/NHRC_OID_FDX70593/2019",
-                     "A/South_Korea/8822/2019",
-                     "A/South_Korea/8828/2019",
-                     "A/Japan/8142/2019",
-                     "A/South_Korea/8824/2019",
-                     "A/South_Korea/9704/2019",
-                     "A/Japan/8003/2019",
-                     "A/South_Korea/9578/2019",
-                     "A/Homo_sapien/China/LS323/2019",
-                     "A/Homo_sapien/China/LS325/2019",
-                     "A/Homo_sapien/China/LS333/2019",
-                     "A/India/Pun_1920970/2019",
-                     "A/India/Pun_1922253/2019",
-                     "A/India/Pun_1922052/2019",
-                     "A/South_Korea/8204/2019",
-                     "A/South_Korea/8206/2019",
-                     "A/South_Korea/8208/2019",
-                     "A/South_Korea/8668/2019"
-                  ]
-               }
+            "strain": {
+              "Sierra Leone": 3
             },
-            {
-               "sequence":"MKTIIALSC",
-               "count":2,
-               "incidence":1.6129031,
-               "motif_short":"Mi",
-               "motif_long":"Minor",
-               "metadata":{
-                  "accession":[
-                     "MN169648",
-                     "MN873990"
-                  ],
-                  "country":[
-                     "Japan",
-                     "Japan"
-                  ],
-                  "strain":[
-                     "A/Japan/9070/2019",
-                     "A/Yokosuka/NHRC_OID_FDX70722/2019"
-                  ],
-                  "date":[
-                     "03/12/2019",
-                     "04/17/2019"
-                  ]
-               }
+            "date": {
+              "2012": 1,
+              "1980": 1,
+              "1979": 1
             },
-            {
-               "sequence":"METISLISM",
-               "count":1,
-               "incidence":0.80645156,
-               "motif_short":"U",
-               "motif_long":"Unique",
-               "metadata":{
-                  "accession":[
-                     "MN853423"
-                  ],
-                  "country":[
-                     "China"
-                  ],
-                  "strain":[
-                     "A/Beijing/16/2019"
-                  ],
-                  "date":[
-                     "01/2019"
-                  ]
-               }
-            },
-            {
-               "sequence":"MKTIIALSH",
-               "count":3,
-               "incidence":2.4193547,
-               "motif_short":"Mi",
-               "motif_long":"Minor",
-               "metadata":{
-                  "country":[
-                     "South_Korea",
-                     "South_Korea",
-                     "South_Korea"
-                  ],
-                  "date":[
-                     "04/05/2019",
-                     "04/10/2019",
-                     "04/11/2019"
-                  ],
-                  "strain":[
-                     "A/South_Korea/9579/2019",
-                     "A/South_Korea/9645/2019",
-                     "A/South_Korea/9646/2019"
-                  ],
-                  "accession":[
-                     "MN074938",
-                     "MN078683",
-                     "MN078691"
-                  ]
-               }
+            "species": {
+              "Homo sapiens": 2,
+              "Unknown": 1
             }
-         ]
-      }
-   ]
+          }
+        }
+      ]
+    },
+    {
+      "position": 2,
+      "low_support": true,
+      "entropy": 0.0,
+      "support": 3,
+      "distinct_variants_count": 0,
+      "distinct_variants_incidence": 0.0,
+      "variants": [
+        {
+          "sequence": "SASKEIKSF",
+          "count": 3,
+          "incidence": 100.0,
+          "motif_short": "I",
+          "motif_long": "Index",
+          "metadata": {
+            "species": {
+              "Homo sapiens": 2,
+              "Unknown": 1
+            },
+            "accession": {
+              "AYD75325.1": 1,
+              "QEP52131.1": 1,
+              "AYD75365.1": 1
+            },
+            "strain": {
+              "Sierra Leone": 3
+            },
+            "date": {
+              "1979": 1,
+              "2012": 1,
+              "1980": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "position": 3,
+      "low_support": true,
+      "entropy": 0.0,
+      "support": 3,
+      "distinct_variants_count": 0,
+      "distinct_variants_incidence": 0.0,
+      "variants": [
+        {
+          "sequence": "ASKEIKSFL",
+          "count": 3,
+          "incidence": 100.0,
+          "motif_short": "I",
+          "motif_long": "Index",
+          "metadata": {
+            "strain": {
+              "Sierra Leone": 3
+            },
+            "date": {
+              "1980": 1,
+              "2012": 1,
+              "1979": 1
+            },
+            "species": {
+              "Homo sapiens": 2,
+              "Unknown": 1
+            },
+            "accession": {
+              "AYD75365.1": 1,
+              "QEP52131.1": 1,
+              "AYD75325.1": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "position": 4,
+      "low_support": true,
+      "entropy": 0.0,
+      "support": 3,
+      "distinct_variants_count": 0,
+      "distinct_variants_incidence": 0.0,
+      "variants": [
+        {
+          "sequence": "SKEIKSFLW",
+          "count": 3,
+          "incidence": 100.0,
+          "motif_short": "I",
+          "motif_long": "Index",
+          "metadata": {
+            "accession": {
+              "AYD75365.1": 1,
+              "QEP52131.1": 1,
+              "AYD75325.1": 1
+            },
+            "date": {
+              "2012": 1,
+              "1980": 1,
+              "1979": 1
+            },
+            "strain": {
+              "Sierra Leone": 3
+            },
+            "species": {
+              "Homo sapiens": 2,
+              "Unknown": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "position": 5,
+      "low_support": true,
+      "entropy": 0.0,
+      "support": 3,
+      "distinct_variants_count": 0,
+      "distinct_variants_incidence": 0.0,
+      "variants": [
+        {
+          "sequence": "KEIKSFLWT",
+          "count": 3,
+          "incidence": 100.0,
+          "motif_short": "I",
+          "motif_long": "Index",
+          "metadata": {
+            "date": {
+              "1979": 1,
+              "1980": 1,
+              "2012": 1
+            },
+            "strain": {
+              "Sierra Leone": 3
+            },
+            "accession": {
+              "AYD75365.1": 1,
+              "QEP52131.1": 1,
+              "AYD75325.1": 1
+            },
+            "species": {
+              "Unknown": 1,
+              "Homo sapiens": 2
+            }
+          }
+        }
+      ]
+    },
+    {
+      "position": 6,
+      "low_support": true,
+      "entropy": 0.0,
+      "support": 3,
+      "distinct_variants_count": 0,
+      "distinct_variants_incidence": 0.0,
+      "variants": [
+        {
+          "sequence": "EIKSFLWTQ",
+          "count": 3,
+          "incidence": 100.0,
+          "motif_short": "I",
+          "motif_long": "Index",
+          "metadata": {
+            "accession": {
+              "QEP52131.1": 1,
+              "AYD75365.1": 1,
+              "AYD75325.1": 1
+            },
+            "species": {
+              "Unknown": 1,
+              "Homo sapiens": 2
+            },
+            "strain": {
+              "Sierra Leone": 3
+            },
+            "date": {
+              "1980": 1,
+              "2012": 1,
+              "1979": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "position": 7,
+      "low_support": true,
+      "entropy": 0.0,
+      "support": 3,
+      "distinct_variants_count": 0,
+      "distinct_variants_incidence": 0.0,
+      "variants": [
+        {
+          "sequence": "IKSFLWTQS",
+          "count": 3,
+          "incidence": 100.0,
+          "motif_short": "I",
+          "motif_long": "Index",
+          "metadata": {
+            "date": {
+              "2012": 1,
+              "1979": 1,
+              "1980": 1
+            },
+            "species": {
+              "Homo sapiens": 2,
+              "Unknown": 1
+            },
+            "accession": {
+              "QEP52131.1": 1,
+              "AYD75325.1": 1,
+              "AYD75365.1": 1
+            },
+            "strain": {
+              "Sierra Leone": 3
+            }
+          }
+        }
+      ]
+    },
+    {
+      "position": 8,
+      "low_support": true,
+      "entropy": 0.0,
+      "support": 3,
+      "distinct_variants_count": 0,
+      "distinct_variants_incidence": 0.0,
+      "variants": [
+        {
+          "sequence": "KSFLWTQSL",
+          "count": 3,
+          "incidence": 100.0,
+          "motif_short": "I",
+          "motif_long": "Index",
+          "metadata": {
+            "species": {
+              "Homo sapiens": 2,
+              "Unknown": 1
+            },
+            "accession": {
+              "AYD75365.1": 1,
+              "QEP52131.1": 1,
+              "AYD75325.1": 1
+            },
+            "date": {
+              "2012": 1,
+              "1979": 1,
+              "1980": 1
+            },
+            "strain": {
+              "Sierra Leone": 3
+            }
+          }
+        }
+      ]
+    },
+    {
+      "position": 9,
+      "low_support": true,
+      "entropy": 0.0,
+      "support": 3,
+      "distinct_variants_count": 0,
+      "distinct_variants_incidence": 0.0,
+      "variants": [
+        {
+          "sequence": "SFLWTQSLR",
+          "count": 3,
+          "incidence": 100.0,
+          "motif_short": "I",
+          "motif_long": "Index",
+          "metadata": {
+            "accession": {
+              "QEP52131.1": 1,
+              "AYD75325.1": 1,
+              "AYD75365.1": 1
+            },
+            "species": {
+              "Homo sapiens": 2,
+              "Unknown": 1
+            },
+            "date": {
+              "1979": 1,
+              "1980": 1,
+              "2012": 1
+            },
+            "strain": {
+              "Sierra Leone": 3
+            }
+          }
+        }
+      ]
+    },
+    {
+      "position": 10,
+      "low_support": true,
+      "entropy": 0.0,
+      "support": 3,
+      "distinct_variants_count": 0,
+      "distinct_variants_incidence": 0.0,
+      "variants": [
+        {
+          "sequence": "FLWTQSLRR",
+          "count": 3,
+          "incidence": 100.0,
+          "motif_short": "I",
+          "motif_long": "Index",
+          "metadata": {
+            "strain": {
+              "Sierra Leone": 3
+            },
+            "species": {
+              "Homo sapiens": 2,
+              "Unknown": 1
+            },
+            "accession": {
+              "AYD75325.1": 1,
+              "QEP52131.1": 1,
+              "AYD75365.1": 1
+            },
+            "date": {
+              "1979": 1,
+              "2012": 1,
+              "1980": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "position": 11,
+      "low_support": true,
+      "entropy": 0.0,
+      "support": 3,
+      "distinct_variants_count": 0,
+      "distinct_variants_incidence": 0.0,
+      "variants": [
+        {
+          "sequence": "LWTQSLRRE",
+          "count": 3,
+          "incidence": 100.0,
+          "motif_short": "I",
+          "motif_long": "Index",
+          "metadata": {
+            "species": {
+              "Homo sapiens": 2,
+              "Unknown": 1
+            },
+            "strain": {
+              "Sierra Leone": 3
+            },
+            "date": {
+              "1980": 1,
+              "2012": 1,
+              "1979": 1
+            },
+            "accession": {
+              "QEP52131.1": 1,
+              "AYD75325.1": 1,
+              "AYD75365.1": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "position": 12,
+      "low_support": true,
+      "entropy": 0.914294702419047,
+      "support": 3,
+      "distinct_variants_count": 1,
+      "distinct_variants_incidence": 33.333336,
+      "variants": [
+        {
+          "sequence": "WTQSLRREL",
+          "count": 2,
+          "incidence": 66.66667,
+          "motif_short": "I",
+          "motif_long": "Index",
+          "metadata": {
+            "accession": {
+              "AYD75325.1": 1,
+              "QEP52131.1": 1
+            },
+            "date": {
+              "1979": 1,
+              "2012": 1
+            },
+            "strain": {
+              "Sierra Leone": 2
+            },
+            "species": {
+              "Homo sapiens": 1,
+              "Unknown": 1
+            }
+          }
+        },
+        {
+          "sequence": "WTQSLRRES",
+          "count": 1,
+          "incidence": 33.333336,
+          "motif_short": "U",
+          "motif_long": "Unique",
+          "metadata": {
+            "accession": {
+              "AYD75365.1": 1
+            },
+            "date": {
+              "1980": 1
+            },
+            "strain": {
+              "Sierra Leone": 1
+            },
+            "species": {
+              "Homo sapiens": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "position": 13,
+      "low_support": true,
+      "entropy": 0.9286973563836846,
+      "support": 3,
+      "distinct_variants_count": 1,
+      "distinct_variants_incidence": 33.333336,
+      "variants": [
+        {
+          "sequence": "TQSLRRELS",
+          "count": 2,
+          "incidence": 66.66667,
+          "motif_short": "I",
+          "motif_long": "Index",
+          "metadata": {
+            "date": {
+              "2012": 1,
+              "1979": 1
+            },
+            "strain": {
+              "Sierra Leone": 2
+            },
+            "species": {
+              "Homo sapiens": 1,
+              "Unknown": 1
+            },
+            "accession": {
+              "QEP52131.1": 1,
+              "AYD75325.1": 1
+            }
+          }
+        },
+        {
+          "sequence": "TQSLRRESS",
+          "count": 1,
+          "incidence": 33.333336,
+          "motif_short": "U",
+          "motif_long": "Unique",
+          "metadata": {
+            "strain": {
+              "Sierra Leone": 1
+            },
+            "species": {
+              "Homo sapiens": 1
+            },
+            "date": {
+              "1980": 1
+            },
+            "accession": {
+              "AYD75365.1": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "position": 14,
+      "low_support": true,
+      "entropy": 1.590726304378389,
+      "support": 3,
+      "distinct_variants_count": 3,
+      "distinct_variants_incidence": 100.0,
+      "variants": [
+        {
+          "sequence": "QSLRRESSG",
+          "count": 1,
+          "incidence": 33.333336,
+          "motif_short": "U",
+          "motif_long": "Unique",
+          "metadata": {
+            "strain": {
+              "Sierra Leone": 1
+            },
+            "date": {
+              "1980": 1
+            },
+            "accession": {
+              "AYD75365.1": 1
+            },
+            "species": {
+              "Homo sapiens": 1
+            }
+          }
+        },
+        {
+          "sequence": "QSLRRELSS",
+          "count": 1,
+          "incidence": 33.333336,
+          "motif_short": "U",
+          "motif_long": "Unique",
+          "metadata": {
+            "accession": {
+              "QEP52131.1": 1
+            },
+            "strain": {
+              "Sierra Leone": 1
+            },
+            "species": {
+              "Homo sapiens": 1
+            },
+            "date": {
+              "2012": 1
+            }
+          }
+        },
+        {
+          "sequence": "QSLRRELSG",
+          "count": 1,
+          "incidence": 33.333336,
+          "motif_short": "U",
+          "motif_long": "Unique",
+          "metadata": {
+            "strain": {
+              "Sierra Leone": 1
+            },
+            "species": {
+              "Unknown": 1
+            },
+            "accession": {
+              "AYD75325.1": 1
+            },
+            "date": {
+              "1979": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "position": 15,
+      "low_support": true,
+      "entropy": 1.5836823969940967,
+      "support": 3,
+      "distinct_variants_count": 3,
+      "distinct_variants_incidence": 100.0,
+      "variants": [
+        {
+          "sequence": "SLRRESSGY",
+          "count": 1,
+          "incidence": 33.333336,
+          "motif_short": "U",
+          "motif_long": "Unique",
+          "metadata": {
+            "accession": {
+              "AYD75365.1": 1
+            },
+            "species": {
+              "Homo sapiens": 1
+            },
+            "strain": {
+              "Sierra Leone": 1
+            },
+            "date": {
+              "1980": 1
+            }
+          }
+        },
+        {
+          "sequence": "SLRRELSGY",
+          "count": 1,
+          "incidence": 33.333336,
+          "motif_short": "U",
+          "motif_long": "Unique",
+          "metadata": {
+            "accession": {
+              "AYD75325.1": 1
+            },
+            "species": {
+              "Unknown": 1
+            },
+            "date": {
+              "1979": 1
+            },
+            "strain": {
+              "Sierra Leone": 1
+            }
+          }
+        },
+        {
+          "sequence": "SLRRELSSY",
+          "count": 1,
+          "incidence": 33.333336,
+          "motif_short": "U",
+          "motif_long": "Unique",
+          "metadata": {
+            "strain": {
+              "Sierra Leone": 1
+            },
+            "accession": {
+              "QEP52131.1": 1
+            },
+            "species": {
+              "Homo sapiens": 1
+            },
+            "date": {
+              "2012": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "position": 16,
+      "low_support": true,
+      "entropy": 1.5880632175312825,
+      "support": 3,
+      "distinct_variants_count": 3,
+      "distinct_variants_incidence": 100.0,
+      "variants": [
+        {
+          "sequence": "LRRESSGYC",
+          "count": 1,
+          "incidence": 33.333336,
+          "motif_short": "U",
+          "motif_long": "Unique",
+          "metadata": {
+            "accession": {
+              "AYD75365.1": 1
+            },
+            "strain": {
+              "Sierra Leone": 1
+            },
+            "species": {
+              "Homo sapiens": 1
+            },
+            "date": {
+              "1980": 1
+            }
+          }
+        },
+        {
+          "sequence": "LRRELSSYC",
+          "count": 1,
+          "incidence": 33.333336,
+          "motif_short": "U",
+          "motif_long": "Unique",
+          "metadata": {
+            "accession": {
+              "QEP52131.1": 1
+            },
+            "strain": {
+              "Sierra Leone": 1
+            },
+            "species": {
+              "Homo sapiens": 1
+            },
+            "date": {
+              "2012": 1
+            }
+          }
+        },
+        {
+          "sequence": "LRRELSGYC",
+          "count": 1,
+          "incidence": 33.333336,
+          "motif_short": "U",
+          "motif_long": "Unique",
+          "metadata": {
+            "strain": {
+              "Sierra Leone": 1
+            },
+            "date": {
+              "1979": 1
+            },
+            "accession": {
+              "AYD75325.1": 1
+            },
+            "species": {
+              "Unknown": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "position": 17,
+      "low_support": true,
+      "entropy": 1.5839045388565696,
+      "support": 3,
+      "distinct_variants_count": 3,
+      "distinct_variants_incidence": 100.0,
+      "variants": [
+        {
+          "sequence": "RRELSSYCS",
+          "count": 1,
+          "incidence": 33.333336,
+          "motif_short": "U",
+          "motif_long": "Unique",
+          "metadata": {
+            "species": {
+              "Homo sapiens": 1
+            },
+            "date": {
+              "2012": 1
+            },
+            "accession": {
+              "QEP52131.1": 1
+            },
+            "strain": {
+              "Sierra Leone": 1
+            }
+          }
+        },
+        {
+          "sequence": "RRELSGYCS",
+          "count": 1,
+          "incidence": 33.333336,
+          "motif_short": "U",
+          "motif_long": "Unique",
+          "metadata": {
+            "accession": {
+              "AYD75325.1": 1
+            },
+            "species": {
+              "Unknown": 1
+            },
+            "strain": {
+              "Sierra Leone": 1
+            },
+            "date": {
+              "1979": 1
+            }
+          }
+        },
+        {
+          "sequence": "RRESSGYCS",
+          "count": 1,
+          "incidence": 33.333336,
+          "motif_short": "U",
+          "motif_long": "Unique",
+          "metadata": {
+            "species": {
+              "Homo sapiens": 1
+            },
+            "strain": {
+              "Sierra Leone": 1
+            },
+            "date": {
+              "1980": 1
+            },
+            "accession": {
+              "AYD75365.1": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "position": 18,
+      "low_support": true,
+      "entropy": 1.5856788550025385,
+      "support": 3,
+      "distinct_variants_count": 3,
+      "distinct_variants_incidence": 100.0,
+      "variants": [
+        {
+          "sequence": "RELSGYCSN",
+          "count": 1,
+          "incidence": 33.333336,
+          "motif_short": "U",
+          "motif_long": "Unique",
+          "metadata": {
+            "accession": {
+              "AYD75325.1": 1
+            },
+            "strain": {
+              "Sierra Leone": 1
+            },
+            "species": {
+              "Unknown": 1
+            },
+            "date": {
+              "1979": 1
+            }
+          }
+        },
+        {
+          "sequence": "RESSGYCSN",
+          "count": 1,
+          "incidence": 33.333336,
+          "motif_short": "U",
+          "motif_long": "Unique",
+          "metadata": {
+            "accession": {
+              "AYD75365.1": 1
+            },
+            "strain": {
+              "Sierra Leone": 1
+            },
+            "date": {
+              "1980": 1
+            },
+            "species": {
+              "Homo sapiens": 1
+            }
+          }
+        },
+        {
+          "sequence": "RELSSYCSN",
+          "count": 1,
+          "incidence": 33.333336,
+          "motif_short": "U",
+          "motif_long": "Unique",
+          "metadata": {
+            "date": {
+              "2012": 1
+            },
+            "strain": {
+              "Sierra Leone": 1
+            },
+            "accession": {
+              "QEP52131.1": 1
+            },
+            "species": {
+              "Homo sapiens": 1
+            }
+          }
+        }
+      ]
+    }
+  ]
 }
 ```
 
@@ -737,7 +1017,7 @@ results = Dima(sequences="aligned_sequences.afa", header_format="accession|strai
 | **Argument** | **Type** | **Required** | **Default**                 | **Example**                                                              | **Description**                                                                               |
 |--------------|----------|--------------|-----------------------------|--------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
 | -h           | N/A      | False        | N/A                         | `dima-cli -h`                                                            | Prints a summary of all available command-line arguments.                                     |
-| -n           | String   | False        | N/A (raise error)           | `dima-cli -i sequences.afa -f "accession\|strain\|country" -n "Unknown"` | Silently fix missing values in the FASTA header with given value.                             |
+| -n           | String   | False        | Unknown                     | `dima-cli -i sequences.afa -f "accession\|strain\|country" -n "NA"`      | Silently fix missing values in the FASTA header with given value.                             |
 | -v           | N/A      | False        | N/A                         | `dima-cli -v`                                                            | Prints the version of dima-cli that is currently installed.                                   |
 | -p           | String   | False        | Unknown Protein             | `dima-cli -n "Coronavirus Surface Protein" -i sequences.afa`             | The name of the protein that will appear on the results.                                      |
 | -i           | String   | True         | N/A                         | `dima-cli -i sequences.afa`                                              | The path to the FASTA Multiple Sequence Alignment file.                                       |
@@ -753,7 +1033,7 @@ results = Dima(sequences="aligned_sequences.afa", header_format="accession|strai
 |-------------------|-----------------|--------------|----------------------------|-----------------------------------------------------------------------------------------------------------------|
 | sequences         | String/StringIO | True         | N/A                        | The path to a FASTA Multiple Sequence Alignment file (MSA), or a StringIO object containing FASTA MSA.          |
 | kmer_length       | Integer         | False        | 9                          | The length of the kmers generated.                                                                              |
-| header_fillna     | String          | False        | None                       | Silently fix missing values in the FASTA header with given value (only required when `header_format` is given). |
+| header_fillna     | String          | False        | Unknown                    | Silently fix missing values in the FASTA header with given value (only required when `header_format` is given). |
 | json              | Boolean         | False        | False                      | Whether the result is a JSON string, or a Python object.                                                        |
 | header_format     | String          | False        | N/A                        | The format of the FASTA header. Labels where each variant of a kmer position originated from.                   |
 | support_threshold | Integer         | False        | 30                         | The minimum required support for each kmer position.                                                            |
