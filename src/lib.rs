@@ -19,7 +19,7 @@ use std::io::Write;
 
 #[pyclass]
 #[pyo3(
-    text_signature = "(sequence_count, support_threshold, low_support_count, protein_name, kmer_length, results)"
+text_signature = "(sequence_count, support_threshold, low_support_count, protein_name, kmer_length, results)"
 )]
 #[derive(Serialize)]
 pub struct Results {
@@ -44,7 +44,7 @@ pub struct Results {
 
 #[pyclass]
 #[pyo3(
-    text_signature = "(position, low_support, entropy, support, distinct_variants_count, distinct_variants_incidence, variants)"
+text_signature = "(position, low_support, entropy, support, distinct_variants_count, distinct_variants_incidence, variants)"
 )]
 #[derive(Serialize, Clone)]
 pub struct Position {
@@ -582,7 +582,7 @@ fn get_kmers_and_headers(
 /// :return: None
 #[pyfunction]
 #[pyo3(
-    text_signature = "(path, kmer_length, header_format, support_threshold, protein_name, save_path, header_fillna)"
+text_signature = "(path, kmer_length, header_format, support_threshold, protein_name, save_path, header_fillna)"
 )]
 pub fn get_results_json(
     _py: Python,
@@ -603,7 +603,7 @@ pub fn get_results_json(
         protein_name,
         header_fillna,
     ))
-    .unwrap();
+        .unwrap();
 
     if save_path.is_some() {
         let mut f = File::create(save_path.unwrap()).expect("Unable to create JSON file on disk.");
@@ -644,7 +644,7 @@ pub fn get_results_json(
 /// :return: A Results object
 #[pyfunction]
 #[pyo3(
-    text_signature = "(path, kmer_length, header_format, support_threshold, protein_name, header_fillna)"
+text_signature = "(path, kmer_length, header_format, support_threshold, protein_name, header_fillna)"
 )]
 pub fn get_results_objs(
     _py: Python,

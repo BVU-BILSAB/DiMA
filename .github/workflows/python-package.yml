@@ -35,7 +35,7 @@ jobs:
       uses: actions-rs/toolchain@v1
       with:
           toolchain: nightly
-          overide: true
+          override: true
 
     - name: Build Rust Bindings
       run:  poetry run maturin develop --release
