@@ -14,15 +14,15 @@ crate-type = ["cdylib"]
 name = "dima"
 
 [dependencies]
-rayon = "1.5"
+rayon = "1.5.1"
 rand = "0.8.4"
 linreg = "0.2.0"
 maplit = "1.0.2"
 reduce = "0.1.4"
-bio = "0.37.0"
-serde_json = "1.0.66"
-serde = { version = "1.0", features = ["derive"] }
-pyo3 = { version = "0.14.1", features = ["extension-module"] }
+bio = "0.39.1"
+serde_json = "1.0.75"
+serde = { version = "1.0.133", features = ["derive"] }
+pyo3 = { version = "0.15.1", features = ["extension-module"] }
 
 [package.metadata.maturin]
 name = "dima.helpers.dima"

@@ -410,11 +410,26 @@ fn get_random_samples(position_kmers: &Vec<String>, sample_size: usize) -> Vec<S
 ///
 /// # Parameters:
 /// * `position_kmers` -  All k-mers of a specific k-mer position.
-fn calculate_entropy(position_kmers: &Vec<String>) -> f64 {
+fn calculate_entropy(position_kmers: &Vec<String>, support_threshold: &usize) -> f64 {
     let kmer_count = position_kmers.len();
 
     if kmer_count == 0 {
         return 0.0_f64;
+    }
+
+    if &kmer_count <= support_threshold {
+        let sample_counted = count_kmers(&position_kmers)
+            .into_iter()
+            .map(|(_i, d)| d.0);
+
+        let mut iter_entropy: f64 = 0.0;
+
+        sample_counted.for_each(|count| {
+            let p: f64 = count as f64 / kmer_count as f64;
+            iter_entropy += p * p.log2();
+        });
+
+        return iter_entropy;
     }
 
     let entropies: Vec<(f64, f64)> = (1..100)
@@ -422,11 +437,12 @@ fn calculate_entropy(position_kmers: &Vec<String>) -> f64 {
         .map(|_i| {
             let mut rng = rand::thread_rng();
             let mut iter_entropy: f64 = 0.0;
-            // TODO: What if there are more than 1000 kmers?
             let samples: usize = (1..1000).choose(&mut rng).unwrap();
 
             let random_samples = get_random_samples(position_kmers, samples);
-            let sample_counted = count_kmers(&random_samples).into_iter().map(|(_i, d)| d.0);
+            let sample_counted = count_kmers(&random_samples)
+                .into_iter()
+                .map(|(_i, d)| d.0);
 
             sample_counted.for_each(|count| {
                 let p: f64 = count as f64 / samples as f64;
@@ -648,7 +664,7 @@ pub fn get_results_objs(
 
     let position_entropies = kmers
         .par_iter()
-        .map(|position_kmers| calculate_entropy(position_kmers))
+        .map(|position_kmers| calculate_entropy(position_kmers, &support_threshold))
         .collect::<Vec<f64>>();
 
     let positions: Vec<Position> = kmers
