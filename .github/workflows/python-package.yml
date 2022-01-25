@@ -69,6 +69,7 @@ jobs:
         uses: actions-rs/toolchain@v1
         with:
           toolchain: nightly
+          override: true
 
       - name: PyPi publish
         if: matrix.os != 'windows-latest'
