@@ -10,7 +10,7 @@ repository = "https://github.com/PU-SDS/DiMA"
 keywords = ["bioinformatics", "biology", "protein", "virus", "diversity"]
 
 [tool.poetry.dependencies]
-python = ">=3.6,<3.10"
+python = ">=3.6,<3.11"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.4"
@@ -29,6 +29,7 @@ classifiers = [
     "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Intended Audience :: Science/Research",
