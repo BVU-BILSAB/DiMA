@@ -429,7 +429,7 @@ fn calculate_entropy(position_kmers: &Vec<String>, support_threshold: &usize) ->
             iter_entropy += p * p.log2();
         });
 
-        return iter_entropy;
+        return if iter_entropy > 0_f64 {  iter_entropy  }  else { iter_entropy * -1_f64};
     }
 
     let entropies: Vec<(f64, f64)> = (1..100)
