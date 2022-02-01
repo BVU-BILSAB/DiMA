@@ -5,12 +5,13 @@ extern crate rand;
 extern crate rayon;
 extern crate serde;
 extern crate serde_json;
+extern crate core;
 
 use bio::io::fasta;
 use linreg::linear_regression_of;
 use pyo3::prelude::*;
 use pyo3::PyObjectProtocol;
-use rand::seq::{IteratorRandom, SliceRandom};
+use rand::seq::{SliceRandom};
 use rayon::prelude::*;
 use serde::Serialize;
 use std::collections::HashMap;
@@ -317,19 +318,14 @@ fn sliding_window(
         .collect::<Vec<String>>()
 }
 
-/// Returns the the frequency of distinct k-mers in a provided k-mer position, as well as the
-/// locations at which each distinct k-mer was observed in the list of sequences.
-///
-/// # Parameters:
-/// * `position_kmers` - All k-mers of a specific k-mer position.
-fn count_kmers(position_kmers: &Vec<String>) -> HashMap<String, (usize, Vec<usize>)> {
-    let mut counts: HashMap<String, (usize, Vec<usize>)> = HashMap::new();
+fn count_kmers<'a>(kmers: &'a [Box<str>]) -> HashMap<&'a str, (usize, Vec<usize>)> {
+    let mut counts: HashMap<&'a str, (usize, Vec<usize>)> = HashMap::new();
 
-    position_kmers
-        .into_iter()
+    kmers
+        .iter()
         .enumerate()
         .for_each(|(idx, kmer)| {
-            let entry = counts.entry(kmer.to_owned()).or_insert((0, vec![]));
+            let entry = counts.entry(kmer).or_insert((0, vec![]));
             entry.0 += 1;
             entry.1.push(idx);
         });
@@ -337,14 +333,6 @@ fn count_kmers(position_kmers: &Vec<String>) -> HashMap<String, (usize, Vec<usiz
     counts
 }
 
-/// Here we parse the FASTA header. We expect a header that looks like:
-/// accession|species|country|year
-///
-/// # Parameters:
-/// * `header` - The specific header we are decoding.
-/// * `format` - The format of the header as provided by the user.
-///
-/// Returns a HashMap (dictionary) containing the components of the header.
 fn parse_header(
     header: &String,
     format: &Vec<String>,
@@ -387,91 +375,74 @@ fn parse_header(
         .collect::<HashMap<String, String>>()
 }
 
-/// Produces a given number of random samples from a bunch of k-mers.
-///
-/// # Parameters:
-/// * `position_kmers` - A bunch of k-mers seen at a particular k-mer position.
-/// * `sample_size` - The number of samples to be taken.
-fn get_random_samples(position_kmers: &Vec<String>, sample_size: usize) -> Vec<String> {
-    (0..sample_size)
-        .into_par_iter()
-        .map(|_| {
-            position_kmers
-                .choose(&mut rand::thread_rng())
-                .unwrap()
-                .to_owned()
-        })
-        .collect::<Vec<String>>()
+fn get_random_samples<'a>(kmers: &[Box<str>], sample_size: usize) -> Vec<Box<str>> {
+    let mut rng = rand::thread_rng();
+
+    kmers
+        .choose_multiple(&mut rng, sample_size)
+        .map(|item| item.to_string().into_boxed_str())
+        .collect::<Vec<Box<str>>>()
 }
 
-/// Calculate the entropy of a specific k-mer position using the Shannon's Entropy formula.
-/// Adjustments are done for alignment-bias by getting the y-intercept of a entropy vs 1/N
-/// linear regression,
-///
-/// # Parameters:
-/// * `position_kmers` -  All k-mers of a specific k-mer position.
-fn calculate_entropy(position_kmers: &Vec<String>, support_threshold: &usize) -> f64 {
-    let kmer_count = position_kmers.len();
+fn shannons_entropy(kmers: &[Box<str>]) -> f64 {
+    let kmer_count = kmers.len();
+    let mut entropy = count_kmers(kmers)
+        .into_iter()
+        .map(|(_i, d)| d.0)
+        .map(|count| {
+            let p: f64 = count as f64 / kmer_count as f64;
+            p * p.log2()
+        })
+        .sum::<f64>();
 
+    entropy *= -1_f64;
+    entropy
+}
+
+
+fn calculate_entropy(kmers: &[Box<str>], support_threshold: &usize) -> f64 {
+    // Get the number of kmers at this position
+    let kmer_count = kmers.len();
+
+    // If the kmer count is 0, we know the entropy is 0
     if kmer_count == 0 {
         return 0.0_f64;
     }
 
+    // If the kmer count is less than the threshold we do no resampling and take whole dataset
+    let all_kmers_entropy = shannons_entropy(kmers);
+
     if &kmer_count <= support_threshold {
-        let sample_counted = count_kmers(&position_kmers)
-            .into_iter()
-            .map(|(_i, d)| d.0);
-
-        let mut iter_entropy: f64 = 0.0;
-
-        sample_counted.for_each(|count| {
-            let p: f64 = count as f64 / kmer_count as f64;
-            iter_entropy += p * p.log2();
-        });
-
-        return if iter_entropy > 0_f64 {  iter_entropy  }  else { iter_entropy * -1_f64};
+        return all_kmers_entropy
     }
 
-    let entropies: Vec<(f64, f64)> = (1..100)
-        .into_par_iter()
-        .map(|_i| {
-            let mut rng = rand::thread_rng();
-            let mut iter_entropy: f64 = 0.0;
-            let samples: usize = (1..1000).choose(&mut rng).unwrap();
+    // At this point we know we have kmers more than support threshold, so we do resampling
+    let mut entropy_values: Vec<(f64, f64)> = vec![];
 
-            let random_samples = get_random_samples(position_kmers, samples);
-            let sample_counted = count_kmers(&random_samples)
-                .into_iter()
-                .map(|(_i, d)| d.0);
+    (1..100)
+        .into_iter()
+        .for_each(|_| {
+            for percent in (10..90).step_by(10).rev() {
+                let samples = (percent * kmer_count) / 100 ;
 
-            sample_counted.for_each(|count| {
-                let p: f64 = count as f64 / samples as f64;
-                iter_entropy += p * p.log2();
-            });
+                if &samples <= support_threshold {
+                    println!("Percent: {0}, Samples: {1}, T: {2}, kmers: {3}", percent, samples, support_threshold, kmer_count);
+                    break
+                }
 
-            if iter_entropy < 0_f64 {
-                iter_entropy *= -1 as f64
-            };
+                let random_samples = get_random_samples(kmers, samples);
+                let iter_entropy = shannons_entropy(random_samples.as_slice());
 
-            return (1.0 / samples as f64, iter_entropy);
-        })
-        .collect::<Vec<(f64, f64)>>();
+                entropy_values.push((1.0 / samples as f64, iter_entropy));
+            }
+        });
 
-    let (_, y) = linear_regression_of(&entropies).unwrap();
+    entropy_values.push((1.0 / kmer_count as f64, all_kmers_entropy));
+
+    let (_, y) = linear_regression_of(&entropy_values).unwrap();
     y
 }
 
-/// Uses a file buffer that progressively reads each sequence from the disk.
-/// The advantage of this is that it will use as little memory as possible.
-/// We will iterate over each sequence and process them on the fly to reduce the memory footprint
-/// as much as possible.
-///
-/// # Parameters:
-/// * `path` - The path to the FASTA file.
-/// * `kmer_length` - The length of the k-mers that need to be generated.
-/// * `header_format` - The format of the FASTA headers.
-/// * `support_threshold` - Minimum support needed for a k-mer position to be considered valid.
-/// * `header_fillna` - If there are empty items in the FASTA header (when header_format != None), replace with this value.
 fn get_kmers_and_headers(
     path: &String,
     kmer_length: &usize,
@@ -662,12 +633,20 @@ pub fn get_results_objs(
         header_fillna.as_ref(),
     );
 
-    let position_entropies = kmers
+    let position_slices=  kmers
+        .into_par_iter()
+        .map(|position_kmers| position_kmers
+            .into_iter()
+            .map(|item| item.into_boxed_str())
+            .collect::<Vec<Box<str>>>())
+        .collect::<Vec<Vec<Box<str>>>>();
+
+    let position_entropies = position_slices
         .par_iter()
         .map(|position_kmers| calculate_entropy(position_kmers, &support_threshold))
         .collect::<Vec<f64>>();
 
-    let positions: Vec<Position> = kmers
+    let positions: Vec<Position> = position_slices
         .par_iter()
         .map(|position_kmers| count_kmers(position_kmers))
         .enumerate()
@@ -676,9 +655,9 @@ pub fn get_results_objs(
                 .par_iter()
                 .map(|(sequence, count_data)| {
                     let mut variant = Variant {
-                        sequence: sequence.to_owned(),
+                        sequence: sequence.to_string(),
                         count: count_data.0,
-                        incidence: ((count_data.0 as f32 / kmers[idx].len() as f32) * 100_f32),
+                        incidence: ((count_data.0 as f32 / position_slices[idx].len() as f32) * 100_f32),
                         metadata: None,
                         motif_short: None,
                         motif_long: None,
@@ -715,7 +694,7 @@ pub fn get_results_objs(
                 })
                 .collect::<Vec<Variant>>();
 
-            let support = kmers[idx].len();
+            let support = position_slices[idx].len();
 
             return Position::new(
                 idx + 1,
