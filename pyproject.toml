@@ -12,7 +12,7 @@ keywords = ["bioinformatics", "biology", "protein", "virus", "diversity"]
 [tool.poetry.dependencies]
 python = ">=3.7,<3.11"
 
-[tool.poetry.group.dev.dependencies]
+[tool.poetry.dev.dependencies]
 GitPython = "^3.1.26"
 pytest = "^6.2.4"
 maturin = "maturin>=0.11,<0.12"
