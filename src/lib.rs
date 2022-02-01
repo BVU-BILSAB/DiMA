@@ -375,12 +375,14 @@ fn parse_header(
         .collect::<HashMap<String, String>>()
 }
 
-fn get_random_samples<'a>(kmers: &[Box<str>], sample_size: usize) -> Vec<Box<str>> {
-    let mut rng = rand::thread_rng();
-
-    kmers
-        .choose_multiple(&mut rng, sample_size)
-        .map(|item| item.to_string().into_boxed_str())
+fn get_random_samples<'a>(kmers: &[Box<str>], sample_size: &usize) -> Vec<Box<str>> {
+    (0..*sample_size)
+        .into_par_iter()
+        .map_init(|| rand::thread_rng(),  |mut rng, _| kmers
+            .choose(&mut rng)
+            .unwrap()
+            .to_string()
+            .into_boxed_str())
         .collect::<Vec<Box<str>>>()
 }
 
@@ -429,7 +431,7 @@ fn calculate_entropy(kmers: &[Box<str>], support_threshold: &usize) -> f64 {
                     break
                 }
 
-                let random_samples = get_random_samples(kmers, samples);
+                let random_samples = get_random_samples(kmers, &samples);
                 let iter_entropy = shannons_entropy(random_samples.as_slice());
 
                 entropy_values.push((1.0 / samples as f64, iter_entropy));

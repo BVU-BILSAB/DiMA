@@ -20,8 +20,7 @@ def main():
     parser.add_argument('-i', '--input', help='Absolute path to the aligned sequences file in FASTA format.',
                         required=False)
     parser.add_argument('-o', '--output', help='Absolute path to the output file.', required=False, default=None)
-    parser.add_argument('-l', '--length', help='The k-mer length (default: 9).', type=int, default=9,
-                        choices=range(1, 20), required=False)
+    parser.add_argument('-l', '--length', help='The k-mer length (default: 9).', type=int, default=9, required=False)
     parser.add_argument('-f', '--format',
                         help="The format of the header. Ex: accession|strain|year.", type=str, required=False,
                         default=None)

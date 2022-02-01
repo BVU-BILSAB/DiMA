@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "DiMA"
-version = "2.1.3-beta.16"
+version = "2.1.3-beta.18"
 description = "A command-line tool that analyses the diversity and motifs of protein sequences"
 authors = ["Shan Tharanga <stwm2@student.london.ac.uk>"]
 license = "MIT"
