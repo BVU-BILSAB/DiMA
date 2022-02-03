@@ -11,7 +11,7 @@ use bio::io::fasta;
 use linreg::linear_regression_of;
 use pyo3::prelude::*;
 use pyo3::PyObjectProtocol;
-use rand::seq::{SliceRandom};
+use rand::seq::{IteratorRandom, SliceRandom};
 use rayon::prelude::*;
 use serde::Serialize;
 use std::collections::HashMap;
@@ -418,31 +418,46 @@ fn calculate_entropy(kmers: &[Box<str>], support_threshold: &usize) -> f64 {
         return all_kmers_entropy
     }
 
-    // At this point we know we have kmers more than support threshold, so we do resampling
-    let mut entropy_values: Vec<(f64, f64)> = vec![];
+    // Figure out the percentage at which we reached threshold
+    let percentage_cutoff = ((*support_threshold as f64 / kmer_count as f64) * 100_f64)
+        .ceil() as usize;
 
-    (1..100)
+    // A system seeded random number generator
+    let mut rng = rand::thread_rng();
+
+    let mut entropy_values: Vec<(f64, f64)> = (1..100)
         .into_iter()
-        .for_each(|_| {
-            for percent in (10..90).step_by(10).rev() {
-                let samples = (percent * kmer_count) / 100 ;
+        .map(|percentage| {
+            return if percentage <= percentage_cutoff {
+                // Choose a number between 30 and N
+                let samples: usize = (30..kmer_count).choose(&mut rng).unwrap();
 
-                if &samples <= support_threshold {
-                    break
-                }
-
+                // Take that many random samples with replacement
                 let random_samples = get_random_samples(kmers, &samples);
-                let iter_entropy = shannons_entropy(random_samples.as_slice());
 
-                entropy_values.push((1.0 / samples as f64, iter_entropy));
+                // Calculate shannon's entropy
+                let entropy = shannons_entropy(random_samples.as_slice());
+
+                // Return value to the vector along with alignment vbias adjustment (ie: 1/n)
+                (1.0 / samples as f64, entropy)
+            } else {
+                // At this point we know that n is bigger than the threshold so we do systematic
+                // So, we get n as a percentage of the total k-mer count
+                let samples = (percentage * kmer_count) / 100 ;
+
+                // Get the actual random samples
+                let random_samples = get_random_samples(kmers, &samples);
+
+                // Calculate the entropy
+                let entropy = shannons_entropy(random_samples.as_slice());
+
+                // Return value to the vector along with alignment vbias adjustment (ie: 1/n)
+                (1.0 / samples as f64, entropy)
             }
-        });
+    }).collect();
 
+    // One of the data points has to be 100% of the k-mers WITHOUT random sampling
     entropy_values.push((1.0 / kmer_count as f64, all_kmers_entropy));
-
-    if entropy_values.len() == 1 {
-        return all_kmers_entropy
-    }
 
     let (_, y) = linear_regression_of(&entropy_values).unwrap();
     y
