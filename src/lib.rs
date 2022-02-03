@@ -11,7 +11,7 @@ use bio::io::fasta;
 use linreg::linear_regression_of;
 use pyo3::prelude::*;
 use pyo3::PyObjectProtocol;
-use rand::seq::{IteratorRandom, SliceRandom};
+use rand::seq::{SliceRandom};
 use rayon::prelude::*;
 use serde::Serialize;
 use std::collections::HashMap;
@@ -406,54 +406,46 @@ fn calculate_entropy(kmers: &[Box<str>], support_threshold: &usize) -> f64 {
     // Get the number of kmers at this position
     let kmer_count = kmers.len();
 
-    // If the kmer count is 0, we know the entropy is 0
-    if kmer_count == 0 {
+    // If the kmer count is 0 or 1, we know the entropy is 0
+    if kmer_count <= 1 {
         return 0.0_f64;
     }
 
-    // If the kmer count is less than the threshold we do no resampling and take whole dataset
+    // Calculate the entropy for all kmers WITHOUT resampling because we need that in both cases
+    // (ie: if kmers <= threshold OR if > threshold (because 100% of the dataset will not be
+    // resampled)
     let all_kmers_entropy = shannons_entropy(kmers);
 
-    if &kmer_count <= support_threshold {
+    // If the kmer count is less than threshold we just return the uncorrected (un-resampled) entropy
+    // value
+    if &kmer_count < support_threshold {
         return all_kmers_entropy
     }
 
+    // Below this point we know that we have ample amount of kmers
     // Figure out the percentage at which we reached threshold
     let percentage_cutoff = ((*support_threshold as f64 / kmer_count as f64) * 100_f64)
         .ceil() as usize;
 
-    // A system seeded random number generator
-    let mut rng = rand::thread_rng();
-
-    let mut entropy_values: Vec<(f64, f64)> = (1..100)
+    // Go through all the way from the percentage cutoff until 99%.
+    // We ignore everything below the cutoff because we have more than enough kmers to resample
+    // and we do not need to skew the regression with unreliable data
+    // We stop at 99% because at 100% we do not do resampling and all kmers are used which we
+    // calculated above
+    let mut entropy_values: Vec<(f64, f64)> = (percentage_cutoff..99)
         .into_iter()
         .map(|percentage| {
-            return if percentage <= percentage_cutoff {
-                // Choose a number between 30 and N
-                let samples: usize = (30..kmer_count).choose(&mut rng).unwrap();
+            // Figure out the number of samples that this % represents
+            let samples = (percentage * kmer_count) / 100 ;
 
-                // Take that many random samples with replacement
-                let random_samples = get_random_samples(kmers, &samples);
+            // Get the actual random samples
+            let random_samples = get_random_samples(kmers, &samples);
 
-                // Calculate shannon's entropy
-                let entropy = shannons_entropy(random_samples.as_slice());
+            // Calculate the entropy
+            let entropy = shannons_entropy(random_samples.as_slice());
 
-                // Return value to the vector along with alignment vbias adjustment (ie: 1/n)
-                (1.0 / samples as f64, entropy)
-            } else {
-                // At this point we know that n is bigger than the threshold so we do systematic
-                // So, we get n as a percentage of the total k-mer count
-                let samples = (percentage * kmer_count) / 100 ;
-
-                // Get the actual random samples
-                let random_samples = get_random_samples(kmers, &samples);
-
-                // Calculate the entropy
-                let entropy = shannons_entropy(random_samples.as_slice());
-
-                // Return value to the vector along with alignment vbias adjustment (ie: 1/n)
-                (1.0 / samples as f64, entropy)
-            }
+            // Return value to the vector along with alignment bias adjustment (ie: 1/n)
+            (1.0 / samples as f64, entropy)
     }).collect();
 
     // One of the data points has to be 100% of the k-mers WITHOUT random sampling
