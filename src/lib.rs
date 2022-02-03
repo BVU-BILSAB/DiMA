@@ -418,7 +418,7 @@ fn calculate_entropy(kmers: &[Box<str>], support_threshold: &usize) -> f64 {
 
     // If the kmer count is less than threshold we just return the uncorrected (un-resampled) entropy
     // value
-    if &kmer_count <= support_threshold {
+    if &kmer_count < support_threshold {
         return all_kmers_entropy
     }
 
