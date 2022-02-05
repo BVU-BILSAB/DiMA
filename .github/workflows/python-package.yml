@@ -37,6 +37,12 @@ jobs:
           toolchain: nightly
           override: true
 
+    - name: Install LLVM for Windows
+      if: matrix.os == 'windows-latest'
+      run: |
+        curl -Ls -o "LLVM-13.0.0-win64.exe" "https://github.com/llvm/llvm-project/releases/download/llvmorg-10.0.0/LLVM-13.0.0-win64.exe"
+        LLVM-10.0.0-win64.exe /S
+
     - name: Build Rust Bindings
       if: matrix.os != 'windows-latest'
       run: poetry run maturin develop --release
@@ -44,7 +50,7 @@ jobs:
     - name: Build Rust Bindings
       if: matrix.os == 'windows-latest'
       env:
-        LIBCLANG_PATH: C:\msys64\mingw64\bin
+        LIBCLANG_PATH: C:\Program Files\LLVM\bin
       run: poetry run maturin develop --release
 
     - name: Run Python Tests
