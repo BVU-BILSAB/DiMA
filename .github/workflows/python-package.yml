@@ -44,7 +44,10 @@ jobs:
 
     - name: Install C headers for macOS
       if: matrix.os == 'macos-latest'
-      run: xcode-select --install
+      run: |
+        softwareupdate --all --install --force
+        rm -rf /Library/Developer/CommandLineTools
+        xcode-select --install
 
     - name: Build Rust Bindings
       if: matrix.os != 'windows-latest'
