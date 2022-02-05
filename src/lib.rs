@@ -114,16 +114,11 @@ impl Results {
     ///
     /// # Parameters:
     /// * `path` - The path to save the JSON file.
-    /// * `print` -  Whether the result should be printed to STDOUT (only when no path given).
     ///
     /// :param path: The path to save the JSON file.
-    /// :param print: Whether the result should be printed to STDOUT (only when no path given).
-    ///
     /// :type path: Optional[str]
-    /// :type print: Optional[bool]
     ///
-    /// :return: A string containing the json, or "true" when successfully saved, or printed to
-    ///     STDOUT.
+    /// :return: A string containing the json, or "true" when successfully saved.
     #[pyo3(text_signature = "(path, print)")]
     fn to_json(&self, path: Option<String>) -> PyResult<String> {
         let json_results = serde_json::to_string_pretty(&self).unwrap();
