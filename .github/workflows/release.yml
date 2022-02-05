@@ -48,8 +48,8 @@ jobs:
       run: echo "LIBCLANG_PATH=$((gcm clang).source -replace "clang.exe")" >> $env:GITHUB_ENV
 
     - name: PyPi publish
-      if: matrix.os != 'windows-latest'
-      uses: ShanWeera/maturin-action@v1.19.4
+      if: matrix.os == 'ubuntu-latest'
+      uses: ShanWeera/maturin-action@v1.19.5
       env:
         MATURIN_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
       with:
@@ -57,7 +57,16 @@ jobs:
         command: publish
         args: --username __token__ --skip-existing --out dist --universal2 --no-sdist --interpreter python${{ matrix.python-version }}
         manylinux: auto
-
+    - name: PyPi publish
+      if: matrix.os == 'macos-latest'
+      uses: messense/maturin-action@v1
+      env:
+        MATURIN_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+      with:
+        maturin-version: latest
+        command: publish
+        args: --username __token__ --skip-existing --out dist --universal2 --no-sdist --interpreter python${{ matrix.python-version }}
+        manylinux: auto
     - name: PyPi publish
       if: matrix.os == 'windows-latest'
       uses: messense/maturin-action@v1
