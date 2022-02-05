@@ -125,7 +125,7 @@ impl Results {
     /// :return: A string containing the json, or "true" when successfully saved, or printed to
     ///     STDOUT.
     #[pyo3(text_signature = "(path, print)")]
-    fn to_json(&self, path: Option<String>, print: Option<bool>) -> PyResult<String> {
+    fn to_json(&self, path: Option<String>) -> PyResult<String> {
         let json_results = serde_json::to_string_pretty(&self).unwrap();
 
         if let Some(save_path) = path {
@@ -139,12 +139,7 @@ impl Results {
                 Err(PyFileNotFoundError::new_err("Unable to create JSON file on disk."))
             }
         } else {
-            if print.unwrap_or(true) {
-                println!("{0}", json_results);
-                Ok(true.to_string())
-            } else {
-                Ok(json_results)
-            }
+            Ok(json_results)
         }
     }
 

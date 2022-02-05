@@ -19,7 +19,9 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', '--input', help='Absolute path to the aligned sequences file in FASTA format.',
                         required=False)
-    parser.add_argument('-o', '--output', help='Absolute path to the output file.', required=False, default=None)
+    parser.add_argument('-o', '--output', help='Absolute path to the output file.', required=True)
+    parser.add_argument('-t', '--type', help='Output file type.', required=False, default='json',
+                        choices=['json', 'xlsx'])
     parser.add_argument('-l', '--length', help='The k-mer length (default: 9).', type=int, default=9, required=False)
     parser.add_argument('-f', '--format',
                         help="The format of the header. Ex: accession|strain|year.", type=str, required=False,
@@ -45,23 +47,24 @@ def main():
         inputx = StringIO(sys.stdin.read())
 
     try:
-        Dima(
+        result_objs = Dima(
             sequences=inputx,
             kmer_length=arguments.length,
             header_format=arguments.format,
-            json=True,
             protein_name=arguments.protein,
             support_threshold=arguments.support,
-            json_save_path=arguments.output,
             header_fillna=arguments.fillna
         ).run()
+
+        if arguments.type == 'json':
+            result_objs.to_json(arguments.output)
+        else:
+            result_objs.to_excel(arguments.output)
     except Exception as ex:
         parser.error(f'Exception while calculating kmers for sequences file {arguments.input}\n{ex}')
         sys.exit(5)
 
-    if arguments.output:
-        print(f'Results successfully saved at {arguments.output}')
-
+    print(f'Results successfully saved at {arguments.output}')
     sys.exit(0)
 
 
