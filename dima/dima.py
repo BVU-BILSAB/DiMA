@@ -2,7 +2,7 @@ import tempfile
 from io import StringIO
 from shutil import copyfileobj
 from typing import Union, Optional
-from .helpers import get_results_json, Results, get_results_objs
+from .helpers import Results, get_results_objs
 
 from dima.exceptions import InvalidSequenceSource
 
