@@ -6,17 +6,31 @@ extern crate rayon;
 extern crate serde;
 extern crate serde_json;
 extern crate core;
+extern crate xlsxwriter;
 
 use bio::io::fasta;
 use linreg::linear_regression_of;
 use pyo3::prelude::*;
 use pyo3::PyObjectProtocol;
+use pyo3::exceptions::{PyFileNotFoundError, PyIOError};
 use rand::seq::{SliceRandom};
 use rayon::prelude::*;
 use serde::Serialize;
 use std::collections::HashMap;
 use std::fs::File;
 use std::io::Write;
+use xlsxwriter::{FormatAlignment, FormatColor, FormatUnderline, Workbook};
+
+
+fn excel_pos_col_titles() -> Vec<&'static str> {
+    vec!["Position", "Variants", "Low Support",
+         "Entropy", "Support", "Distinct Variants",
+         "Distinct Variants Incidence"]
+}
+
+fn excel_variants_col_titles() -> Vec<&'static str> {
+    vec!["Sequence", "Count", "Incidence", "Motif"]
+}
 
 #[pyclass]
 #[pyo3(
@@ -94,6 +108,109 @@ pub struct Variant {
     metadata: Option<HashMap<String, HashMap<String, usize>>>,
 }
 
+#[pymethods]
+impl Results {
+    /// This method lets one convert the entire results object into JSON.
+    ///
+    /// # Parameters:
+    /// * `path` - The path to save the JSON file.
+    ///
+    /// :param path: The path to save the JSON file.
+    /// :type path: Optional[str]
+    ///
+    /// :return: A string containing the json, or "true" when successfully saved.
+    #[pyo3(text_signature = "(path, print)")]
+    fn to_json(&self, path: Option<String>) -> PyResult<String> {
+        let json_results = serde_json::to_string_pretty(&self).unwrap();
+
+        if let Some(save_path) = path {
+            if let Ok(mut f) = File::create(save_path) {
+                if f.write_all(json_results.as_bytes()).is_ok() {
+                    Ok(true.to_string())
+                } else {
+                    Err(PyIOError::new_err("Cannot write to JSON file."))
+                }
+            } else {
+                Err(PyFileNotFoundError::new_err("Unable to create JSON file on disk."))
+            }
+        } else {
+            Ok(json_results)
+        }
+    }
+
+    fn to_excel(&self, path: String) {
+        // First we create a workbook with the path provided by the user
+        let workbook = Workbook::new(path.as_str());
+
+        // Then we set up some basic styles for different types of data
+        let link_style = workbook
+            .add_format()
+            .set_font_color(FormatColor::Blue)
+            .set_align(FormatAlignment::CenterAcross)
+            .set_underline(FormatUnderline::Single)
+            .set_bold();
+        let title_style = workbook
+            .add_format()
+            .set_align(FormatAlignment::CenterAcross)
+            .set_bold();
+        let data_style = workbook
+            .add_format()
+            .set_align(FormatAlignment::CenterAcross);
+
+        // Create a sheet for the positions
+        if let Ok(mut positions_sheet) = workbook.add_worksheet(Some("positions")) {
+            // Add the headers for the position sheet
+            excel_pos_col_titles().iter().enumerate().for_each(|(idx, item)| {
+                positions_sheet.write_string(0, idx as u16, item, Some(&title_style)).unwrap()
+            });
+
+            // Loop through each positino and add to the sheet
+            self.results.iter().enumerate().for_each(|(idx, position)| {
+                let cur_pos_row = (idx + 1) as u32;
+                positions_sheet.write_number(cur_pos_row, 0, position.position as f64,
+                                             Some(&data_style)).unwrap();
+                positions_sheet.write_boolean(cur_pos_row, 2, position.low_support,
+                                              Some(&data_style)).unwrap();
+                positions_sheet.write_number(cur_pos_row, 3, position.entropy,
+                                             Some(&data_style)).unwrap();
+                positions_sheet.write_number(cur_pos_row, 4, position.support as f64,
+                                             Some(&data_style)).unwrap();
+                positions_sheet.write_number(cur_pos_row, 5, position.distinct_variants_count as f64,
+                                             Some(&data_style)).unwrap();
+                positions_sheet.write_number(cur_pos_row, 6, position.distinct_variants_incidence as f64,
+                                             Some(&data_style)).unwrap();
+
+                // If position has variants then create a new sheet for those, and add link to it in positions sheet
+                if let Some(variants) = &position.variants {
+                    // Add link to variants page
+                    positions_sheet.write_formula_str(cur_pos_row, 1, format!("=HYPERLINK(\"#{0}!A1\",\"Variants\")", position.position).as_str(),
+                                                      Some(&link_style), "Variants").unwrap();
+
+                    // Create the variants sheet
+                    if let Ok(mut variants_sheet) = workbook.add_worksheet(Some(position.position.to_string().as_str())) {
+                        // Add variants column titles
+                        excel_variants_col_titles().iter().enumerate().for_each(|(idx, item)| {
+                            variants_sheet.write_string(1, idx as u16, item, Some(&title_style)).unwrap();
+                        });
+
+                        // Add link to go back to positions
+                        variants_sheet.write_formula_str(0, 0, format!("=HYPERLINK(\"#positions!B{0}\",\"< Back\")", cur_pos_row + 1).as_str(),
+                                                         Some(&link_style), "< Back").unwrap();
+
+                        // Add the variants to the sheet
+                        variants.iter().enumerate().for_each(|(idx, variant)| {
+                            let cur_var_row = (idx + 2) as u32;
+                            variants_sheet.write_string(cur_var_row, 0, variant.sequence.as_str(), Some(&data_style)).unwrap();
+                            variants_sheet.write_number(cur_var_row, 1, variant.count as f64, Some(&data_style)).unwrap();
+                            variants_sheet.write_number(cur_var_row, 2, variant.incidence as f64, Some(&data_style)).unwrap();
+                            variants_sheet.write_string(cur_var_row, 3, variant.motif_long.as_ref().unwrap().as_str(), Some(&data_style)).unwrap();
+                        })
+                    }
+                }
+            });
+        }
+    }
+}
 #[pymethods]
 impl Position {
     /// This method allows one to get a sorted list of Minor variants from a kmer position.
@@ -531,76 +648,6 @@ fn get_kmers_and_headers(
 }
 
 /// This is one of the two main functions that are accessible from Python side.
-/// It uses the get_results_obj function to generate the results, and then converts the results
-/// into JSON.
-///
-/// This function does not return anything. If a save path is defined, it will save the JSON
-/// results to this path, or else send the results to STDOUT.
-///
-/// # Parameters:
-/// * `path` - The full path to the FASTA file.
-/// * `kmer_length` - The length of k-mers to generate.
-/// * `header_format` - The format of the FASTA header.
-/// * `support_threshold` - Minimum support needed for a k-mer position to be considered valid.
-/// * `protein_name` - The name of the protein being analysed.
-/// * `save_path` - The file path to save the JSON results to.
-/// * `header_fillna` - If there are empty items in the FASTA header (when header_format != None), replace with this value.
-///
-/// :param path: The full path to the FASTA file.
-/// :param kmer_length: The length of k-mers to generate (default: 9).
-/// :param header_format: The format of the FASTA header.
-/// :param support_threshold: Minimum support needed for a k-mer position to be considered valid (default: 30).
-/// :param protein_name: The name of the protein being analysed (default: Unknown Protein).
-/// :param save_path: The file path to save the JSON results to.
-/// :param header_fillna: If there are empty items in the FASTA header (when header_format != None), replace with this value.
-///
-/// :type path: str
-/// :type kmer_length: int
-/// :type header_format: Optional[List[str]]
-/// :type support_threshold: int
-/// :type protein_name: str
-/// :type save_path: Optional[str]
-/// :type header_fillna: Optional[str]
-///
-/// :return: None
-#[pyfunction]
-#[pyo3(
-text_signature = "(path, kmer_length, header_format, support_threshold, protein_name, save_path, header_fillna)"
-)]
-pub fn get_results_json(
-    _py: Python,
-    path: String,
-    kmer_length: usize,
-    header_format: Option<Vec<String>>,
-    support_threshold: usize,
-    protein_name: String,
-    save_path: Option<String>,
-    header_fillna: Option<String>,
-) {
-    let json_results = serde_json::to_string_pretty(&get_results_objs(
-        _py,
-        path,
-        kmer_length,
-        header_format,
-        support_threshold,
-        protein_name,
-        header_fillna,
-    ))
-        .unwrap();
-
-    if save_path.is_some() {
-        let mut f = File::create(save_path.unwrap()).expect("Unable to create JSON file on disk.");
-
-        f.write_all(json_results.as_bytes())
-            .expect("Unable to write JSON to the created file.");
-
-        return;
-    }
-
-    println!("{}", json_results);
-}
-
-/// This is one of the two main functions that are accessible from Python side.
 ///
 /// # Parameters:
 /// * `path` - The full path to the FASTA file.
@@ -758,7 +805,6 @@ pub fn get_results_objs(
 #[pymodule]
 fn dima(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(get_results_objs, m)?)?;
-    m.add_function(wrap_pyfunction!(get_results_json, m)?)?;
     m.add_class::<Position>()?;
     m.add_class::<Variant>()?;
     m.add_class::<Results>()?;
