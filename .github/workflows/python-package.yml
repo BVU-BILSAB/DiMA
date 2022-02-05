@@ -46,7 +46,7 @@ jobs:
       if: matrix.os == 'macos-latest'
       run: |
         softwareupdate --all --install --force
-        rm -rf /Library/Developer/CommandLineTools
+        sudo rm -rf /Library/Developer/CommandLineTools
         xcode-select --install
 
     - name: Build Rust Bindings
