@@ -38,22 +38,10 @@ jobs:
           override: true
 
     - name: Install LLVM and Clang
+      if: matrix.os == 'windows-latest'
       uses: KyleMayes/install-llvm-action@v1
       with:
         version: "13.0.0"
-
-    - name: Install C headers for macOS
-      if: matrix.os == 'macos-latest'
-      run: |
-        softwareupdate --all --install --force
-        sudo rm -rf /Library/Developer/CommandLineTools
-        xcode-select --install
-
-    - name: Build Rust Bindings
-      if: matrix.os != 'windows-latest'
-      env:
-        LIBCLANG_PATH: ${{ env.LLVM_PATH }}/lib
-      run: poetry run maturin develop --release
 
     - name: Build Rust Bindings
       if: matrix.os == 'windows-latest'
