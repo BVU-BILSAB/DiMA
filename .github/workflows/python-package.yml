@@ -37,12 +37,6 @@ jobs:
           toolchain: nightly
           override: true
 
-    - name: Install LLVM and Clang
-      if: matrix.os == 'windows-latest'
-      uses: KyleMayes/install-llvm-action@v1
-      with:
-        version: "13.0.0"
-
     - name: Build Rust Bindings
       if: matrix.os != 'windows-latest'
       run: poetry run maturin develop --release
@@ -50,7 +44,7 @@ jobs:
     - name: Build Rust Bindings
       if: matrix.os == 'windows-latest'
       env:
-        LIBCLANG_PATH: ${{ env.LLVM_PATH }}\bin
+        LIBCLANG_PATH: C:\msys64\mingw64\bin
       run: poetry run maturin develop --release
 
     - name: Run Python Tests
