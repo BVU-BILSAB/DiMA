@@ -41,7 +41,7 @@ jobs:
       if: matrix.os == 'windows-latest'
       run: |
         curl -Ls -o "LLVM-13.0.0-win64.exe" "https://github.com/llvm/llvm-project/releases/download/llvmorg-13.0.0/LLVM-13.0.0-win64.exe"
-        LLVM-13.0.0-win64.exe /S
+        .\LLVM-13.0.0-win64.exe /S
 
     - name: Build Rust Bindings
       if: matrix.os != 'windows-latest'
