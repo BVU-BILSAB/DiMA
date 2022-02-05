@@ -49,13 +49,6 @@ jobs:
       run: echo "LIBCLANG_PATH=$((gcm clang).source -replace "clang.exe")" >> $env:GITHUB_ENV
 
     - name: Build Rust Bindings
-      if: matrix.os != 'windows-latest'
-      run: poetry run maturin develop --release
-
-    - name: Build Rust Bindings
-      if: matrix.os == 'windows-latest'
-      env:
-        LIBCLANG_PATH: C:\Program Files\LLVM\bin
       run: poetry run maturin develop --release
 
     - name: Run Python Tests
