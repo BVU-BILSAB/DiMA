@@ -38,14 +38,14 @@ jobs:
           override: true
 
     - name: Install LLVM and Clang
-      if: matrix.config.os == 'windows-latest'
+      if: matrix.os == 'windows-latest'
       uses: KyleMayes/install-llvm-action@32c4866ebb71e0949e8833eb49beeebed48532bd
       with:
         version: "13.0"
         directory: ${{ runner.temp }}/llvm
 
     - name: Set LIBCLANG_PATH
-      if: matrix.config.os == 'windows-latest'
+      if: matrix.os == 'windows-latest'
       run: echo "LIBCLANG_PATH=$((gcm clang).source -replace "clang.exe")" >> $env:GITHUB_ENV
 
     - name: Build Rust Bindings
