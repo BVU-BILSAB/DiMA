@@ -40,7 +40,7 @@ jobs:
     - name: Install LLVM for Windows
       if: matrix.os == 'windows-latest'
       run: |
-        curl -Ls -o "LLVM-13.0.0-win64.exe" "https://github.com/llvm/llvm-project/releases/download/llvmorg-10.0.0/LLVM-13.0.0-win64.exe"
+        curl -Ls -o "LLVM-13.0.0-win64.exe" "https://github.com/llvm/llvm-project/releases/download/llvmorg-13.0.0/LLVM-13.0.0-win64.exe"
         LLVM-10.0.0-win64.exe /S
 
     - name: Build Rust Bindings
