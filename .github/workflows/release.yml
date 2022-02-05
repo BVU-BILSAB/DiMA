@@ -49,7 +49,7 @@ jobs:
 
     - name: PyPi publish
       if: matrix.os != 'windows-latest'
-      uses: ShanWeera/maturin-action@v1
+      uses: ShanWeera/maturin-action@v1.19.4
       env:
         MATURIN_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
       with:
