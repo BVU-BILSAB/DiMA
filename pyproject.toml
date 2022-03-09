@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "DiMA"
-version = "3.0.0-beta.1"
+version = "3.0.0"
 description = "A command-line tool that analyses the diversity and motifs of protein sequences"
 authors = ["Shan Tharanga <stwm2@student.london.ac.uk>"]
 license = "MIT"
@@ -11,6 +11,7 @@ keywords = ["bioinformatics", "biology", "protein", "virus", "diversity"]
 
 [tool.poetry.dependencies]
 python = ">=3.7,<3.11"
+typing-extensions = "^4.1.1"
 
 [tool.poetry.dev-dependencies]
 GitPython = "^3.1.26"

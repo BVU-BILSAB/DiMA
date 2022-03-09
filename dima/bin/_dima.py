@@ -34,6 +34,8 @@ def main():
                         version='%(prog)s ' + get_version())
     parser.add_argument('-n', '--fillna', help='Silently fix missing values in the FASTA header with given value.',
                         default=None)
+    parser.add_argument('-a', '--alphabet', help='The type of the input sequences (ie: protein/nucleotide, '
+                                                 'default: protein))', default="protein")
 
     arguments = parser.parse_args()
     inputx = arguments.input
@@ -53,7 +55,8 @@ def main():
             header_format=arguments.format,
             protein_name=arguments.protein,
             support_threshold=arguments.support,
-            header_fillna=arguments.fillna
+            header_fillna=arguments.fillna,
+            alphabet=arguments.alphabet
         ).run()
 
         if arguments.type == 'json':
@@ -61,7 +64,7 @@ def main():
         else:
             result_objs.to_excel(arguments.output)
     except Exception as ex:
-        parser.error(f'Exception while calculating kmers for sequences file {arguments.input}\n{ex}')
+        parser.error(f'Exception while generating kmers for sequences file {arguments.input}\n{ex}')
         sys.exit(5)
 
     print(f'Results successfully saved at {arguments.output}')
