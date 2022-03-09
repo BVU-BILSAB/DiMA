@@ -35,17 +35,24 @@ def assert_all_properties(results, output_data):
         assert new_position.distinct_variants_count == old_position.get('distinct_variants_count')
         assert round(new_position.distinct_variants_incidence) == round(old_position.get('distinct_variants_incidence'))
 
-        if not new_position.variants or not old_position.get('variants'):
+        if not new_position.diversity_motifs or not old_position.get('diversity_motifs'):
             continue
 
-        for new_variant, old_variant in product(new_position.variants, old_position.get('variants')):
+        for new_variant, old_variant in product(new_position.diversity_motifs, old_position.get('diversity_motifs')):
             if new_variant.sequence == old_variant.get('sequence'):
                 assert new_variant.sequence == old_variant.get('sequence')
                 assert new_variant.motif_long == old_variant.get('motif_long')
                 assert new_variant.motif_short == old_variant.get('motif_short')
                 assert round(new_variant.incidence) == round(old_variant.get('incidence'))
                 assert new_variant.count == old_variant.get('count')
-                assert new_variant.metadata == old_variant.get('metadata')
+
+                if new_variant.metadata and old_variant.get('metadata'):
+                    new_metadata, old_metadata = new_variant.metadata, old_variant.get('metadata')
+                    keys = new_metadata.keys()
+                    for key in keys:
+                        assert new_metadata[key] == old_metadata[key]
+                else:
+                    assert new_variant.metadata == old_variant.get('metadata')
 
 
 def test_module_basic_use(test_input_data, test_basic_output_data):

@@ -23,7 +23,7 @@ use xlsxwriter::{FormatAlignment, FormatColor, FormatUnderline, Workbook};
 
 
 fn excel_pos_col_titles() -> Vec<&'static str> {
-    vec!["Position", "Variants", "Low Support",
+    vec!["Position", "Diversity Motifs", "Low Support",
          "Entropy", "Support", "Distinct Variants",
          "Distinct Variants Incidence"]
 }
@@ -67,7 +67,7 @@ pub struct Position {
     position: usize,
 
     #[pyo3(get)]
-    low_support: bool,
+    low_support: Option<String>,
 
     #[pyo3(get)]
     entropy: f64,
@@ -82,7 +82,7 @@ pub struct Position {
     distinct_variants_incidence: f32,
 
     #[pyo3(get)]
-    variants: Option<Vec<Variant>>,
+    diversity_motifs: Option<Vec<Variant>>,
 }
 
 #[pyclass]
@@ -119,7 +119,7 @@ impl Results {
     /// :type path: Optional[str]
     ///
     /// :return: A string containing the json, or "true" when successfully saved.
-    #[pyo3(text_signature = "(path, print)")]
+    #[pyo3(text_signature = "(path)")]
     fn to_json(&self, path: Option<String>) -> PyResult<String> {
         let json_results = serde_json::to_string_pretty(&self).unwrap();
 
@@ -137,7 +137,7 @@ impl Results {
             Ok(json_results)
         }
     }
-
+    #[pyo3(text_signature = "(path)")]
     fn to_excel(&self, path: String) {
         // First we create a workbook with the path provided by the user
         let workbook = Workbook::new(path.as_str());
@@ -161,49 +161,113 @@ impl Results {
         if let Ok(mut positions_sheet) = workbook.add_worksheet(Some("positions")) {
             // Add the headers for the position sheet
             excel_pos_col_titles().iter().enumerate().for_each(|(idx, item)| {
-                positions_sheet.write_string(0, idx as u16, item, Some(&title_style)).unwrap()
+                positions_sheet.write_string(
+                    0, idx as u16,
+                    item,
+                    Some(&title_style))
+                    .unwrap()
             });
 
             // Loop through each positino and add to the sheet
             self.results.iter().enumerate().for_each(|(idx, position)| {
                 let cur_pos_row = (idx + 1) as u32;
-                positions_sheet.write_number(cur_pos_row, 0, position.position as f64,
-                                             Some(&data_style)).unwrap();
-                positions_sheet.write_boolean(cur_pos_row, 2, position.low_support,
-                                              Some(&data_style)).unwrap();
-                positions_sheet.write_number(cur_pos_row, 3, position.entropy,
-                                             Some(&data_style)).unwrap();
-                positions_sheet.write_number(cur_pos_row, 4, position.support as f64,
-                                             Some(&data_style)).unwrap();
-                positions_sheet.write_number(cur_pos_row, 5, position.distinct_variants_count as f64,
-                                             Some(&data_style)).unwrap();
-                positions_sheet.write_number(cur_pos_row, 6, position.distinct_variants_incidence as f64,
-                                             Some(&data_style)).unwrap();
+                positions_sheet.write_number(
+                    cur_pos_row,
+                    0,
+                    position.position as f64,
+                    Some(&data_style))
+                    .unwrap();
+                positions_sheet.write_string(
+                    cur_pos_row,
+                    2,
+                    &position.low_support.as_ref().unwrap_or(&" ".to_string()),
+                    Some(&data_style))
+                    .unwrap();
+                positions_sheet.write_number(
+                    cur_pos_row,
+                    3,
+                    position.entropy,
+                    Some(&data_style))
+                    .unwrap();
+                positions_sheet.write_number(
+                    cur_pos_row,
+                    4,
+                    position.support as f64,
+                    Some(&data_style))
+                    .unwrap();
+                positions_sheet.write_number(
+                    cur_pos_row,
+                    5,
+                    position.distinct_variants_count as f64,
+                    Some(&data_style)).unwrap();
+                positions_sheet.write_number(
+                    cur_pos_row,
+                    6,
+                    position.distinct_variants_incidence as f64,
+                    Some(&data_style))
+                    .unwrap();
 
                 // If position has variants then create a new sheet for those, and add link to it in positions sheet
-                if let Some(variants) = &position.variants {
+                if let Some(variants) = &position.diversity_motifs {
                     // Add link to variants page
-                    positions_sheet.write_formula_str(cur_pos_row, 1, format!("=HYPERLINK(\"#{0}!A1\",\"Variants\")", position.position).as_str(),
-                                                      Some(&link_style), "Variants").unwrap();
+                    positions_sheet.write_formula_str(
+                        cur_pos_row,
+                        1,
+                        format!("=HYPERLINK(\"#{0}!A1\",\"Variants\")", position.position).as_str(),
+                        Some(&link_style), "Variants")
+                        .unwrap();
 
                     // Create the variants sheet
-                    if let Ok(mut variants_sheet) = workbook.add_worksheet(Some(position.position.to_string().as_str())) {
+                    if let Ok(mut variants_sheet) = workbook
+                        .add_worksheet(Some(position.position.to_string().as_str())) {
                         // Add variants column titles
-                        excel_variants_col_titles().iter().enumerate().for_each(|(idx, item)| {
-                            variants_sheet.write_string(1, idx as u16, item, Some(&title_style)).unwrap();
+                        excel_variants_col_titles()
+                            .iter()
+                            .enumerate()
+                            .for_each(|(idx, item)| {
+                            variants_sheet.write_string(
+                                1,
+                                idx as u16,
+                                item,
+                                Some(&title_style))
+                                .unwrap();
                         });
 
                         // Add link to go back to positions
-                        variants_sheet.write_formula_str(0, 0, format!("=HYPERLINK(\"#positions!B{0}\",\"< Back\")", cur_pos_row + 1).as_str(),
-                                                         Some(&link_style), "< Back").unwrap();
+                        variants_sheet.write_formula_str(
+                            0,
+                            0,
+                            format!("=HYPERLINK(\"#positions!B{0}\",\"< Back\")", cur_pos_row + 1).as_str(),
+                            Some(&link_style), "< Back")
+                            .unwrap();
 
                         // Add the variants to the sheet
                         variants.iter().enumerate().for_each(|(idx, variant)| {
                             let cur_var_row = (idx + 2) as u32;
-                            variants_sheet.write_string(cur_var_row, 0, variant.sequence.as_str(), Some(&data_style)).unwrap();
-                            variants_sheet.write_number(cur_var_row, 1, variant.count as f64, Some(&data_style)).unwrap();
-                            variants_sheet.write_number(cur_var_row, 2, variant.incidence as f64, Some(&data_style)).unwrap();
-                            variants_sheet.write_string(cur_var_row, 3, variant.motif_long.as_ref().unwrap().as_str(), Some(&data_style)).unwrap();
+                            variants_sheet.write_string(
+                                cur_var_row,
+                                0,
+                                variant.sequence.as_str(),
+                                Some(&data_style))
+                                .unwrap();
+                            variants_sheet.write_number(
+                                cur_var_row,
+                                1,
+                                variant.count as f64,
+                                Some(&data_style))
+                                .unwrap();
+                            variants_sheet.write_number(
+                                cur_var_row,
+                                2,
+                                variant.incidence as f64,
+                                Some(&data_style))
+                                .unwrap();
+                            variants_sheet.write_string(
+                                cur_var_row,
+                                3,
+                                variant.motif_long.as_ref().unwrap().as_str(),
+                                Some(&data_style))
+                                .unwrap();
                         })
                     }
                 }
@@ -227,7 +291,7 @@ impl Position {
     #[pyo3(text_signature = "(sort)")]
     fn get_minors(&self, sort: Option<String>) -> Option<Vec<Variant>> {
         let mut variant_matches = self
-            .variants
+            .diversity_motifs
             .as_ref()?
             .iter()
             .filter(|variant| variant.motif_short.as_ref().unwrap() == "Mi")
@@ -265,13 +329,13 @@ impl Position {
         entropy: f64,
         support: usize,
         variants: Option<&mut Vec<Variant>>,
-        low_support: bool,
+        low_support: Option<String>,
     ) -> Self {
         let mut position_obj = Self {
             position,
             support,
             entropy,
-            variants: None,
+            diversity_motifs: None,
             distinct_variants_count: 0,
             distinct_variants_incidence: 0.0,
             low_support,
@@ -291,14 +355,14 @@ impl Position {
         variants_unwrapped.into_iter().for_each(|variant| {
             if variant.count == max_incidence {
                 if variant.count != 1 {
-                    variant.motif_long = Some("Index".parse().unwrap());
-                    variant.motif_short = Some("I".parse().unwrap());
+                    variant.motif_long = Some("Index".to_owned());
+                    variant.motif_short = Some("I".to_string());
                 }
             }
 
             if variant.count == 1 {
-                variant.motif_long = Some("Unique".parse().unwrap());
-                variant.motif_short = Some("U".parse().unwrap());
+                variant.motif_long = Some("Unique".to_owned());
+                variant.motif_short = Some("U".to_string());
             }
         });
 
@@ -315,7 +379,7 @@ impl Position {
             position_obj.distinct_variants_count = distinct_variants_count;
             position_obj.distinct_variants_incidence =
                 (distinct_variants_count as f32 / support as f32) * 100_f32;
-            position_obj.variants = Some(variants_unwrapped.to_owned());
+            position_obj.diversity_motifs = Some(variants_unwrapped.to_owned());
 
             return position_obj;
         }
@@ -343,7 +407,7 @@ impl Position {
         position_obj.distinct_variants_count = distinct_variants_count;
         position_obj.distinct_variants_incidence =
             (distinct_variants_count as f32 / support as f32) * 100_f32;
-        position_obj.variants = Some(variants_unwrapped.to_owned());
+        position_obj.diversity_motifs = Some(variants_unwrapped.to_owned());
 
         position_obj
     }
@@ -514,6 +578,10 @@ fn shannons_entropy(kmers: &[Box<str>]) -> f64 {
         })
         .sum::<f64>();
 
+    if entropy == 0_f64 {
+        return entropy;
+    }
+
     entropy *= -1_f64;
     entropy
 }
@@ -535,6 +603,7 @@ fn calculate_entropy(kmers: &[Box<str>], support_threshold: &usize) -> f64 {
 
     // If the kmer count is less than threshold we just return the uncorrected (un-resampled) entropy
     // value
+    // This should be considered LS
     if &kmer_count < support_threshold {
         return all_kmers_entropy
     }
@@ -543,6 +612,12 @@ fn calculate_entropy(kmers: &[Box<str>], support_threshold: &usize) -> f64 {
     // Figure out the percentage at which we reached threshold
     let percentage_cutoff = ((*support_threshold as f64 / kmer_count as f64) * 100_f64)
         .ceil() as usize;
+
+    // This too should be called low support too
+    // For now we have NS, LS, ELS
+    if percentage_cutoff == 100 {
+        return all_kmers_entropy
+    }
 
     // Go through all the way from the percentage cutoff until 99%.
     // We ignore everything below the cutoff because we have more than enough kmers to resample
@@ -553,7 +628,7 @@ fn calculate_entropy(kmers: &[Box<str>], support_threshold: &usize) -> f64 {
         .into_iter()
         .map(|percentage| {
             // Figure out the number of samples that this % represents
-            let samples = (percentage * kmer_count) / 100 ;
+            let samples = (percentage * kmer_count) / 100;
 
             // Get the actual random samples
             let random_samples = get_random_samples(kmers, &samples);
@@ -577,12 +652,21 @@ fn get_kmers_and_headers(
     kmer_length: &usize,
     header_format: Option<&Vec<String>>,
     header_fillna: Option<&String>,
+    alphabet: Option<&String>,
 ) -> (
     Vec<Vec<String>>,
     Option<Vec<Option<HashMap<String, String>>>>,
     usize,
 ) {
-    let illegal_chars: &Vec<char> = &vec!['-', 'X', 'B', 'J', 'Z', 'O', 'U'];
+    let illegal_chars = if let Some(residue_alphabet) = alphabet {
+        if residue_alphabet == "protein" {
+            vec!['-', 'X', 'B', 'J', 'Z', 'O', 'U']
+        } else {
+            vec!['-', 'R', 'Y', 'K', 'M', 'S', 'W', 'B', 'D', 'H', 'V', 'N']
+        }
+    } else {
+        vec!['-', 'X', 'B', 'J', 'Z', 'O', 'U']
+    };
 
     let kmers_and_headers =
         fasta::Reader::new(File::open(path).expect("Failed to read FASTA file"))
@@ -593,7 +677,7 @@ fn get_kmers_and_headers(
                 let kmers = sliding_window(
                     &String::from_utf8(Vec::from(record_unwrapped.seq())).unwrap(),
                     &kmer_length,
-                    illegal_chars,
+                    &illegal_chars,
                 );
 
                 let mut headers: Option<HashMap<String, String>> = None;
@@ -653,6 +737,7 @@ fn get_kmers_and_headers(
 /// * `path` - The full path to the FASTA file.
 /// * `kmer_length` - The length of k-mers to generate.
 /// * `header_format` - The format of the FASTA header.
+/// * `alphabet` - The alphabet of the sequences (ie: protein/nucleotide, default: protein)
 /// * `support_threshold` - Minimum support needed for a k-mer position to be considered valid.
 /// * `protein_name` - The name of the protein being analysed.
 /// * `header_fillna` - If there are empty items in the FASTA header (when header_format != None), replace with this value.
@@ -660,6 +745,7 @@ fn get_kmers_and_headers(
 /// :param path: The full path to the FASTA file.
 /// :param kmer_length: The length of k-mers to generate (default: 9).
 /// :param header_format: The format of the FASTA header.
+/// :param alphabet: The alphabet of the sequences (ie: protein/nucleotide, default: protein)
 /// :param support_threshold: Minimum support needed for a k-mer position to be considered valid (default: 30).
 /// :param protein_name: The name of the protein being analysed (default: Unknown Protein).
 /// :param header_fillna: If there are empty items in the FASTA header (when header_format != None), replace with this value.
@@ -667,6 +753,7 @@ fn get_kmers_and_headers(
 /// :type path: str
 /// :type kmer_length: int
 /// :type header_format: Optional[List[str]]
+/// :type alphabet: Optional[Literal["protein", "nucleotide"]]
 /// :type support_threshold: int
 /// :type protein_name: str
 /// :type header_fillna: Optional[str]
@@ -674,13 +761,14 @@ fn get_kmers_and_headers(
 /// :return: A Results object
 #[pyfunction]
 #[pyo3(
-text_signature = "(path, kmer_length, header_format, support_threshold, protein_name, header_fillna)"
+text_signature = "(path, kmer_length, header_format, alphabet, support_threshold, protein_name, header_fillna)"
 )]
 pub fn get_results_objs(
     _py: Python,
     path: String,
     kmer_length: usize,
     header_format: Option<Vec<String>>,
+    alphabet: Option<String>,
     support_threshold: usize,
     protein_name: String,
     header_fillna: Option<String>,
@@ -690,6 +778,7 @@ pub fn get_results_objs(
         &kmer_length,
         header_format.as_ref(),
         header_fillna.as_ref(),
+        alphabet.as_ref(),
     );
 
     let position_slices=  kmers
@@ -764,10 +853,12 @@ pub fn get_results_objs(
                 } else {
                     Some(&mut variants)
                 },
-                if support >= support_threshold {
-                    false
+                if support == 0 {
+                    Some("NS".to_owned())
+                } else if support <= support_threshold {
+                    Some("LS".to_owned())
                 } else {
-                    true
+                    None
                 },
             );
         })
@@ -779,7 +870,7 @@ pub fn get_results_objs(
         sequence_count,
         low_support_count: positions
             .iter()
-            .filter(|position| position.low_support == true)
+            .filter(|position| position.low_support.is_some())
             .count(),
         protein_name,
         results: positions,

@@ -11,6 +11,7 @@ keywords = ["bioinformatics", "biology", "protein", "virus", "diversity"]
 
 [tool.poetry.dependencies]
 python = ">=3.7,<3.11"
+typing-extensions = "^4.1.1"
 
 [tool.poetry.dev-dependencies]
 GitPython = "^3.1.26"

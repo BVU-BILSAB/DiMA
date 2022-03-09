@@ -66,12 +66,12 @@ results = Dima(sequences="aligned_sequences.afa").run()
    "results":[
       {
          "position":1,
-         "low_support":false,
+         "low_support": null,
          "entropy":0.8383740426713246,
          "support":124,
          "distinct_variants_count":4,
          "distinct_variants_incidence":3.2258062,
-         "variants":[
+         "diversity_motifs":[
             {
                "sequence":"MKTIIALSC",
                "count":2,
@@ -132,899 +132,1422 @@ results = Dima(sequences="aligned_sequences.afa", header_format="accession|strai
 ### Results
 ```
 {
-  "sequence_count": 3,
-  "support_threshold": 30,
-  "low_support_count": 18,
-  "protein_name": "Unknown Protein",
-  "kmer_length": 9,
-  "results": [
-    {
-      "position": 1,
-      "low_support": true,
-      "entropy": 0.0,
-      "support": 3,
-      "distinct_variants_count": 0,
-      "distinct_variants_incidence": 0.0,
-      "variants": [
-        {
-          "sequence": "MSASKEIKS",
-          "count": 3,
-          "incidence": 100.0,
-          "motif_short": "I",
-          "motif_long": "Index",
-          "metadata": {
-            "accession": {
-              "AYD75325.1": 1,
-              "QEP52131.1": 1,
-              "AYD75365.1": 1
+   "sequence_count":346,
+   "support_threshold":30,
+   "low_support_count":0,
+   "protein_name":"Unknown Protein",
+   "kmer_length":9,
+   "results":[
+      {
+         "position":1,
+         "low_support":null,
+         "entropy":0.4155993859186796,
+         "support":324,
+         "distinct_variants_count":10,
+         "distinct_variants_incidence":3.0864198,
+         "diversity_motifs":[
+            {
+               "sequence":"MERIEELRD",
+               "count":3,
+               "incidence":0.9259259,
+               "motif_short":"Ma",
+               "motif_long":"Major",
+               "metadata":null
             },
-            "strain": {
-              "Sierra Leone": 3
+            {
+               "sequence":"MERIRELRD",
+               "count":1,
+               "incidence":0.30864197,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
             },
-            "date": {
-              "2012": 1,
-              "1980": 1,
-              "1979": 1
+            {
+               "sequence":"MERIQELRD",
+               "count":2,
+               "incidence":0.61728394,
+               "motif_short":"Mi",
+               "motif_long":"Minor",
+               "metadata":null
             },
-            "species": {
-              "Homo sapiens": 2,
-              "Unknown": 1
+            {
+               "sequence":"MERKKELRD",
+               "count":1,
+               "incidence":0.30864197,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
+            },
+            {
+               "sequence":"MERIKELRY",
+               "count":1,
+               "incidence":0.30864197,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
+            },
+            {
+               "sequence":"MERIKELKD",
+               "count":1,
+               "incidence":0.30864197,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
+            },
+            {
+               "sequence":"MERIKELGD",
+               "count":1,
+               "incidence":0.30864197,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
+            },
+            {
+               "sequence":"MESIKELRD",
+               "count":1,
+               "incidence":0.30864197,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
+            },
+            {
+               "sequence":"MERIKELRN",
+               "count":2,
+               "incidence":0.61728394,
+               "motif_short":"Mi",
+               "motif_long":"Minor",
+               "metadata":null
+            },
+            {
+               "sequence":"MERTKELRD",
+               "count":1,
+               "incidence":0.30864197,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
+            },
+            {
+               "sequence":"MERIKELRD",
+               "count":310,
+               "incidence":95.679016,
+               "motif_short":"I",
+               "motif_long":"Index",
+               "metadata":null
             }
-          }
-        }
-      ]
-    },
-    {
-      "position": 2,
-      "low_support": true,
-      "entropy": 0.0,
-      "support": 3,
-      "distinct_variants_count": 0,
-      "distinct_variants_incidence": 0.0,
-      "variants": [
-        {
-          "sequence": "SASKEIKSF",
-          "count": 3,
-          "incidence": 100.0,
-          "motif_short": "I",
-          "motif_long": "Index",
-          "metadata": {
-            "species": {
-              "Homo sapiens": 2,
-              "Unknown": 1
+         ]
+      },
+      {
+         "position":2,
+         "low_support":null,
+         "entropy":0.39924295895426243,
+         "support":324,
+         "distinct_variants_count":10,
+         "distinct_variants_incidence":3.0864198,
+         "diversity_motifs":[
+            {
+               "sequence":"ERIKELGDL",
+               "count":1,
+               "incidence":0.30864197,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
             },
-            "accession": {
-              "AYD75325.1": 1,
-              "QEP52131.1": 1,
-              "AYD75365.1": 1
+            {
+               "sequence":"ERIKELRYL",
+               "count":1,
+               "incidence":0.30864197,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
             },
-            "strain": {
-              "Sierra Leone": 3
+            {
+               "sequence":"ESIKELRDL",
+               "count":1,
+               "incidence":0.30864197,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
             },
-            "date": {
-              "1979": 1,
-              "2012": 1,
-              "1980": 1
+            {
+               "sequence":"ERTKELRDL",
+               "count":1,
+               "incidence":0.30864197,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
+            },
+            {
+               "sequence":"ERIKELRNL",
+               "count":2,
+               "incidence":0.61728394,
+               "motif_short":"Mi",
+               "motif_long":"Minor",
+               "metadata":null
+            },
+            {
+               "sequence":"ERIQELRDL",
+               "count":2,
+               "incidence":0.61728394,
+               "motif_short":"Mi",
+               "motif_long":"Minor",
+               "metadata":null
+            },
+            {
+               "sequence":"ERIKELKDL",
+               "count":1,
+               "incidence":0.30864197,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
+            },
+            {
+               "sequence":"ERIRELRDL",
+               "count":1,
+               "incidence":0.30864197,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
+            },
+            {
+               "sequence":"ERIKELRDL",
+               "count":310,
+               "incidence":95.679016,
+               "motif_short":"I",
+               "motif_long":"Index",
+               "metadata":null
+            },
+            {
+               "sequence":"ERIEELRDL",
+               "count":3,
+               "incidence":0.9259259,
+               "motif_short":"Ma",
+               "motif_long":"Major",
+               "metadata":null
+            },
+            {
+               "sequence":"ERKKELRDL",
+               "count":1,
+               "incidence":0.30864197,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
             }
-          }
-        }
-      ]
-    },
-    {
-      "position": 3,
-      "low_support": true,
-      "entropy": 0.0,
-      "support": 3,
-      "distinct_variants_count": 0,
-      "distinct_variants_incidence": 0.0,
-      "variants": [
-        {
-          "sequence": "ASKEIKSFL",
-          "count": 3,
-          "incidence": 100.0,
-          "motif_short": "I",
-          "motif_long": "Index",
-          "metadata": {
-            "strain": {
-              "Sierra Leone": 3
+         ]
+      },
+      {
+         "position":3,
+         "low_support":null,
+         "entropy":0.3786091248201827,
+         "support":324,
+         "distinct_variants_count":10,
+         "distinct_variants_incidence":3.0864198,
+         "diversity_motifs":[
+            {
+               "sequence":"RIKELRYLM",
+               "count":1,
+               "incidence":0.30864197,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
             },
-            "date": {
-              "1980": 1,
-              "2012": 1,
-              "1979": 1
+            {
+               "sequence":"RIRELRDLM",
+               "count":1,
+               "incidence":0.30864197,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
             },
-            "species": {
-              "Homo sapiens": 2,
-              "Unknown": 1
+            {
+               "sequence":"RKKELRDLM",
+               "count":1,
+               "incidence":0.30864197,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
             },
-            "accession": {
-              "AYD75365.1": 1,
-              "QEP52131.1": 1,
-              "AYD75325.1": 1
+            {
+               "sequence":"SIKELRDLM",
+               "count":1,
+               "incidence":0.30864197,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
+            },
+            {
+               "sequence":"RTKELRDLM",
+               "count":1,
+               "incidence":0.30864197,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
+            },
+            {
+               "sequence":"RIKELRDLM",
+               "count":310,
+               "incidence":95.679016,
+               "motif_short":"I",
+               "motif_long":"Index",
+               "metadata":null
+            },
+            {
+               "sequence":"RIKELRNLM",
+               "count":2,
+               "incidence":0.61728394,
+               "motif_short":"Mi",
+               "motif_long":"Minor",
+               "metadata":null
+            },
+            {
+               "sequence":"RIEELRDLM",
+               "count":3,
+               "incidence":0.9259259,
+               "motif_short":"Ma",
+               "motif_long":"Major",
+               "metadata":null
+            },
+            {
+               "sequence":"RIKELKDLM",
+               "count":1,
+               "incidence":0.30864197,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
+            },
+            {
+               "sequence":"RIQELRDLM",
+               "count":2,
+               "incidence":0.61728394,
+               "motif_short":"Mi",
+               "motif_long":"Minor",
+               "metadata":null
+            },
+            {
+               "sequence":"RIKELGDLM",
+               "count":1,
+               "incidence":0.30864197,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
             }
-          }
-        }
-      ]
-    },
-    {
-      "position": 4,
-      "low_support": true,
-      "entropy": 0.0,
-      "support": 3,
-      "distinct_variants_count": 0,
-      "distinct_variants_incidence": 0.0,
-      "variants": [
-        {
-          "sequence": "SKEIKSFLW",
-          "count": 3,
-          "incidence": 100.0,
-          "motif_short": "I",
-          "motif_long": "Index",
-          "metadata": {
-            "accession": {
-              "AYD75365.1": 1,
-              "QEP52131.1": 1,
-              "AYD75325.1": 1
+         ]
+      },
+      {
+         "position":4,
+         "low_support":null,
+         "entropy":0.321556750210603,
+         "support":324,
+         "distinct_variants_count":9,
+         "distinct_variants_incidence":2.777778,
+         "diversity_motifs":[
+            {
+               "sequence":"IQELRDLMS",
+               "count":2,
+               "incidence":0.61728394,
+               "motif_short":"Mi",
+               "motif_long":"Minor",
+               "metadata":null
             },
-            "date": {
-              "2012": 1,
-              "1980": 1,
-              "1979": 1
+            {
+               "sequence":"IKELGDLMS",
+               "count":1,
+               "incidence":0.30864197,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
             },
-            "strain": {
-              "Sierra Leone": 3
+            {
+               "sequence":"IKELRNLMS",
+               "count":2,
+               "incidence":0.61728394,
+               "motif_short":"Mi",
+               "motif_long":"Minor",
+               "metadata":null
             },
-            "species": {
-              "Homo sapiens": 2,
-              "Unknown": 1
+            {
+               "sequence":"IKELRDLMS",
+               "count":311,
+               "incidence":95.987656,
+               "motif_short":"I",
+               "motif_long":"Index",
+               "metadata":null
+            },
+            {
+               "sequence":"IEELRDLMS",
+               "count":3,
+               "incidence":0.9259259,
+               "motif_short":"Ma",
+               "motif_long":"Major",
+               "metadata":null
+            },
+            {
+               "sequence":"IKELRYLMS",
+               "count":1,
+               "incidence":0.30864197,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
+            },
+            {
+               "sequence":"KKELRDLMS",
+               "count":1,
+               "incidence":0.30864197,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
+            },
+            {
+               "sequence":"TKELRDLMS",
+               "count":1,
+               "incidence":0.30864197,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
+            },
+            {
+               "sequence":"IRELRDLMS",
+               "count":1,
+               "incidence":0.30864197,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
+            },
+            {
+               "sequence":"IKELKDLMS",
+               "count":1,
+               "incidence":0.30864197,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
             }
-          }
-        }
-      ]
-    },
-    {
-      "position": 5,
-      "low_support": true,
-      "entropy": 0.0,
-      "support": 3,
-      "distinct_variants_count": 0,
-      "distinct_variants_incidence": 0.0,
-      "variants": [
-        {
-          "sequence": "KEIKSFLWT",
-          "count": 3,
-          "incidence": 100.0,
-          "motif_short": "I",
-          "motif_long": "Index",
-          "metadata": {
-            "date": {
-              "1979": 1,
-              "1980": 1,
-              "2012": 1
+         ]
+      },
+      {
+         "position":5,
+         "low_support":null,
+         "entropy":0.42804434263685753,
+         "support":331,
+         "distinct_variants_count":10,
+         "distinct_variants_incidence":3.021148,
+         "diversity_motifs":[
+            {
+               "sequence":"KELRNLMSQ",
+               "count":2,
+               "incidence":0.6042296,
+               "motif_short":"Mi",
+               "motif_long":"Minor",
+               "metadata":null
             },
-            "strain": {
-              "Sierra Leone": 3
+            {
+               "sequence":"RELRDLMSQ",
+               "count":1,
+               "incidence":0.3021148,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
             },
-            "accession": {
-              "AYD75365.1": 1,
-              "QEP52131.1": 1,
-              "AYD75325.1": 1
+            {
+               "sequence":"KELKDLMSQ",
+               "count":1,
+               "incidence":0.3021148,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
             },
-            "species": {
-              "Unknown": 1,
-              "Homo sapiens": 2
+            {
+               "sequence":"KELRDLMSQ",
+               "count":314,
+               "incidence":94.864044,
+               "motif_short":"I",
+               "motif_long":"Index",
+               "metadata":null
+            },
+            {
+               "sequence":"EELRDLMSQ",
+               "count":3,
+               "incidence":0.9063444,
+               "motif_short":"Ma",
+               "motif_long":"Major",
+               "metadata":null
+            },
+            {
+               "sequence":"QELRDLMSQ",
+               "count":2,
+               "incidence":0.6042296,
+               "motif_short":"Mi",
+               "motif_long":"Minor",
+               "metadata":null
+            },
+            {
+               "sequence":"KELGDLMSQ",
+               "count":1,
+               "incidence":0.3021148,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
+            },
+            {
+               "sequence":"KELRDLMSL",
+               "count":1,
+               "incidence":0.3021148,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
+            },
+            {
+               "sequence":"KELRYLMSQ",
+               "count":1,
+               "incidence":0.3021148,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
+            },
+            {
+               "sequence":"KGLRDLMSQ",
+               "count":2,
+               "incidence":0.6042296,
+               "motif_short":"Mi",
+               "motif_long":"Minor",
+               "metadata":null
+            },
+            {
+               "sequence":"KDLRDLMSQ",
+               "count":3,
+               "incidence":0.9063444,
+               "motif_short":"Ma",
+               "motif_long":"Major",
+               "metadata":null
             }
-          }
-        }
-      ]
-    },
-    {
-      "position": 6,
-      "low_support": true,
-      "entropy": 0.0,
-      "support": 3,
-      "distinct_variants_count": 0,
-      "distinct_variants_incidence": 0.0,
-      "variants": [
-        {
-          "sequence": "EIKSFLWTQ",
-          "count": 3,
-          "incidence": 100.0,
-          "motif_short": "I",
-          "motif_long": "Index",
-          "metadata": {
-            "accession": {
-              "QEP52131.1": 1,
-              "AYD75365.1": 1,
-              "AYD75325.1": 1
+         ]
+      },
+      {
+         "position":6,
+         "low_support":null,
+         "entropy":0.3179789989386376,
+         "support":331,
+         "distinct_variants_count":7,
+         "distinct_variants_incidence":2.1148038,
+         "diversity_motifs":[
+            {
+               "sequence":"DLRDLMSQS",
+               "count":3,
+               "incidence":0.9063444,
+               "motif_short":"Ma",
+               "motif_long":"Major",
+               "metadata":null
             },
-            "species": {
-              "Unknown": 1,
-              "Homo sapiens": 2
+            {
+               "sequence":"ELRYLMSQS",
+               "count":1,
+               "incidence":0.3021148,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
             },
-            "strain": {
-              "Sierra Leone": 3
+            {
+               "sequence":"GLRDLMSQS",
+               "count":2,
+               "incidence":0.6042296,
+               "motif_short":"Mi",
+               "motif_long":"Minor",
+               "metadata":null
             },
-            "date": {
-              "1980": 1,
-              "2012": 1,
-              "1979": 1
+            {
+               "sequence":"ELRNLMSQS",
+               "count":2,
+               "incidence":0.6042296,
+               "motif_short":"Mi",
+               "motif_long":"Minor",
+               "metadata":null
+            },
+            {
+               "sequence":"ELKDLMSQS",
+               "count":1,
+               "incidence":0.3021148,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
+            },
+            {
+               "sequence":"ELRDLMSLS",
+               "count":1,
+               "incidence":0.3021148,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
+            },
+            {
+               "sequence":"ELGDLMSQS",
+               "count":1,
+               "incidence":0.3021148,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
+            },
+            {
+               "sequence":"ELRDLMSQS",
+               "count":320,
+               "incidence":96.676735,
+               "motif_short":"I",
+               "motif_long":"Index",
+               "metadata":null
             }
-          }
-        }
-      ]
-    },
-    {
-      "position": 7,
-      "low_support": true,
-      "entropy": 0.0,
-      "support": 3,
-      "distinct_variants_count": 0,
-      "distinct_variants_incidence": 0.0,
-      "variants": [
-        {
-          "sequence": "IKSFLWTQS",
-          "count": 3,
-          "incidence": 100.0,
-          "motif_short": "I",
-          "motif_long": "Index",
-          "metadata": {
-            "date": {
-              "2012": 1,
-              "1979": 1,
-              "1980": 1
+         ]
+      },
+      {
+         "position":7,
+         "low_support":null,
+         "entropy":0.29910562747260794,
+         "support":339,
+         "distinct_variants_count":8,
+         "distinct_variants_incidence":2.3598819,
+         "diversity_motifs":[
+            {
+               "sequence":"LRDLMSQSP",
+               "count":2,
+               "incidence":0.58997047,
+               "motif_short":"Ma",
+               "motif_long":"Major",
+               "metadata":null
             },
-            "species": {
-              "Homo sapiens": 2,
-              "Unknown": 1
+            {
+               "sequence":"LRYLMSQSR",
+               "count":1,
+               "incidence":0.29498523,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
             },
-            "accession": {
-              "QEP52131.1": 1,
-              "AYD75325.1": 1,
-              "AYD75365.1": 1
+            {
+               "sequence":"LRVLMSQSR",
+               "count":1,
+               "incidence":0.29498523,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
             },
-            "strain": {
-              "Sierra Leone": 3
+            {
+               "sequence":"LRVLLSQSR",
+               "count":1,
+               "incidence":0.29498523,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
+            },
+            {
+               "sequence":"LRDLMSQSR",
+               "count":329,
+               "incidence":97.05015,
+               "motif_short":"I",
+               "motif_long":"Index",
+               "metadata":null
+            },
+            {
+               "sequence":"LKDLMSQSR",
+               "count":1,
+               "incidence":0.29498523,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
+            },
+            {
+               "sequence":"LGDLMSQSR",
+               "count":1,
+               "incidence":0.29498523,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
+            },
+            {
+               "sequence":"LRNLMSQSR",
+               "count":2,
+               "incidence":0.58997047,
+               "motif_short":"Ma",
+               "motif_long":"Major",
+               "metadata":null
+            },
+            {
+               "sequence":"LRDLMSLSR",
+               "count":1,
+               "incidence":0.29498523,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
             }
-          }
-        }
-      ]
-    },
-    {
-      "position": 8,
-      "low_support": true,
-      "entropy": 0.0,
-      "support": 3,
-      "distinct_variants_count": 0,
-      "distinct_variants_incidence": 0.0,
-      "variants": [
-        {
-          "sequence": "KSFLWTQSL",
-          "count": 3,
-          "incidence": 100.0,
-          "motif_short": "I",
-          "motif_long": "Index",
-          "metadata": {
-            "species": {
-              "Homo sapiens": 2,
-              "Unknown": 1
+         ]
+      },
+      {
+         "position":8,
+         "low_support":null,
+         "entropy":0.2430201596843649,
+         "support":339,
+         "distinct_variants_count":8,
+         "distinct_variants_incidence":2.3598819,
+         "diversity_motifs":[
+            {
+               "sequence":"RVLLSQSRT",
+               "count":1,
+               "incidence":0.29498523,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
             },
-            "accession": {
-              "AYD75365.1": 1,
-              "QEP52131.1": 1,
-              "AYD75325.1": 1
+            {
+               "sequence":"RNLMSQSRT",
+               "count":2,
+               "incidence":0.58997047,
+               "motif_short":"Ma",
+               "motif_long":"Major",
+               "metadata":null
             },
-            "date": {
-              "2012": 1,
-              "1979": 1,
-              "1980": 1
+            {
+               "sequence":"RVLMSQSRT",
+               "count":1,
+               "incidence":0.29498523,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
             },
-            "strain": {
-              "Sierra Leone": 3
+            {
+               "sequence":"RDLMSQSRT",
+               "count":329,
+               "incidence":97.05015,
+               "motif_short":"I",
+               "motif_long":"Index",
+               "metadata":null
+            },
+            {
+               "sequence":"GDLMSQSRT",
+               "count":1,
+               "incidence":0.29498523,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
+            },
+            {
+               "sequence":"RDLMSLSRT",
+               "count":1,
+               "incidence":0.29498523,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
+            },
+            {
+               "sequence":"RYLMSQSRT",
+               "count":1,
+               "incidence":0.29498523,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
+            },
+            {
+               "sequence":"RDLMSQSPT",
+               "count":2,
+               "incidence":0.58997047,
+               "motif_short":"Ma",
+               "motif_long":"Major",
+               "metadata":null
+            },
+            {
+               "sequence":"KDLMSQSRT",
+               "count":1,
+               "incidence":0.29498523,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
             }
-          }
-        }
-      ]
-    },
-    {
-      "position": 9,
-      "low_support": true,
-      "entropy": 0.0,
-      "support": 3,
-      "distinct_variants_count": 0,
-      "distinct_variants_incidence": 0.0,
-      "variants": [
-        {
-          "sequence": "SFLWTQSLR",
-          "count": 3,
-          "incidence": 100.0,
-          "motif_short": "I",
-          "motif_long": "Index",
-          "metadata": {
-            "accession": {
-              "QEP52131.1": 1,
-              "AYD75325.1": 1,
-              "AYD75365.1": 1
+         ]
+      },
+      {
+         "position":9,
+         "low_support":null,
+         "entropy":0.24307001384944973,
+         "support":340,
+         "distinct_variants_count":6,
+         "distinct_variants_incidence":1.764706,
+         "diversity_motifs":[
+            {
+               "sequence":"VLLSQSRTR",
+               "count":1,
+               "incidence":0.29411766,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
             },
-            "species": {
-              "Homo sapiens": 2,
-              "Unknown": 1
+            {
+               "sequence":"YLMSQSRTR",
+               "count":1,
+               "incidence":0.29411766,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
             },
-            "date": {
-              "1979": 1,
-              "1980": 1,
-              "2012": 1
+            {
+               "sequence":"DLMSQSRTR",
+               "count":332,
+               "incidence":97.64706,
+               "motif_short":"I",
+               "motif_long":"Index",
+               "metadata":null
             },
-            "strain": {
-              "Sierra Leone": 3
+            {
+               "sequence":"DLMSQSPTR",
+               "count":2,
+               "incidence":0.5882353,
+               "motif_short":"Ma",
+               "motif_long":"Major",
+               "metadata":null
+            },
+            {
+               "sequence":"NLMSQSRTR",
+               "count":2,
+               "incidence":0.5882353,
+               "motif_short":"Ma",
+               "motif_long":"Major",
+               "metadata":null
+            },
+            {
+               "sequence":"VLMSQSRTR",
+               "count":1,
+               "incidence":0.29411766,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
+            },
+            {
+               "sequence":"DLMSLSRTR",
+               "count":1,
+               "incidence":0.29411766,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
             }
-          }
-        }
-      ]
-    },
-    {
-      "position": 10,
-      "low_support": true,
-      "entropy": 0.0,
-      "support": 3,
-      "distinct_variants_count": 0,
-      "distinct_variants_incidence": 0.0,
-      "variants": [
-        {
-          "sequence": "FLWTQSLRR",
-          "count": 3,
-          "incidence": 100.0,
-          "motif_short": "I",
-          "motif_long": "Index",
-          "metadata": {
-            "strain": {
-              "Sierra Leone": 3
+         ]
+      },
+      {
+         "position":10,
+         "low_support":null,
+         "entropy":0.12749531957967702,
+         "support":340,
+         "distinct_variants_count":3,
+         "distinct_variants_incidence":0.882353,
+         "diversity_motifs":[
+            {
+               "sequence":"LMSQSRTRE",
+               "count":336,
+               "incidence":98.82353,
+               "motif_short":"I",
+               "motif_long":"Index",
+               "metadata":null
             },
-            "species": {
-              "Homo sapiens": 2,
-              "Unknown": 1
+            {
+               "sequence":"LLSQSRTRE",
+               "count":1,
+               "incidence":0.29411766,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
             },
-            "accession": {
-              "AYD75325.1": 1,
-              "QEP52131.1": 1,
-              "AYD75365.1": 1
+            {
+               "sequence":"LMSQSPTRE",
+               "count":2,
+               "incidence":0.5882353,
+               "motif_short":"Ma",
+               "motif_long":"Major",
+               "metadata":null
             },
-            "date": {
-              "1979": 1,
-              "2012": 1,
-              "1980": 1
+            {
+               "sequence":"LMSLSRTRE",
+               "count":1,
+               "incidence":0.29411766,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
             }
-          }
-        }
-      ]
-    },
-    {
-      "position": 11,
-      "low_support": true,
-      "entropy": 0.0,
-      "support": 3,
-      "distinct_variants_count": 0,
-      "distinct_variants_incidence": 0.0,
-      "variants": [
-        {
-          "sequence": "LWTQSLRRE",
-          "count": 3,
-          "incidence": 100.0,
-          "motif_short": "I",
-          "motif_long": "Index",
-          "metadata": {
-            "species": {
-              "Homo sapiens": 2,
-              "Unknown": 1
+         ]
+      },
+      {
+         "position":11,
+         "low_support":null,
+         "entropy":0.13449723636627878,
+         "support":341,
+         "distinct_variants_count":5,
+         "distinct_variants_incidence":1.4662757,
+         "diversity_motifs":[
+            {
+               "sequence":"MSQFRTREI",
+               "count":1,
+               "incidence":0.29325512,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
             },
-            "strain": {
-              "Sierra Leone": 3
+            {
+               "sequence":"LSQSRTREI",
+               "count":1,
+               "incidence":0.29325512,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
             },
-            "date": {
-              "1980": 1,
-              "2012": 1,
-              "1979": 1
+            {
+               "sequence":"MSQSRTREI",
+               "count":335,
+               "incidence":98.24047,
+               "motif_short":"I",
+               "motif_long":"Index",
+               "metadata":null
             },
-            "accession": {
-              "QEP52131.1": 1,
-              "AYD75325.1": 1,
-              "AYD75365.1": 1
+            {
+               "sequence":"MSQSPTREI",
+               "count":2,
+               "incidence":0.58651024,
+               "motif_short":"Ma",
+               "motif_long":"Major",
+               "metadata":null
+            },
+            {
+               "sequence":"MSLSRTREI",
+               "count":1,
+               "incidence":0.29325512,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
+            },
+            {
+               "sequence":"MSQSRTREM",
+               "count":1,
+               "incidence":0.29325512,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
             }
-          }
-        }
-      ]
-    },
-    {
-      "position": 12,
-      "low_support": true,
-      "entropy": 0.914294702419047,
-      "support": 3,
-      "distinct_variants_count": 1,
-      "distinct_variants_incidence": 33.333336,
-      "variants": [
-        {
-          "sequence": "WTQSLRREL",
-          "count": 2,
-          "incidence": 66.66667,
-          "motif_short": "I",
-          "motif_long": "Index",
-          "metadata": {
-            "accession": {
-              "AYD75325.1": 1,
-              "QEP52131.1": 1
+         ]
+      },
+      {
+         "position":12,
+         "low_support":null,
+         "entropy":0.11944211390961701,
+         "support":341,
+         "distinct_variants_count":4,
+         "distinct_variants_incidence":1.1730205,
+         "diversity_motifs":[
+            {
+               "sequence":"SQFRTREIL",
+               "count":1,
+               "incidence":0.29325512,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
             },
-            "date": {
-              "1979": 1,
-              "2012": 1
+            {
+               "sequence":"SQSRTREML",
+               "count":1,
+               "incidence":0.29325512,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
             },
-            "strain": {
-              "Sierra Leone": 2
+            {
+               "sequence":"SQSPTREIL",
+               "count":2,
+               "incidence":0.58651024,
+               "motif_short":"Ma",
+               "motif_long":"Major",
+               "metadata":null
             },
-            "species": {
-              "Homo sapiens": 1,
-              "Unknown": 1
+            {
+               "sequence":"SLSRTREIL",
+               "count":1,
+               "incidence":0.29325512,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
+            },
+            {
+               "sequence":"SQSRTREIL",
+               "count":336,
+               "incidence":98.53372,
+               "motif_short":"I",
+               "motif_long":"Index",
+               "metadata":null
             }
-          }
-        },
-        {
-          "sequence": "WTQSLRRES",
-          "count": 1,
-          "incidence": 33.333336,
-          "motif_short": "U",
-          "motif_long": "Unique",
-          "metadata": {
-            "accession": {
-              "AYD75365.1": 1
+         ]
+      },
+      {
+         "position":13,
+         "low_support":null,
+         "entropy":0.1790721384219538,
+         "support":341,
+         "distinct_variants_count":6,
+         "distinct_variants_incidence":1.7595308,
+         "diversity_motifs":[
+            {
+               "sequence":"QSRTREILT",
+               "count":334,
+               "incidence":97.94722,
+               "motif_short":"I",
+               "motif_long":"Index",
+               "metadata":null
             },
-            "date": {
-              "1980": 1
+            {
+               "sequence":"QFRTREILK",
+               "count":1,
+               "incidence":0.29325512,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
             },
-            "strain": {
-              "Sierra Leone": 1
+            {
+               "sequence":"QSRTREILK",
+               "count":1,
+               "incidence":0.29325512,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
             },
-            "species": {
-              "Homo sapiens": 1
+            {
+               "sequence":"QSRTREMLT",
+               "count":1,
+               "incidence":0.29325512,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
+            },
+            {
+               "sequence":"QSRTREILA",
+               "count":1,
+               "incidence":0.29325512,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
+            },
+            {
+               "sequence":"QSPTREILT",
+               "count":2,
+               "incidence":0.58651024,
+               "motif_short":"Ma",
+               "motif_long":"Major",
+               "metadata":null
+            },
+            {
+               "sequence":"LSRTREILT",
+               "count":1,
+               "incidence":0.29325512,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
             }
-          }
-        }
-      ]
-    },
-    {
-      "position": 13,
-      "low_support": true,
-      "entropy": 0.9286973563836846,
-      "support": 3,
-      "distinct_variants_count": 1,
-      "distinct_variants_incidence": 33.333336,
-      "variants": [
-        {
-          "sequence": "TQSLRRELS",
-          "count": 2,
-          "incidence": 66.66667,
-          "motif_short": "I",
-          "motif_long": "Index",
-          "metadata": {
-            "date": {
-              "2012": 1,
-              "1979": 1
+         ]
+      },
+      {
+         "position":14,
+         "low_support":null,
+         "entropy":0.22601277726095098,
+         "support":339,
+         "distinct_variants_count":6,
+         "distinct_variants_incidence":1.7699115,
+         "diversity_motifs":[
+            {
+               "sequence":"FRTREILKK",
+               "count":1,
+               "incidence":0.29498523,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
             },
-            "strain": {
-              "Sierra Leone": 2
+            {
+               "sequence":"SPTREILTK",
+               "count":2,
+               "incidence":0.58997047,
+               "motif_short":"Ma",
+               "motif_long":"Major",
+               "metadata":null
             },
-            "species": {
-              "Homo sapiens": 1,
-              "Unknown": 1
+            {
+               "sequence":"SRTREMLTK",
+               "count":1,
+               "incidence":0.29498523,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
             },
-            "accession": {
-              "QEP52131.1": 1,
-              "AYD75325.1": 1
+            {
+               "sequence":"SRTREILTK",
+               "count":331,
+               "incidence":97.640114,
+               "motif_short":"I",
+               "motif_long":"Index",
+               "metadata":null
+            },
+            {
+               "sequence":"SRTREILTR",
+               "count":2,
+               "incidence":0.58997047,
+               "motif_short":"Ma",
+               "motif_long":"Major",
+               "metadata":null
+            },
+            {
+               "sequence":"SRTREILKK",
+               "count":1,
+               "incidence":0.29498523,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
+            },
+            {
+               "sequence":"SRTREILAK",
+               "count":1,
+               "incidence":0.29498523,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
             }
-          }
-        },
-        {
-          "sequence": "TQSLRRESS",
-          "count": 1,
-          "incidence": 33.333336,
-          "motif_short": "U",
-          "motif_long": "Unique",
-          "metadata": {
-            "strain": {
-              "Sierra Leone": 1
+         ]
+      },
+      {
+         "position":15,
+         "low_support":null,
+         "entropy":0.18314376315390937,
+         "support":339,
+         "distinct_variants_count":5,
+         "distinct_variants_incidence":1.4749262,
+         "diversity_motifs":[
+            {
+               "sequence":"RTREILTRT",
+               "count":2,
+               "incidence":0.58997047,
+               "motif_short":"Ma",
+               "motif_long":"Major",
+               "metadata":null
             },
-            "species": {
-              "Homo sapiens": 1
+            {
+               "sequence":"RTREMLTKT",
+               "count":1,
+               "incidence":0.29498523,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
             },
-            "date": {
-              "1980": 1
+            {
+               "sequence":"RTREILTKT",
+               "count":331,
+               "incidence":97.640114,
+               "motif_short":"I",
+               "motif_long":"Index",
+               "metadata":null
             },
-            "accession": {
-              "AYD75365.1": 1
+            {
+               "sequence":"RTREILKKT",
+               "count":2,
+               "incidence":0.58997047,
+               "motif_short":"Ma",
+               "motif_long":"Major",
+               "metadata":null
+            },
+            {
+               "sequence":"RTREILAKT",
+               "count":1,
+               "incidence":0.29498523,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
+            },
+            {
+               "sequence":"PTREILTKT",
+               "count":2,
+               "incidence":0.58997047,
+               "motif_short":"Ma",
+               "motif_long":"Major",
+               "metadata":null
             }
-          }
-        }
-      ]
-    },
-    {
-      "position": 14,
-      "low_support": true,
-      "entropy": 1.590726304378389,
-      "support": 3,
-      "distinct_variants_count": 3,
-      "distinct_variants_incidence": 100.0,
-      "variants": [
-        {
-          "sequence": "QSLRRESSG",
-          "count": 1,
-          "incidence": 33.333336,
-          "motif_short": "U",
-          "motif_long": "Unique",
-          "metadata": {
-            "strain": {
-              "Sierra Leone": 1
+         ]
+      },
+      {
+         "position":16,
+         "low_support":null,
+         "entropy":0.14519461444101875,
+         "support":339,
+         "distinct_variants_count":4,
+         "distinct_variants_incidence":1.1799409,
+         "diversity_motifs":[
+            {
+               "sequence":"TREMLTKTT",
+               "count":1,
+               "incidence":0.29498523,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
             },
-            "date": {
-              "1980": 1
+            {
+               "sequence":"TREILTRTT",
+               "count":2,
+               "incidence":0.58997047,
+               "motif_short":"Ma",
+               "motif_long":"Major",
+               "metadata":null
             },
-            "accession": {
-              "AYD75365.1": 1
+            {
+               "sequence":"TREILKKTT",
+               "count":2,
+               "incidence":0.58997047,
+               "motif_short":"Ma",
+               "motif_long":"Major",
+               "metadata":null
             },
-            "species": {
-              "Homo sapiens": 1
+            {
+               "sequence":"TREILTKTT",
+               "count":333,
+               "incidence":98.23009,
+               "motif_short":"I",
+               "motif_long":"Index",
+               "metadata":null
+            },
+            {
+               "sequence":"TREILAKTT",
+               "count":1,
+               "incidence":0.29498523,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
             }
-          }
-        },
-        {
-          "sequence": "QSLRRELSS",
-          "count": 1,
-          "incidence": 33.333336,
-          "motif_short": "U",
-          "motif_long": "Unique",
-          "metadata": {
-            "accession": {
-              "QEP52131.1": 1
+         ]
+      },
+      {
+         "position":17,
+         "low_support":null,
+         "entropy":0.12872153445634518,
+         "support":340,
+         "distinct_variants_count":4,
+         "distinct_variants_incidence":1.1764706,
+         "diversity_motifs":[
+            {
+               "sequence":"REILKKTTV",
+               "count":2,
+               "incidence":0.5882353,
+               "motif_short":"Ma",
+               "motif_long":"Major",
+               "metadata":null
             },
-            "strain": {
-              "Sierra Leone": 1
+            {
+               "sequence":"REILTKTTV",
+               "count":334,
+               "incidence":98.23529,
+               "motif_short":"I",
+               "motif_long":"Index",
+               "metadata":null
             },
-            "species": {
-              "Homo sapiens": 1
+            {
+               "sequence":"REMLTKTTV",
+               "count":1,
+               "incidence":0.29411766,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
             },
-            "date": {
-              "2012": 1
+            {
+               "sequence":"REILAKTTV",
+               "count":1,
+               "incidence":0.29411766,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
+            },
+            {
+               "sequence":"REILTRTTV",
+               "count":2,
+               "incidence":0.5882353,
+               "motif_short":"Ma",
+               "motif_long":"Major",
+               "metadata":null
             }
-          }
-        },
-        {
-          "sequence": "QSLRRELSG",
-          "count": 1,
-          "incidence": 33.333336,
-          "motif_short": "U",
-          "motif_long": "Unique",
-          "metadata": {
-            "strain": {
-              "Sierra Leone": 1
+         ]
+      },
+      {
+         "position":18,
+         "low_support":null,
+         "entropy":0.14544968829880628,
+         "support":340,
+         "distinct_variants_count":5,
+         "distinct_variants_incidence":1.4705882,
+         "diversity_motifs":[
+            {
+               "sequence":"EILTKTTVD",
+               "count":334,
+               "incidence":98.23529,
+               "motif_short":"I",
+               "motif_long":"Index",
+               "metadata":null
             },
-            "species": {
-              "Unknown": 1
+            {
+               "sequence":"EILTRTTVD",
+               "count":2,
+               "incidence":0.5882353,
+               "motif_short":"Ma",
+               "motif_long":"Major",
+               "metadata":null
             },
-            "accession": {
-              "AYD75325.1": 1
+            {
+               "sequence":"EILKKTTVA",
+               "count":1,
+               "incidence":0.29411766,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
             },
-            "date": {
-              "1979": 1
+            {
+               "sequence":"EILAKTTVD",
+               "count":1,
+               "incidence":0.29411766,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
+            },
+            {
+               "sequence":"EILKKTTVD",
+               "count":1,
+               "incidence":0.29411766,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
+            },
+            {
+               "sequence":"EMLTKTTVD",
+               "count":1,
+               "incidence":0.29411766,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
             }
-          }
-        }
-      ]
-    },
-    {
-      "position": 15,
-      "low_support": true,
-      "entropy": 1.5836823969940967,
-      "support": 3,
-      "distinct_variants_count": 3,
-      "distinct_variants_incidence": 100.0,
-      "variants": [
-        {
-          "sequence": "SLRRESSGY",
-          "count": 1,
-          "incidence": 33.333336,
-          "motif_short": "U",
-          "motif_long": "Unique",
-          "metadata": {
-            "accession": {
-              "AYD75365.1": 1
+         ]
+      },
+      {
+         "position":19,
+         "low_support":null,
+         "entropy":0.16340842363172586,
+         "support":340,
+         "distinct_variants_count":5,
+         "distinct_variants_incidence":1.4705882,
+         "diversity_motifs":[
+            {
+               "sequence":"ILKKTTVDH",
+               "count":1,
+               "incidence":0.29411766,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
             },
-            "species": {
-              "Homo sapiens": 1
+            {
+               "sequence":"ILTKTTVDH",
+               "count":334,
+               "incidence":98.23529,
+               "motif_short":"I",
+               "motif_long":"Index",
+               "metadata":null
             },
-            "strain": {
-              "Sierra Leone": 1
+            {
+               "sequence":"ILKKTTVAH",
+               "count":1,
+               "incidence":0.29411766,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
             },
-            "date": {
-              "1980": 1
+            {
+               "sequence":"MLTKTTVDH",
+               "count":1,
+               "incidence":0.29411766,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
+            },
+            {
+               "sequence":"ILTRTTVDH",
+               "count":2,
+               "incidence":0.5882353,
+               "motif_short":"Ma",
+               "motif_long":"Major",
+               "metadata":null
+            },
+            {
+               "sequence":"ILAKTTVDH",
+               "count":1,
+               "incidence":0.29411766,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
             }
-          }
-        },
-        {
-          "sequence": "SLRRELSGY",
-          "count": 1,
-          "incidence": 33.333336,
-          "motif_short": "U",
-          "motif_long": "Unique",
-          "metadata": {
-            "accession": {
-              "AYD75325.1": 1
+         ]
+      },
+      {
+         "position":20,
+         "low_support":null,
+         "entropy":0.12946172258125144,
+         "support":340,
+         "distinct_variants_count":4,
+         "distinct_variants_incidence":1.1764706,
+         "diversity_motifs":[
+            {
+               "sequence":"LKKTTVAHM",
+               "count":1,
+               "incidence":0.29411766,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
             },
-            "species": {
-              "Unknown": 1
+            {
+               "sequence":"LTKTTVDHM",
+               "count":335,
+               "incidence":98.52941,
+               "motif_short":"I",
+               "motif_long":"Index",
+               "metadata":null
             },
-            "date": {
-              "1979": 1
+            {
+               "sequence":"LAKTTVDHM",
+               "count":1,
+               "incidence":0.29411766,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
             },
-            "strain": {
-              "Sierra Leone": 1
+            {
+               "sequence":"LTRTTVDHM",
+               "count":2,
+               "incidence":0.5882353,
+               "motif_short":"Ma",
+               "motif_long":"Major",
+               "metadata":null
+            },
+            {
+               "sequence":"LKKTTVDHM",
+               "count":1,
+               "incidence":0.29411766,
+               "motif_short":"U",
+               "motif_long":"Unique",
+               "metadata":null
             }
-          }
-        },
-        {
-          "sequence": "SLRRELSSY",
-          "count": 1,
-          "incidence": 33.333336,
-          "motif_short": "U",
-          "motif_long": "Unique",
-          "metadata": {
-            "strain": {
-              "Sierra Leone": 1
-            },
-            "accession": {
-              "QEP52131.1": 1
-            },
-            "species": {
-              "Homo sapiens": 1
-            },
-            "date": {
-              "2012": 1
-            }
-          }
-        }
-      ]
-    },
-    {
-      "position": 16,
-      "low_support": true,
-      "entropy": 1.5880632175312825,
-      "support": 3,
-      "distinct_variants_count": 3,
-      "distinct_variants_incidence": 100.0,
-      "variants": [
-        {
-          "sequence": "LRRESSGYC",
-          "count": 1,
-          "incidence": 33.333336,
-          "motif_short": "U",
-          "motif_long": "Unique",
-          "metadata": {
-            "accession": {
-              "AYD75365.1": 1
-            },
-            "strain": {
-              "Sierra Leone": 1
-            },
-            "species": {
-              "Homo sapiens": 1
-            },
-            "date": {
-              "1980": 1
-            }
-          }
-        },
-        {
-          "sequence": "LRRELSSYC",
-          "count": 1,
-          "incidence": 33.333336,
-          "motif_short": "U",
-          "motif_long": "Unique",
-          "metadata": {
-            "accession": {
-              "QEP52131.1": 1
-            },
-            "strain": {
-              "Sierra Leone": 1
-            },
-            "species": {
-              "Homo sapiens": 1
-            },
-            "date": {
-              "2012": 1
-            }
-          }
-        },
-        {
-          "sequence": "LRRELSGYC",
-          "count": 1,
-          "incidence": 33.333336,
-          "motif_short": "U",
-          "motif_long": "Unique",
-          "metadata": {
-            "strain": {
-              "Sierra Leone": 1
-            },
-            "date": {
-              "1979": 1
-            },
-            "accession": {
-              "AYD75325.1": 1
-            },
-            "species": {
-              "Unknown": 1
-            }
-          }
-        }
-      ]
-    },
-    {
-      "position": 17,
-      "low_support": true,
-      "entropy": 1.5839045388565696,
-      "support": 3,
-      "distinct_variants_count": 3,
-      "distinct_variants_incidence": 100.0,
-      "variants": [
-        {
-          "sequence": "RRELSSYCS",
-          "count": 1,
-          "incidence": 33.333336,
-          "motif_short": "U",
-          "motif_long": "Unique",
-          "metadata": {
-            "species": {
-              "Homo sapiens": 1
-            },
-            "date": {
-              "2012": 1
-            },
-            "accession": {
-              "QEP52131.1": 1
-            },
-            "strain": {
-              "Sierra Leone": 1
-            }
-          }
-        },
-        {
-          "sequence": "RRELSGYCS",
-          "count": 1,
-          "incidence": 33.333336,
-          "motif_short": "U",
-          "motif_long": "Unique",
-          "metadata": {
-            "accession": {
-              "AYD75325.1": 1
-            },
-            "species": {
-              "Unknown": 1
-            },
-            "strain": {
-              "Sierra Leone": 1
-            },
-            "date": {
-              "1979": 1
-            }
-          }
-        },
-        {
-          "sequence": "RRESSGYCS",
-          "count": 1,
-          "incidence": 33.333336,
-          "motif_short": "U",
-          "motif_long": "Unique",
-          "metadata": {
-            "species": {
-              "Homo sapiens": 1
-            },
-            "strain": {
-              "Sierra Leone": 1
-            },
-            "date": {
-              "1980": 1
-            },
-            "accession": {
-              "AYD75365.1": 1
-            }
-          }
-        }
-      ]
-    },
-    {
-      "position": 18,
-      "low_support": true,
-      "entropy": 1.5856788550025385,
-      "support": 3,
-      "distinct_variants_count": 3,
-      "distinct_variants_incidence": 100.0,
-      "variants": [
-        {
-          "sequence": "RELSGYCSN",
-          "count": 1,
-          "incidence": 33.333336,
-          "motif_short": "U",
-          "motif_long": "Unique",
-          "metadata": {
-            "accession": {
-              "AYD75325.1": 1
-            },
-            "strain": {
-              "Sierra Leone": 1
-            },
-            "species": {
-              "Unknown": 1
-            },
-            "date": {
-              "1979": 1
-            }
-          }
-        },
-        {
-          "sequence": "RESSGYCSN",
-          "count": 1,
-          "incidence": 33.333336,
-          "motif_short": "U",
-          "motif_long": "Unique",
-          "metadata": {
-            "accession": {
-              "AYD75365.1": 1
-            },
-            "strain": {
-              "Sierra Leone": 1
-            },
-            "date": {
-              "1980": 1
-            },
-            "species": {
-              "Homo sapiens": 1
-            }
-          }
-        },
-        {
-          "sequence": "RELSSYCSN",
-          "count": 1,
-          "incidence": 33.333336,
-          "motif_short": "U",
-          "motif_long": "Unique",
-          "metadata": {
-            "date": {
-              "2012": 1
-            },
-            "strain": {
-              "Sierra Leone": 1
-            },
-            "accession": {
-              "QEP52131.1": 1
-            },
-            "species": {
-              "Homo sapiens": 1
-            }
-          }
-        }
-      ]
-    }
-  ]
+         ]
+      }
+   ]
 }
 ```
 
 ## Command-Line Arguments
-| **Argument** | **Type** | **Required** | **Default**                 | **Example**                                                              | **Description**                                                                               |
-|--------------|----------|--------------|-----------------------------|--------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
-| -h           | N/A      | False        | N/A                         | `dima-cli -h`                                                            | Prints a summary of all available command-line arguments.                                     |
-| -n           | String   | False        | Unknown                     | `dima-cli -i sequences.afa -f "accession\|strain\|country" -n "NA"`      | Silently fix missing values in the FASTA header with given value.                             |
-| -v           | N/A      | False        | N/A                         | `dima-cli -v`                                                            | Prints the version of dima-cli that is currently installed.                                   |
-| -p           | String   | False        | Unknown Protein             | `dima-cli -n "Coronavirus Surface Protein" -i sequences.afa`             | The name of the protein that will appear on the results.                                      |
-| -i           | String   | True         | N/A                         | `dima-cli -i sequences.afa`                                              | The path to the FASTA Multiple Sequence Alignment file.                                       |
-| -o           | String   | False        | stdout (prints the results) | `dima-cli -i sequences.afa -o results,json`                              | The location where the results shall be saved.                                                |
-| -l           | Integer  | False        | 9                           | `dima-cli -i sequences.afa -l 12`                                        | The length of the kmers generated.                                                            |
-| -f           | String   | False        | N/A                         | `dima-cli -i sequences.afa -f "accession\|strain\|country"`              | The format of the FASTA header. Labels where each variant of a kmer position originated from. |
-| -s           | Integer  | False        | 30                          | `dima-cli -i sequences.afa -l 12 -s 40`                                  | The minimum required support for each kmer position.                                          |
+| **Argument** | **Type** | **Required** | **Default**     | **Example**                                                         | **Description**                                                                               |   |
+|--------------|----------|--------------|-----------------|---------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|---|
+| -h           | N/A      | False        | N/A             | `dima-cli -h`                                                       | Prints a summary of all available command-line arguments.                                     |   |
+| -n           | String   | False        | Unknown         | `dima-cli -i sequences.afa -f "accession\|strain\|country" -n "NA"` | Silently fix missing values in the FASTA header with given value.                             |   |
+| -v           | N/A      | False        | N/A             | `dima-cli -v`                                                       | Prints the version of dima-cli that is currently installed.                                   |   |
+| -p           | String   | False        | Unknown Protein | `dima-cli -n "Coronavirus Surface Protein" -i sequences.afa`        | The name of the protein that will appear on the results.                                      |   |
+| -i           | String   | True         | N/A             | `dima-cli -i sequences.afa`                                         | The path to the FASTA Multiple Sequence Alignment file.                                       |   |
+| -o           | String   | True         | N/A             | `dima-cli -i sequences.afa -o results,json`                         | The location where the results shall be saved.                                                |   |
+| -l           | Integer  | False        | 9               | `dima-cli -i sequences.afa -l 12`                                   | The length of the kmers generated.                                                            |   |
+| -f           | String   | False        | N/A             | `dima-cli -i sequences.afa -f "accession\|strain\|country"`         | The format of the FASTA header. Labels where each variant of a kmer position originated from. |   |
+| -s           | Integer  | False        | 30              | `dima-cli -i sequences.afa -l 12 -s 40`                             | The minimum required support for each kmer position.                                          |   |
+| -a           | String   | False        | protein         | `dima-cli -i dna_sequences.afa -a nucleotide`                        | The alphabet of the sequences (ie: protein/nucleotide, default: protein)                      |   |
+
 
 
 
@@ -1039,3 +1562,4 @@ results = Dima(sequences="aligned_sequences.afa", header_format="accession|strai
 | support_threshold | Integer         | False        | 30                         | The minimum required support for each kmer position.                                                            |
 | protein_name      | String          | False        | Unknown Protein            | The name of the protein that will appear on the results.                                                        |
 | json_save_path    | String          | False        | stdout (prints to console) | The location where the results shall be saved (only required when ```json = True```).                           |
+| alphabet          | String          | False        | protein                    |The alphabet of the sequences (ie: protein/nucleotide, default: protein)                                                                                                                 |
