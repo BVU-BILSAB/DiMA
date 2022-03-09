@@ -1535,21 +1535,19 @@ results = Dima(sequences="aligned_sequences.afa", header_format="accession|strai
 ```
 
 ## Command-Line Arguments
-| **Argument** | **Type** | **Required** | **Default**     | **Example**                                                         | **Description**                                                                               |   |
-|--------------|----------|--------------|-----------------|---------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|---|
-| -h           | N/A      | False        | N/A             | `dima-cli -h`                                                       | Prints a summary of all available command-line arguments.                                     |   |
-| -n           | String   | False        | Unknown         | `dima-cli -i sequences.afa -f "accession\|strain\|country" -n "NA"` | Silently fix missing values in the FASTA header with given value.                             |   |
-| -v           | N/A      | False        | N/A             | `dima-cli -v`                                                       | Prints the version of dima-cli that is currently installed.                                   |   |
-| -p           | String   | False        | Unknown Protein | `dima-cli -n "Coronavirus Surface Protein" -i sequences.afa`        | The name of the protein that will appear on the results.                                      |   |
-| -i           | String   | True         | N/A             | `dima-cli -i sequences.afa`                                         | The path to the FASTA Multiple Sequence Alignment file.                                       |   |
-| -o           | String   | True         | N/A             | `dima-cli -i sequences.afa -o results,json`                         | The location where the results shall be saved.                                                |   |
-| -l           | Integer  | False        | 9               | `dima-cli -i sequences.afa -l 12`                                   | The length of the kmers generated.                                                            |   |
-| -f           | String   | False        | N/A             | `dima-cli -i sequences.afa -f "accession\|strain\|country"`         | The format of the FASTA header. Labels where each variant of a kmer position originated from. |   |
-| -s           | Integer  | False        | 30              | `dima-cli -i sequences.afa -l 12 -s 40`                             | The minimum required support for each kmer position.                                          |   |
-| -a           | String   | False        | protein         | `dima-cli -i dna_sequences.afa -a nucleotide`                        | The alphabet of the sequences (ie: protein/nucleotide, default: protein)                      |   |
-
-
-
+| **Argument** | **Type**           | **Required** | **Default**     | **Example**                                                                         | **Description**                                                                               |
+|--------------|--------------------|--------------|-----------------|-------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
+| -h           | N/A                | False        | N/A             | `dima-cli -h`                                                                       | Prints a summary of all available command-line arguments.                                     |
+| -n           | String             | False        | Unknown         | `dima-cli -i sequences.afa -o results.json -f "accession\|strain\|country" -n "NA"` | Silently fix missing values in the FASTA header with given value.                             |
+| -v           | N/A                | False        | N/A             | `dima-cli -v`                                                                       | Prints the version of dima-cli that is currently installed.                                   |
+| -p           | String             | False        | Unknown Protein | `dima-cli -n "Coronavirus Surface Protein" -i sequences.afa -o results.json`        | The name of the protein that will appear on the results.                                      |
+| -i           | String             | True         | N/A             | `dima-cli -i sequences.afa -o results.json`                                         | The path to the FASTA Multiple Sequence Alignment file.                                       |
+| -o           | String             | True         | N/A             | `dima-cli -i sequences.afa -o results,json`                                         | The location where the results shall be saved.                                                |
+| -l           | Integer            | False        | 9               | `dima-cli -i sequences.afa -l 12 -o results.json`                                   | The length of the kmers generated.                                                            |
+| -f           | String             | False        | N/A             | `dima-cli -i sequences.afa -f "accession\|strain\|country" -o results.json`         | The format of the FASTA header. Labels where each variant of a kmer position originated from. |
+| -s           | Integer            | False        | 30              | `dima-cli -i sequences.afa -l 12 -s 40  -o results.json`                            | The minimum required support for each kmer position.                                          |
+| -a           | nucleotide/protein | False        | protein         | `dima-cli -i dna_sequences.afa -a nucleotide -o results.json`                       | The alphabet of the sequences (ie: `protein`/`nucleotide`, default: protein)                  |
+| -t           | json/xlsx          | False        | json            | `dima-cli -i dna_sequences.afa -a nucleotide -o results.json -t xlsx`               | The output format (ie: `json`/`xlsx`, default: json)                                          |
 
 ## Module Parameters
 | **Parameter**     | **Type**        | **Required** | **Default**                | **Description**                                                                                                 |
@@ -1557,9 +1555,7 @@ results = Dima(sequences="aligned_sequences.afa", header_format="accession|strai
 | sequences         | String/StringIO | True         | N/A                        | The path to a FASTA Multiple Sequence Alignment file (MSA), or a StringIO object containing FASTA MSA.          |
 | kmer_length       | Integer         | False        | 9                          | The length of the kmers generated.                                                                              |
 | header_fillna     | String          | False        | Unknown                    | Silently fix missing values in the FASTA header with given value (only required when `header_format` is given). |
-| json              | Boolean         | False        | False                      | Whether the result is a JSON string, or a Python object.                                                        |
 | header_format     | String          | False        | N/A                        | The format of the FASTA header. Labels where each variant of a kmer position originated from.                   |
 | support_threshold | Integer         | False        | 30                         | The minimum required support for each kmer position.                                                            |
 | protein_name      | String          | False        | Unknown Protein            | The name of the protein that will appear on the results.                                                        |
-| json_save_path    | String          | False        | stdout (prints to console) | The location where the results shall be saved (only required when ```json = True```).                           |
 | alphabet          | String          | False        | protein                    |The alphabet of the sequences (ie: protein/nucleotide, default: protein)                                                                                                                 |
