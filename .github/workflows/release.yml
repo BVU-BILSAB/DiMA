@@ -4,9 +4,8 @@
 name: Release package
 
 on:
-  create:
-    tags:
-      - v*
+  release:
+    types: [published]
 
 jobs:
   release:
