@@ -1,13 +1,13 @@
 [package]
 name = "dima-cli"
-version = "3.0.0"
-description = "A command-line tool that analyses the diversity and motifs of protein sequences"
+version = "3.2.0"
+description = "A command-line tool that analyses the diversity and motifs of biological sequences"
 authors = ["Shan Tharanga <stwm2@student.london.ac.uk>"]
 license = "MIT"
 readme = "README.md"
 repository = "https://github.com/PU-SDS/DiMA"
 
-keywords = ["bioinformatics", "biology", "protein", "virus", "diversity"]
+keywords = ["bioinformatics", "biology", "protein", "virus", "diversity", "dna", "rna"]
 
 [lib]
 crate-type = ["cdylib"]
@@ -24,6 +24,7 @@ serde_json = "1.0.75"
 xlsxwriter = "0.3.5"
 serde = { version = "1.0.133", features = ["derive"] }
 pyo3 = { version = "0.15.1", features = ["extension-module"] }
+str_overlap = "0.4.3"
 
 [package.metadata.maturin]
 name = "dima.helpers.dima"

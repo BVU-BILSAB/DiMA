@@ -314,7 +314,7 @@ dependencies = [
 
 [[package]]
 name = "dima-cli"
-version = "3.0.0-beta.1"
+version = "3.0.1"
 dependencies = [
  "bio",
  "linreg",
@@ -325,6 +325,7 @@ dependencies = [
  "reduce",
  "serde",
  "serde_json",
+ "str_overlap",
  "xlsxwriter",
 ]
 
@@ -1159,6 +1160,15 @@ dependencies = [
  "nalgebra",
  "num-traits",
  "rand",
+]
+
+[[package]]
+name = "str_overlap"
+version = "0.4.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "70a2d94875a24433acafbd080b2d100f7d5fc8f880ad34fc553211cf5a8b0b88"
+dependencies = [
+ "autocfg",
 ]
 
 [[package]]

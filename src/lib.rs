@@ -7,6 +7,7 @@ extern crate serde;
 extern crate serde_json;
 extern crate core;
 extern crate xlsxwriter;
+extern crate str_overlap;
 
 use bio::io::fasta;
 use linreg::linear_regression_of;
@@ -20,6 +21,7 @@ use std::collections::HashMap;
 use std::fs::File;
 use std::io::Write;
 use xlsxwriter::{FormatAlignment, FormatColor, FormatUnderline, Workbook};
+use str_overlap::*;
 
 
 fn excel_pos_col_titles() -> Vec<&'static str> {
@@ -48,7 +50,7 @@ pub struct Results {
     low_support_count: usize,
 
     #[pyo3(get)]
-    protein_name: String,
+    sample_name: String,
 
     #[pyo3(get)]
     kmer_length: usize,
@@ -82,6 +84,9 @@ pub struct Position {
     distinct_variants_incidence: f32,
 
     #[pyo3(get)]
+    total_variance: f32,
+
+    #[pyo3(get)]
     diversity_motifs: Option<Vec<Variant>>,
 }
 
@@ -108,8 +113,72 @@ pub struct Variant {
     metadata: Option<HashMap<String, HashMap<String, usize>>>,
 }
 
+fn save_file(content: &str, path: &str) -> Result<(), PyErr> {
+    if let Ok(mut f) = File::create(path) {
+        if f.write_all(content.as_bytes()).is_ok() {
+            Ok(())
+        } else {
+            Err(PyIOError::new_err("Cannot write to file."))
+        }
+    } else {
+        Err(PyFileNotFoundError::new_err("Unable to create on disk."))
+    }
+}
+
 #[pymethods]
 impl Results {
+    #[pyo3(text_signature = "(path, threshold)")]
+    fn get_hcs(&self, path: Option<String>, threshold: Option<usize>) -> Result<Vec<String>, PyErr> {
+        let hcs = self
+            .results
+            .iter()
+            .flat_map(|position| position.diversity_motifs.as_ref())
+            .flatten()
+            .filter(|variant| variant.motif_short.as_ref().unwrap() == "I")
+            .filter(|variant| if threshold.is_none() { true } else { variant.count >= threshold.unwrap() })
+            .fold("".to_string(), |acc, variant| {
+                let sequence = variant.sequence.as_str();
+                let overlap = acc.overlap_end(sequence);
+                let mut new_acc = acc.to_string();
+
+                return if overlap.is_empty() {
+                    if acc.is_empty() {
+                        return sequence.to_string();
+                    }
+
+                    new_acc.push(',');
+                    new_acc.push_str(sequence);
+
+                    new_acc
+                } else {
+                    if let Some(last_residue) = sequence.chars().last() {
+                        new_acc.push(last_residue);
+
+                        new_acc
+                    } else {
+                        sequence.to_string()
+                    }
+                };
+            })
+            .split(",")
+            .map(|hcs| hcs.to_string())
+            .collect::<Vec<String>>();
+
+        if let Some(save_path) = path {
+            let json_results = serde_json::to_string_pretty(&hcs).unwrap();
+
+            match save_file(json_results.as_str(), save_path.as_str()) {
+                Ok(_) => {
+                    Ok(hcs)
+                }
+                Err(error) => {
+                    Err(error)
+                }
+            }
+        } else {
+            Ok(hcs)
+        }
+    }
     /// This method lets one convert the entire results object into JSON.
     ///
     /// # Parameters:
@@ -124,14 +193,13 @@ impl Results {
         let json_results = serde_json::to_string_pretty(&self).unwrap();
 
         if let Some(save_path) = path {
-            if let Ok(mut f) = File::create(save_path) {
-                if f.write_all(json_results.as_bytes()).is_ok() {
-                    Ok(true.to_string())
-                } else {
-                    Err(PyIOError::new_err("Cannot write to JSON file."))
+            match save_file(json_results.as_str(), save_path.as_str()) {
+                Ok(_) => {
+                    Ok(json_results)
                 }
-            } else {
-                Err(PyFileNotFoundError::new_err("Unable to create JSON file on disk."))
+                Err(error) => {
+                    Err(error)
+                }
             }
         } else {
             Ok(json_results)
@@ -225,13 +293,13 @@ impl Results {
                             .iter()
                             .enumerate()
                             .for_each(|(idx, item)| {
-                            variants_sheet.write_string(
-                                1,
-                                idx as u16,
-                                item,
-                                Some(&title_style))
-                                .unwrap();
-                        });
+                                variants_sheet.write_string(
+                                    1,
+                                    idx as u16,
+                                    item,
+                                    Some(&title_style))
+                                    .unwrap();
+                            });
 
                         // Add link to go back to positions
                         variants_sheet.write_formula_str(
@@ -275,6 +343,7 @@ impl Results {
         }
     }
 }
+
 #[pymethods]
 impl Position {
     /// This method allows one to get a sorted list of Minor variants from a kmer position.
@@ -315,15 +384,35 @@ impl Position {
     }
 }
 
+fn get_distinct_variant_counts(variants: &[Variant]) -> (usize, usize) {
+    let distinct_variants = variants
+        .into_iter()
+        .filter(|variant| variant.motif_short != Some('I'.to_string()));
+
+    let mut count = 0;
+    let mut total = 0;
+
+    for variant in distinct_variants {
+        total += variant.count;
+        count += 1;
+    }
+
+    (count, total)
+}
+
+fn set_pos_obj_data(position_obj: &mut Position, variants: &[Variant], support: &usize) {
+    let (distinct_variant_count, distinct_variants_total) = get_distinct_variant_counts(variants);
+    let index_count = support - distinct_variants_total;
+    let distinct_variants_incidence = (distinct_variant_count as f32 / (*support - index_count) as f32) * 100_f32;
+    let total_variance = (distinct_variants_total as f32 / *support as f32) * 100_f32;
+
+    position_obj.distinct_variants_count = distinct_variant_count;
+    position_obj.distinct_variants_incidence = if distinct_variants_incidence.is_nan() { 0.0 } else { distinct_variants_incidence };
+    position_obj.diversity_motifs = Some(variants.to_vec());
+    position_obj.total_variance = if total_variance.is_nan() { 0.0 } else { total_variance };
+}
+
 impl Position {
-    /// Returns a new Position object.
-    /// This is where motif classification takes place.
-    ///
-    /// # Parameters:
-    /// * `position` - The k-mer position we are dealing with.
-    /// * `entropy` - The entropy value for this position.
-    /// * `support` - How much support is present for this position (count of valid k-mers)
-    /// * `variants` - All the k-mer variants seen at this k-mer position.
     pub fn new(
         position: usize,
         entropy: f64,
@@ -337,6 +426,7 @@ impl Position {
             entropy,
             diversity_motifs: None,
             distinct_variants_count: 0,
+            total_variance: 0.0,
             distinct_variants_incidence: 0.0,
             low_support,
         };
@@ -344,6 +434,7 @@ impl Position {
         if variants.is_none() {
             return position_obj;
         }
+
         let variants_unwrapped = variants.unwrap();
 
         let mut max_incidence = variants_unwrapped
@@ -372,15 +463,7 @@ impl Position {
             .collect::<Vec<&mut Variant>>();
 
         if pending_classification.is_empty() {
-            let distinct_variants_count = variants_unwrapped
-                .into_par_iter()
-                .filter(|variant| variant.motif_short != Some('I'.to_string()))
-                .count();
-            position_obj.distinct_variants_count = distinct_variants_count;
-            position_obj.distinct_variants_incidence =
-                (distinct_variants_count as f32 / support as f32) * 100_f32;
-            position_obj.diversity_motifs = Some(variants_unwrapped.to_owned());
-
+            set_pos_obj_data(&mut position_obj, variants_unwrapped.as_slice(), &support);
             return position_obj;
         }
 
@@ -400,15 +483,7 @@ impl Position {
             }
         });
 
-        let distinct_variants_count = variants_unwrapped
-            .into_par_iter()
-            .filter(|variant| variant.motif_short != Some('I'.to_string()))
-            .count();
-        position_obj.distinct_variants_count = distinct_variants_count;
-        position_obj.distinct_variants_incidence =
-            (distinct_variants_count as f32 / support as f32) * 100_f32;
-        position_obj.diversity_motifs = Some(variants_unwrapped.to_owned());
-
+        set_pos_obj_data(&mut position_obj, variants_unwrapped.as_slice(), &support);
         position_obj
     }
 }
@@ -559,7 +634,7 @@ fn parse_header(
 fn get_random_samples<'a>(kmers: &[Box<str>], sample_size: &usize) -> Vec<Box<str>> {
     (0..*sample_size)
         .into_par_iter()
-        .map_init(|| rand::thread_rng(),  |mut rng, _| kmers
+        .map_init(|| rand::thread_rng(), |mut rng, _| kmers
             .choose(&mut rng)
             .unwrap()
             .to_string()
@@ -605,7 +680,7 @@ fn calculate_entropy(kmers: &[Box<str>], support_threshold: &usize) -> f64 {
     // value
     // This should be considered LS
     if &kmer_count < support_threshold {
-        return all_kmers_entropy
+        return all_kmers_entropy;
     }
 
     // Below this point we know that we have ample amount of kmers
@@ -616,7 +691,7 @@ fn calculate_entropy(kmers: &[Box<str>], support_threshold: &usize) -> f64 {
     // This too should be called low support too
     // For now we have NS, LS, ELS
     if percentage_cutoff == 100 {
-        return all_kmers_entropy
+        return all_kmers_entropy;
     }
 
     // Go through all the way from the percentage cutoff until 99%.
@@ -638,7 +713,7 @@ fn calculate_entropy(kmers: &[Box<str>], support_threshold: &usize) -> f64 {
 
             // Return value to the vector along with alignment bias adjustment (ie: 1/n)
             (1.0 / samples as f64, entropy)
-    }).collect();
+        }).collect();
 
     // One of the data points has to be 100% of the k-mers WITHOUT random sampling
     entropy_values.push((1.0 / kmer_count as f64, all_kmers_entropy));
@@ -658,14 +733,17 @@ fn get_kmers_and_headers(
     Option<Vec<Option<HashMap<String, String>>>>,
     usize,
 ) {
+    let protein_ambiguous_chars = vec!['-', 'X', 'B', 'J', 'Z', 'O', 'U'];
+    let nucleotide_ambiguous_chars = vec!['-', 'R', 'Y', 'K', 'M', 'S', 'W', 'B', 'D', 'H', 'V', 'N'];
+
     let illegal_chars = if let Some(residue_alphabet) = alphabet {
         if residue_alphabet == "protein" {
-            vec!['-', 'X', 'B', 'J', 'Z', 'O', 'U']
+            protein_ambiguous_chars
         } else {
-            vec!['-', 'R', 'Y', 'K', 'M', 'S', 'W', 'B', 'D', 'H', 'V', 'N']
+            nucleotide_ambiguous_chars
         }
     } else {
-        vec!['-', 'X', 'B', 'J', 'Z', 'O', 'U']
+        protein_ambiguous_chars
     };
 
     let kmers_and_headers =
@@ -739,7 +817,7 @@ fn get_kmers_and_headers(
 /// * `header_format` - The format of the FASTA header.
 /// * `alphabet` - The alphabet of the sequences (ie: protein/nucleotide, default: protein)
 /// * `support_threshold` - Minimum support needed for a k-mer position to be considered valid.
-/// * `protein_name` - The name of the protein being analysed.
+/// * `sample_name` - The name of the sample being analysed.
 /// * `header_fillna` - If there are empty items in the FASTA header (when header_format != None), replace with this value.
 ///
 /// :param path: The full path to the FASTA file.
@@ -747,7 +825,7 @@ fn get_kmers_and_headers(
 /// :param header_format: The format of the FASTA header.
 /// :param alphabet: The alphabet of the sequences (ie: protein/nucleotide, default: protein)
 /// :param support_threshold: Minimum support needed for a k-mer position to be considered valid (default: 30).
-/// :param protein_name: The name of the protein being analysed (default: Unknown Protein).
+/// :param sample_name: The name of the sample being analysed (default: Unknown Protein).
 /// :param header_fillna: If there are empty items in the FASTA header (when header_format != None), replace with this value.
 ///
 /// :type path: str
@@ -755,13 +833,13 @@ fn get_kmers_and_headers(
 /// :type header_format: Optional[List[str]]
 /// :type alphabet: Optional[Literal["protein", "nucleotide"]]
 /// :type support_threshold: int
-/// :type protein_name: str
+/// :type sample_name: str
 /// :type header_fillna: Optional[str]
 ///
 /// :return: A Results object
 #[pyfunction]
 #[pyo3(
-text_signature = "(path, kmer_length, header_format, alphabet, support_threshold, protein_name, header_fillna)"
+text_signature = "(path, kmer_length, header_format, alphabet, support_threshold, sample_name, header_fillna)"
 )]
 pub fn get_results_objs(
     _py: Python,
@@ -770,7 +848,7 @@ pub fn get_results_objs(
     header_format: Option<Vec<String>>,
     alphabet: Option<String>,
     support_threshold: usize,
-    protein_name: String,
+    sample_name: String,
     header_fillna: Option<String>,
 ) -> Results {
     let (kmers, headers, sequence_count) = get_kmers_and_headers(
@@ -781,7 +859,7 @@ pub fn get_results_objs(
         alphabet.as_ref(),
     );
 
-    let position_slices=  kmers
+    let position_slices = kmers
         .into_par_iter()
         .map(|position_kmers| position_kmers
             .into_iter()
@@ -855,8 +933,10 @@ pub fn get_results_objs(
                 },
                 if support == 0 {
                     Some("NS".to_owned())
-                } else if support <= support_threshold {
+                } else if support < support_threshold {
                     Some("LS".to_owned())
+                } else if support == support_threshold {
+                    Some("ELS".to_owned())
                 } else {
                     None
                 },
@@ -872,12 +952,12 @@ pub fn get_results_objs(
             .iter()
             .filter(|position| position.low_support.is_some())
             .count(),
-        protein_name,
+        sample_name,
         results: positions,
     }
 }
 
-/// This is the C extensions module of DiMA. Most of the heavy-lifting of DiMA is done by methods
+/// This is the Rust extension module of DiMA. Most of the heavy-lifting of DiMA is done by methods
 /// defined in this module.
 ///
 /// There are two methods defined in this module:

@@ -26,16 +26,20 @@ def main():
     parser.add_argument('-f', '--format',
                         help="The format of the header. Ex: accession|strain|year.", type=str, required=False,
                         default=None)
-    parser.add_argument('-s', '--support', help='The minimum threshold for support. (default: 30)', type=int,
+    parser.add_argument('-s', '--sthresh', help='The minimum threshold for support. (default: 30)', type=int,
                         required=False, default=30)
-    parser.add_argument('-p', '--protein', help='The name of the protein being processed. (default: Unknown Protein',
-                        type=str, required=False, default='Unknown Protein')
+    parser.add_argument('-p', '--sample', help='The name of the sample being processed. (default: Unknown Sample',
+                        type=str, required=False, default='Unknown Sample')
     parser.add_argument('-v', '--version', help='Print the currently installed version of dima-cli.', action='version',
                         version='%(prog)s ' + get_version())
     parser.add_argument('-n', '--fillna', help='Silently fix missing values in the FASTA header with given value.',
                         default=None)
-    parser.add_argument('-a', '--alphabet', help='The type of the input sequences (ie: protein/nucleotide, '
-                                                 'default: protein))', default="protein")
+    parser.add_argument('-a', '--alphabet', help='The type of the input sequences (ie: protein/nucleotide, default: '
+                                                 'protein))', default="protein", choices=['protein', 'nucleotide'])
+    parser.add_argument('-c', '--hcsout', help='Path to save Highly Conserved Sequences (HCS) in JSON format.',
+                        required=False)
+    parser.add_argument('-e', '--htresh', help='Threshold for HCS concatenation.', default=None, type=int,
+                        required=False)
 
     arguments = parser.parse_args()
     inputx = arguments.input
@@ -53,8 +57,8 @@ def main():
             sequences=inputx,
             kmer_length=arguments.length,
             header_format=arguments.format,
-            protein_name=arguments.protein,
-            support_threshold=arguments.support,
+            sample_name=arguments.sample,
+            support_threshold=arguments.sthresh,
             header_fillna=arguments.fillna,
             alphabet=arguments.alphabet
         ).run()
@@ -63,6 +67,10 @@ def main():
             result_objs.to_json(arguments.output)
         else:
             result_objs.to_excel(arguments.output)
+
+        if arguments.hcsout:
+            result_objs.get_hcs(arguments.hcsout, arguments.htresh)
+
     except Exception as ex:
         parser.error(f'Exception while generating kmers for sequences file {arguments.input}\n{ex}')
         sys.exit(5)
