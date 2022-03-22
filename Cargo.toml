@@ -1,7 +1,7 @@
 [package]
 name = "dima-cli"
-version = "3.2.0"
-description = "A command-line tool that analyses the diversity and motifs of protein sequences"
+version = "3.0.1"
+description = "A command-line tool that analyses the diversity and motifs of biological sequences"
 authors = ["Shan Tharanga <stwm2@student.london.ac.uk>"]
 license = "MIT"
 readme = "README.md"
