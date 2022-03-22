@@ -7,7 +7,7 @@ license = "MIT"
 readme = "README.md"
 repository = "https://github.com/PU-SDS/DiMA"
 
-keywords = ["bioinformatics", "biology", "protein", "virus", "diversity"]
+keywords = ["bioinformatics", "biology", "protein", "virus", "diversity", "dna", "rna"]
 
 [tool.poetry.dependencies]
 python = ">=3.7,<3.11"

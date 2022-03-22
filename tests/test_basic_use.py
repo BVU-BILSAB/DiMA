@@ -24,7 +24,7 @@ def test_advance_output_data():
 
 def assert_all_properties(results, output_data):
     assert results.low_support_count == output_data.get('low_support_count')
-    assert results.protein_name == output_data.get('protein_name')
+    assert results.sample_name == output_data.get('sample_name')
     assert results.sequence_count == output_data.get('sequence_count')
     assert results.support_threshold == output_data.get('support_threshold')
 
@@ -33,6 +33,7 @@ def assert_all_properties(results, output_data):
         assert new_position.support == old_position.get('support')
         assert new_position.low_support == old_position.get('low_support')
         assert new_position.distinct_variants_count == old_position.get('distinct_variants_count')
+        assert round(new_position.total_variance) == round(old_position.get('total_variance'))
         assert round(new_position.distinct_variants_incidence) == round(old_position.get('distinct_variants_incidence'))
 
         if not new_position.diversity_motifs or not old_position.get('diversity_motifs'):
