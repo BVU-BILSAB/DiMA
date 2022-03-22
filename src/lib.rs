@@ -27,7 +27,7 @@ use str_overlap::*;
 fn excel_pos_col_titles() -> Vec<&'static str> {
     vec!["Position", "Diversity Motifs", "Low Support",
          "Entropy", "Support", "Distinct Variants",
-         "Distinct Variants Incidence"]
+         "Distinct Variants Incidence", "Total Variance"]
 }
 
 fn excel_variants_col_titles() -> Vec<&'static str> {
@@ -274,7 +274,12 @@ impl Results {
                     position.distinct_variants_incidence as f64,
                     Some(&data_style))
                     .unwrap();
-
+                positions_sheet.write_number(
+                    cur_pos_row,
+                    7,
+                    position.total_variance as f64,
+                    Some(&data_style))
+                    .unwrap();
                 // If position has variants then create a new sheet for those, and add link to it in positions sheet
                 if let Some(variants) = &position.diversity_motifs {
                     // Add link to variants page
