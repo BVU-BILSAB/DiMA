@@ -128,14 +128,14 @@ fn save_file(content: &str, path: &str) -> Result<(), PyErr> {
 #[pymethods]
 impl Results {
     #[pyo3(text_signature = "(path, threshold)")]
-    fn get_hcs(&self, path: Option<String>, threshold: Option<usize>) -> Result<Vec<String>, PyErr> {
+    fn get_hcs(&self, path: Option<String>, threshold: Option<f32>) -> Result<Vec<String>, PyErr> {
         let hcs = self
             .results
             .iter()
             .flat_map(|position| position.diversity_motifs.as_ref())
             .flatten()
             .filter(|variant| variant.motif_short.as_ref().unwrap() == "I")
-            .filter(|variant| if threshold.is_none() { true } else { variant.count >= threshold.unwrap() })
+            .filter(|variant| if threshold.is_none() { true } else { variant.incidence >= threshold.unwrap() })
             .fold("".to_string(), |acc, variant| {
                 let sequence = variant.sequence.as_str();
                 let overlap = acc.overlap_end(sequence);

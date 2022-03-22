@@ -2044,7 +2044,7 @@ results = Dima(sequences="aligned_sequences.afa", header_format="accession|strai
 | -a           | nucleotide/protein | False        | protein        | `dima-cli -i dna_sequences.afa -a nucleotide -o results.json`                    | The alphabet of the sequences (ie: `protein`/`nucleotide`, default: protein) |
 | -t           | json/xlsx          | False        | json           | `dima-cli -i dna_sequences.afa -a nucleotide -o results.json -t xlsx`            | The output format (ie: `json`/`xlsx`, default: json)                         |
 | -c           | String             | False        | N/A            | `dima-cli -i dna_sequences.afa -a nucleotide -o results.json -c hcs.json`        | Path to save Highly Conserved Sequences (HCS) in JSON format.                |
-| -e           | Integer            | False        | None           | `dima-cli -i dna_sequences.afa -a nucleotide -o results.json -c hcs.json -e 200` | Threshold for HCS concatenation.                                             |
+| -e           | Float              | False        | None           | `dima-cli -i dna_sequences.afa -a nucleotide -o results.json -c hcs.json -e 200` | Incidence threshold for HCS concatenation.                                   |
 
 ## Module Parameters
 | **Parameter**     | **Type**        | **Required** | **Default**    | **Description**                                                                                                 |
