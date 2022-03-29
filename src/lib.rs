@@ -27,7 +27,7 @@ use str_overlap::*;
 fn excel_pos_col_titles() -> Vec<&'static str> {
     vec!["Position", "Diversity Motifs", "Low Support",
          "Entropy", "Support", "Distinct Variants",
-         "Distinct Variants Incidence", "Total Variants"]
+         "Distinct Variants Incidence", "Total Variants Incidence"]
 }
 
 fn excel_variants_col_titles() -> Vec<&'static str> {
@@ -84,7 +84,7 @@ pub struct Position {
     distinct_variants_incidence: f32,
 
     #[pyo3(get)]
-    total_variants: f32,
+    total_variants_incidence: f32,
 
     #[pyo3(get)]
     diversity_motifs: Option<Vec<Variant>>,
@@ -277,7 +277,7 @@ impl Results {
                 positions_sheet.write_number(
                     cur_pos_row,
                     7,
-                    position.total_variants as f64,
+                    position.total_variants_incidence as f64,
                     Some(&data_style))
                     .unwrap();
                 // If position has variants then create a new sheet for those, and add link to it in positions sheet
@@ -414,7 +414,7 @@ fn set_pos_obj_data(position_obj: &mut Position, variants: &[Variant], support: 
     position_obj.distinct_variants_count = distinct_variant_count;
     position_obj.distinct_variants_incidence = if distinct_variants_incidence.is_nan() { 0.0 } else { distinct_variants_incidence };
     position_obj.diversity_motifs = Some(variants.to_vec());
-    position_obj.total_variants = if total_variance.is_nan() { 0.0 } else { total_variance };
+    position_obj.total_variants_incidence = if total_variance.is_nan() { 0.0 } else { total_variance };
 }
 
 impl Position {
@@ -431,7 +431,7 @@ impl Position {
             entropy,
             diversity_motifs: None,
             distinct_variants_count: 0,
-            total_variants: 0.0,
+            total_variants_incidence: 0.0,
             distinct_variants_incidence: 0.0,
             low_support,
         };

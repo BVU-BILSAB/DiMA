@@ -33,7 +33,7 @@ def assert_all_properties(results, output_data):
         assert new_position.support == old_position.get('support')
         assert new_position.low_support == old_position.get('low_support')
         assert new_position.distinct_variants_count == old_position.get('distinct_variants_count')
-        assert round(new_position.total_variants) == round(old_position.get('total_variants'))
+        assert round(new_position.total_variants_incidence) == round(old_position.get('total_variants_incidence'))
         assert round(new_position.distinct_variants_incidence) == round(old_position.get('distinct_variants_incidence'))
 
         if not new_position.diversity_motifs or not old_position.get('diversity_motifs'):
