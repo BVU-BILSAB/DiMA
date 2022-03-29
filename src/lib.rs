@@ -27,7 +27,7 @@ use str_overlap::*;
 fn excel_pos_col_titles() -> Vec<&'static str> {
     vec!["Position", "Diversity Motifs", "Low Support",
          "Entropy", "Support", "Distinct Variants",
-         "Distinct Variants Incidence", "Total Variance"]
+         "Distinct Variants Incidence", "Total Variants"]
 }
 
 fn excel_variants_col_titles() -> Vec<&'static str> {
@@ -50,7 +50,7 @@ pub struct Results {
     low_support_count: usize,
 
     #[pyo3(get)]
-    sample_name: String,
+    query_name: String,
 
     #[pyo3(get)]
     kmer_length: usize,
@@ -84,7 +84,7 @@ pub struct Position {
     distinct_variants_incidence: f32,
 
     #[pyo3(get)]
-    total_variance: f32,
+    total_variants: f32,
 
     #[pyo3(get)]
     diversity_motifs: Option<Vec<Variant>>,
@@ -277,7 +277,7 @@ impl Results {
                 positions_sheet.write_number(
                     cur_pos_row,
                     7,
-                    position.total_variance as f64,
+                    position.total_variants as f64,
                     Some(&data_style))
                     .unwrap();
                 // If position has variants then create a new sheet for those, and add link to it in positions sheet
@@ -414,7 +414,7 @@ fn set_pos_obj_data(position_obj: &mut Position, variants: &[Variant], support: 
     position_obj.distinct_variants_count = distinct_variant_count;
     position_obj.distinct_variants_incidence = if distinct_variants_incidence.is_nan() { 0.0 } else { distinct_variants_incidence };
     position_obj.diversity_motifs = Some(variants.to_vec());
-    position_obj.total_variance = if total_variance.is_nan() { 0.0 } else { total_variance };
+    position_obj.total_variants = if total_variance.is_nan() { 0.0 } else { total_variance };
 }
 
 impl Position {
@@ -431,7 +431,7 @@ impl Position {
             entropy,
             diversity_motifs: None,
             distinct_variants_count: 0,
-            total_variance: 0.0,
+            total_variants: 0.0,
             distinct_variants_incidence: 0.0,
             low_support,
         };
@@ -822,7 +822,7 @@ fn get_kmers_and_headers(
 /// * `header_format` - The format of the FASTA header.
 /// * `alphabet` - The alphabet of the sequences (ie: protein/nucleotide, default: protein)
 /// * `support_threshold` - Minimum support needed for a k-mer position to be considered valid.
-/// * `sample_name` - The name of the sample being analysed.
+/// * `query_name` - The name of the sample being analysed.
 /// * `header_fillna` - If there are empty items in the FASTA header (when header_format != None), replace with this value.
 ///
 /// :param path: The full path to the FASTA file.
@@ -830,7 +830,7 @@ fn get_kmers_and_headers(
 /// :param header_format: The format of the FASTA header.
 /// :param alphabet: The alphabet of the sequences (ie: protein/nucleotide, default: protein)
 /// :param support_threshold: Minimum support needed for a k-mer position to be considered valid (default: 30).
-/// :param sample_name: The name of the sample being analysed (default: Unknown Protein).
+/// :param query_name: The name of the sample being analysed (default: Unknown Protein).
 /// :param header_fillna: If there are empty items in the FASTA header (when header_format != None), replace with this value.
 ///
 /// :type path: str
@@ -838,13 +838,13 @@ fn get_kmers_and_headers(
 /// :type header_format: Optional[List[str]]
 /// :type alphabet: Optional[Literal["protein", "nucleotide"]]
 /// :type support_threshold: int
-/// :type sample_name: str
+/// :type query_name: str
 /// :type header_fillna: Optional[str]
 ///
 /// :return: A Results object
 #[pyfunction]
 #[pyo3(
-text_signature = "(path, kmer_length, header_format, alphabet, support_threshold, sample_name, header_fillna)"
+text_signature = "(path, kmer_length, header_format, alphabet, support_threshold, query_name, header_fillna)"
 )]
 pub fn get_results_objs(
     _py: Python,
@@ -853,7 +853,7 @@ pub fn get_results_objs(
     header_format: Option<Vec<String>>,
     alphabet: Option<String>,
     support_threshold: usize,
-    sample_name: String,
+    query_name: String,
     header_fillna: Option<String>,
 ) -> Results {
     let (kmers, headers, sequence_count) = get_kmers_and_headers(
@@ -957,7 +957,7 @@ pub fn get_results_objs(
             .iter()
             .filter(|position| position.low_support.is_some())
             .count(),
-        sample_name,
+        query_name,
         results: positions,
     }
 }

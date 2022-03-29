@@ -28,8 +28,8 @@ def main():
                         default=None)
     parser.add_argument('-s', '--sthresh', help='The minimum threshold for support. (default: 30)', type=int,
                         required=False, default=30)
-    parser.add_argument('-p', '--sample', help='The name of the sample being processed. (default: Unknown Sample',
-                        type=str, required=False, default='Unknown Sample')
+    parser.add_argument('-q', '--query', help='The name of the sample being processed. (default: Unknown Query',
+                        type=str, required=False, default='Unknown Query')
     parser.add_argument('-v', '--version', help='Print the currently installed version of dima-cli.', action='version',
                         version='%(prog)s ' + get_version())
     parser.add_argument('-n', '--fillna', help='Silently fix missing values in the FASTA header with given value.',
@@ -38,7 +38,7 @@ def main():
                                                  'protein))', default="protein", choices=['protein', 'nucleotide'])
     parser.add_argument('-c', '--hcsout', help='Path to save Highly Conserved Sequences (HCS) in JSON format.',
                         required=False)
-    parser.add_argument('-e', '--htresh', help='Threshold for HCS concatenation.', default=None, type=int,
+    parser.add_argument('-e', '--htresh', help='Threshold for HCS concatenation.', default=100.0, type=int,
                         required=False)
 
     arguments = parser.parse_args()
@@ -57,7 +57,7 @@ def main():
             sequences=inputx,
             kmer_length=arguments.length,
             header_format=arguments.format,
-            sample_name=arguments.sample,
+            query_name=arguments.query,
             support_threshold=arguments.sthresh,
             header_fillna=arguments.fillna,
             alphabet=arguments.alphabet
