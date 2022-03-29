@@ -64,7 +64,7 @@ results = Dima(sequences="aligned_sequences.afa").run()
   "sequence_count": 5,
   "support_threshold": 30,
   "low_support_count": 20,
-  "sample_name": "Unknown Sample",
+  "query_name": "Unknown Query",
   "kmer_length": 9,
   "results": [
     {
@@ -74,7 +74,7 @@ results = Dima(sequences="aligned_sequences.afa").run()
       "support": 5,
       "distinct_variants_count": 1,
       "distinct_variants_incidence": 100.0,
-      "total_variance": 20.0,
+      "total_variants_incidence": 20.0,
       "diversity_motifs": [
         {
           "sequence": "MSASKEIKS",
@@ -101,7 +101,7 @@ results = Dima(sequences="aligned_sequences.afa").run()
       "support": 5,
       "distinct_variants_count": 1,
       "distinct_variants_incidence": 100.0,
-      "total_variance": 20.0,
+      "total_variants_incidence": 20.0,
       "diversity_motifs": [
         {
           "sequence": "AGVYMGNLS",
@@ -128,7 +128,7 @@ results = Dima(sequences="aligned_sequences.afa").run()
       "support": 5,
       "distinct_variants_count": 1,
       "distinct_variants_incidence": 100.0,
-      "total_variance": 20.0,
+      "total_variants_incidence": 20.0,
       "diversity_motifs": [
         {
           "sequence": "GVYMGNLSS",
@@ -155,7 +155,7 @@ results = Dima(sequences="aligned_sequences.afa").run()
       "support": 5,
       "distinct_variants_count": 1,
       "distinct_variants_incidence": 100.0,
-      "total_variance": 20.0,
+      "total_variants_incidence": 20.0,
       "diversity_motifs": [
         {
           "sequence": "VYMGNLSSQ",
@@ -182,7 +182,7 @@ results = Dima(sequences="aligned_sequences.afa").run()
       "support": 5,
       "distinct_variants_count": 1,
       "distinct_variants_incidence": 100.0,
-      "total_variance": 20.0,
+      "total_variants_incidence": 20.0,
       "diversity_motifs": [
         {
           "sequence": "KEIKSFLWT",
@@ -209,7 +209,7 @@ results = Dima(sequences="aligned_sequences.afa").run()
       "support": 5,
       "distinct_variants_count": 1,
       "distinct_variants_incidence": 100.0,
-      "total_variance": 20.0,
+      "total_variants_incidence": 20.0,
       "diversity_motifs": [
         {
           "sequence": "MGNLSSQQL",
@@ -236,7 +236,7 @@ results = Dima(sequences="aligned_sequences.afa").run()
       "support": 5,
       "distinct_variants_count": 1,
       "distinct_variants_incidence": 100.0,
-      "total_variance": 20.0,
+      "total_variants_incidence": 20.0,
       "diversity_motifs": [
         {
           "sequence": "IKSFLWTQS",
@@ -263,7 +263,7 @@ results = Dima(sequences="aligned_sequences.afa").run()
       "support": 5,
       "distinct_variants_count": 1,
       "distinct_variants_incidence": 100.0,
-      "total_variance": 20.0,
+      "total_variants_incidence": 20.0,
       "diversity_motifs": [
         {
           "sequence": "KSFLWTQSL",
@@ -290,7 +290,7 @@ results = Dima(sequences="aligned_sequences.afa").run()
       "support": 5,
       "distinct_variants_count": 1,
       "distinct_variants_incidence": 100.0,
-      "total_variance": 20.0,
+      "total_variants_incidence": 20.0,
       "diversity_motifs": [
         {
           "sequence": "SFLWTQSLR",
@@ -317,7 +317,7 @@ results = Dima(sequences="aligned_sequences.afa").run()
       "support": 5,
       "distinct_variants_count": 1,
       "distinct_variants_incidence": 100.0,
-      "total_variance": 20.0,
+      "total_variants_incidence": 20.0,
       "diversity_motifs": [
         {
           "sequence": "SSQQLDQRR",
@@ -344,7 +344,7 @@ results = Dima(sequences="aligned_sequences.afa").run()
       "support": 5,
       "distinct_variants_count": 1,
       "distinct_variants_incidence": 100.0,
-      "total_variance": 20.0,
+      "total_variants_incidence": 20.0,
       "diversity_motifs": [
         {
           "sequence": "LWTQSLRRE",
@@ -371,7 +371,7 @@ results = Dima(sequences="aligned_sequences.afa").run()
       "support": 5,
       "distinct_variants_count": 1,
       "distinct_variants_incidence": 100.0,
-      "total_variance": 20.0,
+      "total_variants_incidence": 20.0,
       "diversity_motifs": [
         {
           "sequence": "QQLDQRRAL",
@@ -398,7 +398,7 @@ results = Dima(sequences="aligned_sequences.afa").run()
       "support": 5,
       "distinct_variants_count": 1,
       "distinct_variants_incidence": 100.0,
-      "total_variance": 20.0,
+      "total_variants_incidence": 20.0,
       "diversity_motifs": [
         {
           "sequence": "TQSLRRELS",
@@ -425,7 +425,7 @@ results = Dima(sequences="aligned_sequences.afa").run()
       "support": 5,
       "distinct_variants_count": 2,
       "distinct_variants_incidence": 100.0,
-      "total_variance": 40.0,
+      "total_variants_incidence": 40.0,
       "diversity_motifs": [
         {
           "sequence": "QSLRRELSG",
@@ -460,7 +460,7 @@ results = Dima(sequences="aligned_sequences.afa").run()
       "support": 5,
       "distinct_variants_count": 2,
       "distinct_variants_incidence": 100.0,
-      "total_variance": 40.0,
+      "total_variants_incidence": 40.0,
       "diversity_motifs": [
         {
           "sequence": "DQRRALLSM",
@@ -495,7 +495,7 @@ results = Dima(sequences="aligned_sequences.afa").run()
       "support": 5,
       "distinct_variants_count": 2,
       "distinct_variants_incidence": 100.0,
-      "total_variance": 40.0,
+      "total_variants_incidence": 40.0,
       "diversity_motifs": [
         {
           "sequence": "QRRALLSMI",
@@ -530,7 +530,7 @@ results = Dima(sequences="aligned_sequences.afa").run()
       "support": 5,
       "distinct_variants_count": 2,
       "distinct_variants_incidence": 100.0,
-      "total_variance": 40.0,
+      "total_variants_incidence": 40.0,
       "diversity_motifs": [
         {
           "sequence": "RRELSGYCS",
@@ -565,7 +565,7 @@ results = Dima(sequences="aligned_sequences.afa").run()
       "support": 5,
       "distinct_variants_count": 2,
       "distinct_variants_incidence": 100.0,
-      "total_variance": 40.0,
+      "total_variants_incidence": 40.0,
       "diversity_motifs": [
         {
           "sequence": "RELSGYCSN",
@@ -600,7 +600,7 @@ results = Dima(sequences="aligned_sequences.afa").run()
       "support": 5,
       "distinct_variants_count": 2,
       "distinct_variants_incidence": 100.0,
-      "total_variance": 40.0,
+      "total_variants_incidence": 40.0,
       "diversity_motifs": [
         {
           "sequence": "ALLSMIGMS",
@@ -635,7 +635,7 @@ results = Dima(sequences="aligned_sequences.afa").run()
       "support": 5,
       "distinct_variants_count": 2,
       "distinct_variants_incidence": 100.0,
-      "total_variance": 40.0,
+      "total_variants_incidence": 40.0,
       "diversity_motifs": [
         {
           "sequence": "LSGYCSNIK",
@@ -688,7 +688,7 @@ results = Dima(sequences="aligned_sequences.afa", header_format="accession|strai
   "sequence_count": 5,
   "support_threshold": 30,
   "low_support_count": 20,
-  "sample_name": "Unknown Sample",
+  "query_name": "Unknown Query",
   "kmer_length": 9,
   "results": [
     {
@@ -698,7 +698,7 @@ results = Dima(sequences="aligned_sequences.afa", header_format="accession|strai
       "support": 5,
       "distinct_variants_count": 1,
       "distinct_variants_incidence": 100.0,
-      "total_variance": 20.0,
+      "total_variants_incidence": 20.0,
       "diversity_motifs": [
         {
           "sequence": "MSASKEIKS",
@@ -758,7 +758,7 @@ results = Dima(sequences="aligned_sequences.afa", header_format="accession|strai
       "support": 5,
       "distinct_variants_count": 1,
       "distinct_variants_incidence": 100.0,
-      "total_variance": 20.0,
+      "total_variants_incidence": 20.0,
       "diversity_motifs": [
         {
           "sequence": "SASKEIKSF",
@@ -818,7 +818,7 @@ results = Dima(sequences="aligned_sequences.afa", header_format="accession|strai
       "support": 5,
       "distinct_variants_count": 1,
       "distinct_variants_incidence": 100.0,
-      "total_variance": 20.0,
+      "total_variants_incidence": 20.0,
       "diversity_motifs": [
         {
           "sequence": "ASKEIKSFL",
@@ -878,7 +878,7 @@ results = Dima(sequences="aligned_sequences.afa", header_format="accession|strai
       "support": 5,
       "distinct_variants_count": 1,
       "distinct_variants_incidence": 100.0,
-      "total_variance": 20.0,
+      "total_variants_incidence": 20.0,
       "diversity_motifs": [
         {
           "sequence": "SKEIKSFLW",
@@ -938,7 +938,7 @@ results = Dima(sequences="aligned_sequences.afa", header_format="accession|strai
       "support": 5,
       "distinct_variants_count": 1,
       "distinct_variants_incidence": 100.0,
-      "total_variance": 20.0,
+      "total_variants_incidence": 20.0,
       "diversity_motifs": [
         {
           "sequence": "KEIKSFLWT",
@@ -998,7 +998,7 @@ results = Dima(sequences="aligned_sequences.afa", header_format="accession|strai
       "support": 5,
       "distinct_variants_count": 1,
       "distinct_variants_incidence": 100.0,
-      "total_variance": 20.0,
+      "total_variants_incidence": 20.0,
       "diversity_motifs": [
         {
           "sequence": "MGNLSSQQL",
@@ -1058,7 +1058,7 @@ results = Dima(sequences="aligned_sequences.afa", header_format="accession|strai
       "support": 5,
       "distinct_variants_count": 1,
       "distinct_variants_incidence": 100.0,
-      "total_variance": 20.0,
+      "total_variants_incidence": 20.0,
       "diversity_motifs": [
         {
           "sequence": "GNLSSQQLD",
@@ -1118,7 +1118,7 @@ results = Dima(sequences="aligned_sequences.afa", header_format="accession|strai
       "support": 5,
       "distinct_variants_count": 1,
       "distinct_variants_incidence": 100.0,
-      "total_variance": 20.0,
+      "total_variants_incidence": 20.0,
       "diversity_motifs": [
         {
           "sequence": "NLSSQQLDQ",
@@ -1178,7 +1178,7 @@ results = Dima(sequences="aligned_sequences.afa", header_format="accession|strai
       "support": 5,
       "distinct_variants_count": 1,
       "distinct_variants_incidence": 100.0,
-      "total_variance": 20.0,
+      "total_variants_incidence": 20.0,
       "diversity_motifs": [
         {
           "sequence": "SFLWTQSLR",
@@ -1238,7 +1238,7 @@ results = Dima(sequences="aligned_sequences.afa", header_format="accession|strai
       "support": 5,
       "distinct_variants_count": 1,
       "distinct_variants_incidence": 100.0,
-      "total_variance": 20.0,
+      "total_variants_incidence": 20.0,
       "diversity_motifs": [
         {
           "sequence": "FLWTQSLRR",
@@ -1298,7 +1298,7 @@ results = Dima(sequences="aligned_sequences.afa", header_format="accession|strai
       "support": 5,
       "distinct_variants_count": 1,
       "distinct_variants_incidence": 100.0,
-      "total_variance": 20.0,
+      "total_variants_incidence": 20.0,
       "diversity_motifs": [
         {
           "sequence": "LWTQSLRRE",
@@ -1358,7 +1358,7 @@ results = Dima(sequences="aligned_sequences.afa", header_format="accession|strai
       "support": 5,
       "distinct_variants_count": 1,
       "distinct_variants_incidence": 100.0,
-      "total_variance": 20.0,
+      "total_variants_incidence": 20.0,
       "diversity_motifs": [
         {
           "sequence": "QQLDQRRAL",
@@ -1418,7 +1418,7 @@ results = Dima(sequences="aligned_sequences.afa", header_format="accession|strai
       "support": 5,
       "distinct_variants_count": 1,
       "distinct_variants_incidence": 100.0,
-      "total_variance": 20.0,
+      "total_variants_incidence": 20.0,
       "diversity_motifs": [
         {
           "sequence": "TQSLRRELS",
@@ -1478,7 +1478,7 @@ results = Dima(sequences="aligned_sequences.afa", header_format="accession|strai
       "support": 5,
       "distinct_variants_count": 2,
       "distinct_variants_incidence": 100.0,
-      "total_variance": 40.0,
+      "total_variants_incidence": 40.0,
       "diversity_motifs": [
         {
           "sequence": "QSLRRELSG",
@@ -1557,7 +1557,7 @@ results = Dima(sequences="aligned_sequences.afa", header_format="accession|strai
       "support": 5,
       "distinct_variants_count": 2,
       "distinct_variants_incidence": 100.0,
-      "total_variance": 40.0,
+      "total_variants_incidence": 40.0,
       "diversity_motifs": [
         {
           "sequence": "DQRRALLSM",
@@ -1636,7 +1636,7 @@ results = Dima(sequences="aligned_sequences.afa", header_format="accession|strai
       "support": 5,
       "distinct_variants_count": 2,
       "distinct_variants_incidence": 100.0,
-      "total_variance": 40.0,
+      "total_variants_incidence": 40.0,
       "diversity_motifs": [
         {
           "sequence": "LRRELSSYC",
@@ -1715,7 +1715,7 @@ results = Dima(sequences="aligned_sequences.afa", header_format="accession|strai
       "support": 5,
       "distinct_variants_count": 2,
       "distinct_variants_incidence": 100.0,
-      "total_variance": 40.0,
+      "total_variants_incidence": 40.0,
       "diversity_motifs": [
         {
           "sequence": "RRELSSYCS",
@@ -1794,7 +1794,7 @@ results = Dima(sequences="aligned_sequences.afa", header_format="accession|strai
       "support": 5,
       "distinct_variants_count": 2,
       "distinct_variants_incidence": 100.0,
-      "total_variance": 40.0,
+      "total_variants_incidence": 40.0,
       "diversity_motifs": [
         {
           "sequence": "RALLSMIGM",
@@ -1873,7 +1873,7 @@ results = Dima(sequences="aligned_sequences.afa", header_format="accession|strai
       "support": 5,
       "distinct_variants_count": 2,
       "distinct_variants_incidence": 100.0,
-      "total_variance": 40.0,
+      "total_variants_incidence": 40.0,
       "diversity_motifs": [
         {
           "sequence": "ELSGYCSNI",
@@ -1952,7 +1952,7 @@ results = Dima(sequences="aligned_sequences.afa", header_format="accession|strai
       "support": 5,
       "distinct_variants_count": 2,
       "distinct_variants_incidence": 100.0,
-      "total_variance": 40.0,
+      "total_variants_incidence": 40.0,
       "diversity_motifs": [
         {
           "sequence": "LLSMIGMSG",
@@ -2030,29 +2030,30 @@ results = Dima(sequences="aligned_sequences.afa", header_format="accession|strai
 </details>
 
 ## Command-Line Arguments
-| **Argument** | **Type**           | **Required** | **Default**    | **Example**                                                                      | **Description**                                                             |
-|--------------|--------------------|--------------|----------------|----------------------------------------------------------------------------------|-----------------------------------------------------------------------------|
-| -h           | N/A                | False        | N/A            | `dima-cli -h`                                                                    | Prints a summary of all available command-line arguments.                   |
-| -n           | String             | False        | Unknown        | `dima-cli -i sequences.afa -o results.json -f "accession\                        | strain\                                                                     |country" -n "NA"` | Silently fix missing values in the FASTA header with given value.                             |
-| -v           | N/A                | False        | N/A            | `dima-cli -v`                                                                    | Prints the version of dima-cli that is currently installed.                 |
-| -p           | String             | False        | Unknown Sample | `dima-cli -n "Coronavirus Surface Protein" -i sequences.afa -o results.json`     | The name of the sample that will appear on the results.                     |
-| -i           | String             | True         | N/A            | `dima-cli -i sequences.afa -o results.json`                                      | The path to the FASTA Multiple Sequence Alignment file.                     |
-| -o           | String             | True         | N/A            | `dima-cli -i sequences.afa -o results,json`                                      | The location where the results shall be saved.                              |
-| -l           | Integer            | False        | 9              | `dima-cli -i sequences.afa -l 12 -o results.json`                                | The length of the kmers generated.                                          |
-| -f           | String             | False        | N/A            | `dima-cli -i sequences.afa -f "accession\                                        | strain\                                                                     |country" -o results.json`         | The format of the FASTA header. Labels where each variant of a kmer position originated from. |
-| -s           | Integer            | False        | 30             | `dima-cli -i sequences.afa -l 12 -s 40  -o results.json`                         | The minimum required support for each kmer position.                        |
-| -a           | nucleotide/protein | False        | protein        | `dima-cli -i dna_sequences.afa -a nucleotide -o results.json`                    | The alphabet of the sequences (ie: `protein`/`nucleotide`, default: protein) |
-| -t           | json/xlsx          | False        | json           | `dima-cli -i dna_sequences.afa -a nucleotide -o results.json -t xlsx`            | The output format (ie: `json`/`xlsx`, default: json)                        |
-| -c           | String             | False        | N/A            | `dima-cli -i dna_sequences.afa -a nucleotide -o results.json -c hcs.json`        | Path to save Highly Conserved Sequences (HCS) in JSON format.               |
-| -e           | Float              | False        | None           | `dima-cli -i dna_sequences.afa -a nucleotide -o results.json -c hcs.json -e 200` | Minimum incidence threshold for HCS concatenation.                          |
+| **Argument** | **Type**           | **Required** | **Default**   | **Example**                                                                                      | **Description**                                                                               |
+|--------------|--------------------|--------------|---------------|--------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
+| -h           | N/A                | False        | N/A           | `dima-cli -h`                                                                                    | Prints a summary of all available command-line arguments.                                     |
+| -n           | String             | False        | Unknown       | `dima-cli -i sequences.afa -o results.json -f "accession\|strain\|country" -n "NA"` -n "Unknown" | Silently fix missing values in the FASTA header with given value.                             |
+| -v           | N/A                | False        | N/A           | `dima-cli -v`                                                                                    | Prints the version of dima-cli that is currently installed.                                   |
+| -q           | String             | False        | Unknown Query | `dima-cli -q "Coronavirus Surface Protein" -i sequences.afa -o results.json`                     | The name of the sample that will appear on the results.                                       |
+| -i           | String             | True         | N/A           | `dima-cli -i sequences.afa -o results.json`                                                      | The path to the FASTA Multiple Sequence Alignment file.                                       |
+| -o           | String             | True         | N/A           | `dima-cli -i sequences.afa -o results,json`                                                      | The location where the results shall be saved.                                                |
+| -l           | Integer            | False        | 9             | `dima-cli -i sequences.afa -l 12 -o results.json`                                                | The length of the kmers generated.                                                            |
+| -f           | String             | False        | N/A           | `dima-cli -i sequences.afa -f "accession\|strain\|country" -o results.json`                      | The format of the FASTA header. Labels where each variant of a kmer position originated from. |
+| -s           | Integer            | False        | 30            | `dima-cli -i sequences.afa -l 12 -s 40  -o results.json`                                         | The minimum required support for each kmer position.                                          |
+| -a           | nucleotide/protein | False        | protein       | `dima-cli -i dna_sequences.afa -a nucleotide -o results.json`                                    | The alphabet of the sequences (ie: `protein`/`nucleotide`, default: protein)                  |
+| -t           | json/xlsx          | False        | json          | `dima-cli -i dna_sequences.afa -a nucleotide -o results.json -t xlsx`                            | The output format (ie: `json`/`xlsx`, default: json)                                          |
+| -c           | String             | False        | N/A           | `dima-cli -i dna_sequences.afa -a nucleotide -o results.json -c hcs.json`                        | Path to save Highly Conserved Sequences (HCS) in JSON format.                                 |
+| -e           | Float              | False        | 100           | `dima-cli -i dna_sequences.afa -a nucleotide -o results.json -c hcs.json -e 90.5`                | Minimum incidence (%) threshold for HCS concatenation.                                        |
+
 
 ## Module Parameters
-| **Parameter**     | **Type**        | **Required** | **Default**    | **Description**                                                                                                 |
-|-------------------|-----------------|--------------|----------------|-----------------------------------------------------------------------------------------------------------------|
-| sequences         | String/StringIO | True         | N/A            | The path to a FASTA Multiple Sequence Alignment file (MSA), or a StringIO object containing FASTA MSA.          |
-| kmer_length       | Integer         | False        | 9              | The length of the kmers generated.                                                                              |
-| header_fillna     | String          | False        | Unknown        | Silently fix missing values in the FASTA header with given value (only required when `header_format` is given). |
-| header_format     | String          | False        | N/A            | The format of the FASTA header. Labels where each variant of a kmer position originated from.                   |
-| support_threshold | Integer         | False        | 30             | The minimum required support for each kmer position.                                                            |
-| sample_name       | String          | False        | Unknown Sample | The name of the sample that will appear on the results.                                                         |
-| alphabet          | String          | False        | protein        | The alphabet of the sequences (ie: protein/nucleotide, default: protein)                                        |
+| **Parameter**     | **Type**        | **Required** | **Default**     | **Description**                                                                                                 |
+|-------------------|-----------------|--------------|-----------------|-----------------------------------------------------------------------------------------------------------------|
+| sequences         | String/StringIO | True         | N/A             | The path to a FASTA Multiple Sequence Alignment file (MSA), or a StringIO object containing FASTA MSA.          |
+| kmer_length       | Integer         | False        | 9               | The length of the kmers generated.                                                                              |
+| header_fillna     | String          | False        | Unknown         | Silently fix missing values in the FASTA header with given value (only required when `header_format` is given). |
+| header_format     | String          | False        | N/A             | The format of the FASTA header. Labels where each variant of a kmer position originated from.                   |
+| support_threshold | Integer         | False        | 30              | The minimum required support for each kmer position.                                                            |
+| query_name        | String          | False        | Unknown Query   | The name of the sample that will appear on the results.                                                         |
+| alphabet          | String          | False        | protein         | The alphabet of the sequences (ie: protein/nucleotide, default: protein)                                        |

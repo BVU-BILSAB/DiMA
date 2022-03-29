@@ -20,7 +20,7 @@ class Dima(object):
             header_format: Optional[str] = None,
             alphabet: Optional[Literal["protein", "nucleotide"]] = "protein",
             support_threshold: Optional[int] = 30,
-            sample_name: Optional[str] = 'Unknown Sample',
+            query_name: Optional[str] = 'Unknown Query',
             header_fillna: Optional[str] = None
     ):
         """
@@ -32,7 +32,7 @@ class Dima(object):
             :param alphabet: The alphabet of the sequences (ie: protein/nucleotide, default: protein)
             :param support_threshold: The support threshold below which k-mer positions will be considered
                 to have low support.
-            :param sample_name: The name of the protein we are dealing with.
+            :param query_name: The name of the protein we are dealing with.
             :param header_fillna: If there are empty items in the FASTA header (when header_format != None), replace
             with this value.
 
@@ -41,7 +41,7 @@ class Dima(object):
             :type header_format: Optional[str]
             :type alphabet: Optional[Literal["protein", "nucleotide"]]
             :type support_threshold: Optional[int]
-            :type sample_name: str
+            :type query_name: str
             :type header_fillna: Optional[str]
 
             Example 1:
@@ -65,7 +65,7 @@ class Dima(object):
         self.header_format = header_format
         self.alphabet = alphabet
         self.support_threshold = support_threshold
-        self.sample_name = sample_name
+        self.query_name = query_name
         self.header_fillna = header_fillna
 
     @classmethod
@@ -92,7 +92,7 @@ class Dima(object):
             alphabet=self.alphabet,
             header_format=self.header_format.split('|') if self.header_format else None,
             support_threshold=self.support_threshold,
-            sample_name=self.sample_name,
+            query_name=self.query_name,
             header_fillna=self.header_fillna
         )
 
