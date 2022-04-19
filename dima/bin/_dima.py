@@ -38,8 +38,8 @@ def main():
                                                  'protein))', default="protein", choices=['protein', 'nucleotide'])
     parser.add_argument('-c', '--hcsout', help='Path to save Highly Conserved Sequences (HCS) in JSON format.',
                         required=False)
-    parser.add_argument('-e', '--htresh', help='Minimum incidence (%) threshold for HCS concatenation.', default=100.0,
-                        type=int, required=False)
+    parser.add_argument('-e', '--htresh', help='Minimum incidence (percentage) threshold for HCS concatenation.',
+                        default=100.0, type=int, required=False)
 
     arguments = parser.parse_args()
     inputx = arguments.input
