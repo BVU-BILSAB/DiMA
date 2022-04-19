@@ -66,6 +66,11 @@ results = Dima(sequences="aligned_sequences.afa").run()
   "low_support_count": 20,
   "query_name": "Unknown Query",
   "kmer_length": 9,
+  "average_entropy": 0.06854034285524647,
+  "highest_entropy": {
+    "position": 186,
+    "entropy": 1.3921472236645345
+  },
   "results": [
     {
       "position": 1,
@@ -690,6 +695,11 @@ results = Dima(sequences="aligned_sequences.afa", header_format="accession|strai
   "low_support_count": 20,
   "query_name": "Unknown Query",
   "kmer_length": 9,
+  "average_entropy": 0.06854034285524647,
+  "highest_entropy": {
+    "position": 186,
+    "entropy": 1.3921472236645345
+  },
   "results": [
     {
       "position": 1,
