@@ -27,6 +27,9 @@ def assert_all_properties(results, output_data):
     assert results.query_name == output_data.get('query_name')
     assert results.sequence_count == output_data.get('sequence_count')
     assert results.support_threshold == output_data.get('support_threshold')
+    assert round(results.average_entropy) == round(output_data.get('average_entropy'))
+    assert round(results.highest_entropy.entropy) == round(output_data.get('highest_entropy').get('entropy'))
+    assert results.highest_entropy.position == output_data.get('highest_entropy').get('position')
 
     for new_position, old_position in zip(results.results, output_data.get('results')):
         assert new_position.position == old_position.get('position')

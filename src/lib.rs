@@ -8,6 +8,7 @@ extern crate serde_json;
 extern crate core;
 extern crate xlsxwriter;
 extern crate str_overlap;
+extern crate statrs;
 
 use bio::io::fasta;
 use linreg::linear_regression_of;
@@ -20,7 +21,8 @@ use serde::Serialize;
 use std::collections::HashMap;
 use std::fs::File;
 use std::io::Write;
-use xlsxwriter::{FormatAlignment, FormatColor, FormatUnderline, Workbook};
+use statrs::statistics::Statistics;
+use xlsxwriter::{ChartType, FormatAlignment, FormatColor, FormatUnderline, Workbook};
 use str_overlap::*;
 
 
@@ -32,6 +34,32 @@ fn excel_pos_col_titles() -> Vec<&'static str> {
 
 fn excel_variants_col_titles() -> Vec<&'static str> {
     vec!["Sequence", "Count", "Incidence", "Motif"]
+}
+
+
+#[pyclass]
+#[pyo3(
+text_signature = "(position, entropy)"
+)]
+#[derive(Serialize, Clone)]
+pub struct HighestEntropy {
+    #[pyo3(get)]
+    position: usize,
+
+    #[pyo3(get)]
+    entropy: f64,
+}
+
+fn get_highest_number_and_index(numbers: &[f64]) -> HighestEntropy {
+    let highest_position = numbers
+        .into_iter()
+        .enumerate()
+        .reduce(|acc, item| {
+            if acc.1 > item.1 { acc } else { item }
+        })
+        .unwrap();
+
+    HighestEntropy { position: highest_position.0, entropy: *highest_position.1 }
 }
 
 #[pyclass]
@@ -54,6 +82,12 @@ pub struct Results {
 
     #[pyo3(get)]
     kmer_length: usize,
+
+    #[pyo3(get)]
+    highest_entropy: HighestEntropy,
+
+    #[pyo3(get)]
+    average_entropy: f64,
 
     #[pyo3(get)]
     results: Vec<Position>,
@@ -225,8 +259,24 @@ impl Results {
             .add_format()
             .set_align(FormatAlignment::CenterAcross);
 
+        // Create a line chart
+        let mut chart = workbook.add_chart(ChartType::Line);
+
+        // Set chart title
+        chart.add_title("Entropy");
+
         // Create a sheet for the positions
         if let Ok(mut positions_sheet) = workbook.add_worksheet(Some("positions")) {
+            let position_iter = self.results.iter();
+
+            // Add series to the line chart
+            chart.add_series(None, Some(
+                format!("=positions!$D$2:$D${0}", position_iter.len()).as_str())
+            );
+
+            // Insert the chart
+            positions_sheet.insert_chart(1, 10, &chart).unwrap();
+
             // Add the headers for the position sheet
             excel_pos_col_titles().iter().enumerate().for_each(|(idx, item)| {
                 positions_sheet.write_string(
@@ -237,7 +287,7 @@ impl Results {
             });
 
             // Loop through each positino and add to the sheet
-            self.results.iter().enumerate().for_each(|(idx, position)| {
+            position_iter.enumerate().for_each(|(idx, position)| {
                 let cur_pos_row = (idx + 1) as u32;
                 positions_sheet.write_number(
                     cur_pos_row,
@@ -953,6 +1003,8 @@ pub fn get_results_objs(
         support_threshold,
         kmer_length,
         sequence_count,
+        highest_entropy: get_highest_number_and_index(position_entropies.as_slice()),
+        average_entropy: position_entropies.mean(),
         low_support_count: positions
             .iter()
             .filter(|position| position.low_support.is_some())

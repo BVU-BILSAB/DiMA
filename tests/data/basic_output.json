@@ -1,4 +1,9 @@
 {
+    "highest_entropy": {
+    "position": 186,
+    "entropy": 1.3921472236645345
+  },
+  "average_entropy": 0.06854034285524647,
   "sequence_count": 26,
   "support_threshold": 30,
   "low_support_count": 1267,

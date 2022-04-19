@@ -314,7 +314,7 @@ dependencies = [
 
 [[package]]
 name = "dima-cli"
-version = "4.0.0"
+version = "4.1.0"
 dependencies = [
  "bio",
  "linreg",
@@ -325,6 +325,7 @@ dependencies = [
  "reduce",
  "serde",
  "serde_json",
+ "statrs",
  "str_overlap",
  "xlsxwriter",
 ]
