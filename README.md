@@ -8,6 +8,7 @@
 
 ## Table of Contents
 - [What is DiMA?](#what-is-dima)
+- [Publications](#publications)
 - [Installation](#installation)
 - [Basic Usage](#basic-usage)
   - [Shell Command](#shell-command)
@@ -39,6 +40,9 @@ their incidence.
 Moreover, the description line of the sequences in the alignment can be 
 formatted for inclusion of meta-data that can be tagged to the diversity motifs. DiMA enables comparative diversity 
 dynamics analysis, within and between proteins of a virus species, and proteomes of different viral species.
+
+## Publications
+- https://arxiv.org/abs/2205.13915
 
 ## Installation
 
