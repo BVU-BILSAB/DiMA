@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "DiMA"
-version = "4.1.1"
+version = "4.1.2"
 description = "A command-line tool that analyses the diversity and motifs of biological sequences"
 authors = ["Shan Tharanga <stwm2@student.london.ac.uk>"]
 license = "MIT"
@@ -17,7 +17,7 @@ XlsxWriter = "^3.0.3"
 [tool.poetry.dev-dependencies]
 GitPython = "^3.1.26"
 pytest = "^6.2.4"
-maturin = "maturin>=0.11,<0.12"
+maturin = "0.11"
 coverage = "^5.5"
 
 [build-system]
