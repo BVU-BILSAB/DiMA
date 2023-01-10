@@ -774,6 +774,11 @@ fn calculate_entropy(kmers: &[Box<str>], support_threshold: &usize) -> f64 {
     entropy_values.push((1.0 / kmer_count as f64, all_kmers_entropy));
 
     let (_, y) = linear_regression_of(&entropy_values).unwrap();
+
+    if y < 0_f64 {
+        return all_kmers_entropy;
+    }
+
     y
 }
 
