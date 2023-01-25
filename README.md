@@ -4,7 +4,7 @@
 ![GitHub issues](https://img.shields.io/github/issues-raw/PU-SDS/DiMA)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/dima-cli)
 ![PyPI](https://img.shields.io/pypi/v/dima-cli)
-![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/PU-SDS/DiMA)
+![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/BVU-BILSAB/DiMA)
 
 ## Table of Contents
 - [What is DiMA?](#what-is-dima)
