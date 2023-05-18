@@ -24,7 +24,7 @@ def main():
                         choices=['json', 'xlsx'])
     parser.add_argument('-l', '--length', help='The k-mer length (default: 9).', type=int, default=9, required=False)
     parser.add_argument('-f', '--format',
-                        help="The format of the header. Ex: accession|strain|year.", type=str, required=False,
+                        help="The format of the header. Ex: "accession|strain|year", type=str, required=False,
                         default=None)
     parser.add_argument('-s', '--sthresh', help='The minimum threshold for support. (default: 30)', type=int,
                         required=False, default=30)
