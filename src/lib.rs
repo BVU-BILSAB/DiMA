@@ -22,7 +22,7 @@ use std::collections::HashMap;
 use std::fs::File;
 use std::io::Write;
 use statrs::statistics::Statistics;
-use xlsxwriter::{ChartType, FormatAlignment, FormatColor, FormatUnderline, Workbook};
+use xlsxwriter::prelude::*;
 use str_overlap::*;
 
 
