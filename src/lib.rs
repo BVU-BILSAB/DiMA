@@ -266,7 +266,7 @@ impl Results {
         chart.add_title("Entropy");
 
         // Create a sheet for the positions
-        if let Ok(mut positions_sheet) = workbook.add_worksheet(Some("positions")) {
+        if let Ok(mut positions_sheet) = workbook.unwrap().add_worksheet(Some("positions")) {
             let position_iter = self.results.iter();
 
             // Add series to the line chart
@@ -342,6 +342,7 @@ impl Results {
 
                     // Create the variants sheet
                     if let Ok(mut variants_sheet) = workbook
+                        .unwrap()
                         .add_worksheet(Some(position.position.to_string().as_str())) {
                         // Add variants column titles
                         excel_variants_col_titles()
