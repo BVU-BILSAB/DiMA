@@ -21,7 +21,7 @@ def main():
                         required=False)
     parser.add_argument('-o', '--output', help='Absolute path to the output file.', required=True)
     parser.add_argument('-t', '--type', help='Output file type.', required=False, default='json',
-                        choices=['json', 'xlsx'])
+                        choices=['json'])
     parser.add_argument('-l', '--length', help='The k-mer length (default: 9).', type=int, default=9, required=False)
     parser.add_argument('-f', '--format',
                         help="The format of the header. Ex: accession|strain|year.", type=str, required=False,
@@ -66,7 +66,7 @@ def main():
         if arguments.type == 'json':
             result_objs.to_json(arguments.output)
         else:
-            result_objs.to_excel(arguments.output)
+            raise ValueError(f'Unknown output type {arguments.type}')
 
         if arguments.hcsout:
             result_objs.get_hcs(arguments.hcsout, arguments.htresh)
