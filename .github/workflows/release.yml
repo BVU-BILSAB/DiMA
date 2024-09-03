@@ -48,14 +48,14 @@ jobs:
 
     - name: PyPi publish
       if: matrix.os == 'ubuntu-latest'
-      uses: ShanWeera/maturin-action@v1.19.8
+      uses: ShanWeera/maturin-action@v1.19.9
       env:
         MATURIN_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
       with:
         maturin-version: latest
         command: publish
         args: --username __token__ --skip-existing --out dist --universal2 --no-sdist --interpreter python${{ matrix.python-version }}
-        manylinux: 2_24
+        manylinux: 2_28
     - name: PyPi publish
       if: matrix.os == 'macos-latest'
       uses: messense/maturin-action@v1
