@@ -230,7 +230,7 @@ dependencies = [
 
 [[package]]
 name = "dima-cli"
-version = "5.0.6"
+version = "5.0.8"
 dependencies = [
  "bio",
  "linreg",

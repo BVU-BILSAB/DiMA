@@ -12,8 +12,8 @@ extern crate statrs;
 use bio::io::fasta;
 use linreg::linear_regression_of;
 use pyo3::prelude::*;
-use pyo3::PyObjectProtocol;
 use pyo3::exceptions::{PyFileNotFoundError, PyIOError};
+use pyo3::wrap_pyfunction;
 use rand::seq::{SliceRandom};
 use rayon::prelude::*;
 use serde::Serialize;
@@ -25,9 +25,6 @@ use str_overlap::*;
 
 
 #[pyclass]
-#[pyo3(
-text_signature = "(position, entropy)"
-)]
 #[derive(Serialize, Clone)]
 pub struct HighestEntropy {
     #[pyo3(get)]
@@ -50,9 +47,6 @@ fn get_highest_number_and_index(numbers: &[f64]) -> HighestEntropy {
 }
 
 #[pyclass]
-#[pyo3(
-text_signature = "(sequence_count, support_threshold, low_support_count, protein_name, kmer_length, results)"
-)]
 #[derive(Serialize)]
 pub struct Results {
     #[pyo3(get)]
@@ -81,9 +75,6 @@ pub struct Results {
 }
 
 #[pyclass]
-#[pyo3(
-text_signature = "(position, low_support, entropy, support, distinct_variants_count, distinct_variants_incidence, variants)"
-)]
 #[derive(Serialize, Clone)]
 pub struct Position {
     #[pyo3(get)]
@@ -112,7 +103,6 @@ pub struct Position {
 }
 
 #[pyclass]
-#[pyo3(text_signature = "(sequence, count, incidence, motif_short, motif_long, metadata)")]
 #[derive(Clone, Serialize)]
 pub struct Variant {
     #[pyo3(get)]
@@ -147,8 +137,27 @@ fn save_file(content: &str, path: &str) -> Result<(), PyErr> {
 }
 
 #[pymethods]
+impl Variant {
+    fn __str__(&self) -> String {
+        serde_json::to_string_pretty(self).unwrap()
+    }
+
+    fn __repr__(&self) -> String {
+        serde_json::to_string_pretty(self).unwrap()
+    }
+}
+
+#[pymethods]
 impl Results {
-    #[pyo3(text_signature = "(path, threshold)")]
+    fn __str__(&self) -> String {
+        serde_json::to_string_pretty(self).unwrap()
+    }
+
+    fn __repr__(&self) -> String {
+        serde_json::to_string_pretty(self).unwrap()
+    }
+
+    #[pyo3(signature = (path=None, threshold=None))]
     fn get_hcs(&self, path: Option<String>, threshold: Option<f32>) -> Result<Vec<String>, PyErr> {
         let hcs = self
             .results
@@ -209,7 +218,7 @@ impl Results {
     /// :type path: Optional[str]
     ///
     /// :return: A string containing the json, or "true" when successfully saved.
-    #[pyo3(text_signature = "(path)")]
+    #[pyo3(signature = (path=None))]
     fn to_json(&self, path: Option<String>) -> PyResult<String> {
         let json_results = serde_json::to_string_pretty(&self).unwrap();
 
@@ -230,6 +239,14 @@ impl Results {
 
 #[pymethods]
 impl Position {
+    fn __str__(&self) -> String {
+        serde_json::to_string_pretty(self).unwrap()
+    }
+
+    fn __repr__(&self) -> String {
+        serde_json::to_string_pretty(self).unwrap()
+    }
+
     /// This method allows one to get a sorted list of Minor variants from a kmer position.
     ///
     /// # Parameters:
@@ -241,7 +258,7 @@ impl Position {
     /// Example:
     /// >>> results[10].get_minors('asc')
     /// >>> results[10].get_minors() # defaults to ascending order
-    #[pyo3(text_signature = "(sort)")]
+    #[pyo3(signature = (sort=None))]
     fn get_minors(&self, sort: Option<String>) -> Option<Vec<Variant>> {
         let mut variant_matches = self
             .diversity_motifs
@@ -369,39 +386,6 @@ impl Position {
 
         set_pos_obj_data(&mut position_obj, variants_unwrapped.as_slice(), &support);
         position_obj
-    }
-}
-
-#[pyproto]
-impl PyObjectProtocol for Position {
-    fn __str__(&self) -> String {
-        serde_json::to_string_pretty(self).unwrap()
-    }
-
-    fn __repr__(&self) -> String {
-        serde_json::to_string_pretty(self).unwrap()
-    }
-}
-
-#[pyproto]
-impl PyObjectProtocol for Variant {
-    fn __str__(&self) -> String {
-        serde_json::to_string_pretty(self).unwrap()
-    }
-
-    fn __repr__(&self) -> String {
-        serde_json::to_string_pretty(self).unwrap()
-    }
-}
-
-#[pyproto]
-impl PyObjectProtocol for Results {
-    fn __str__(&self) -> String {
-        serde_json::to_string_pretty(self).unwrap()
-    }
-
-    fn __repr__(&self) -> String {
-        serde_json::to_string_pretty(self).unwrap()
     }
 }
 
@@ -739,17 +723,15 @@ fn get_kmers_and_headers(
 ///
 /// :return: A Results object
 #[pyfunction]
-#[pyo3(
-text_signature = "(path, kmer_length, header_format, alphabet, support_threshold, query_name, header_fillna)"
-)]
+#[pyo3(signature = (path, kmer_length, support_threshold, query_name, header_format=None, alphabet=None, header_fillna=None))]
 pub fn get_results_objs(
     _py: Python,
     path: String,
     kmer_length: usize,
-    header_format: Option<Vec<String>>,
-    alphabet: Option<String>,
     support_threshold: usize,
     query_name: String,
+    header_format: Option<Vec<String>>,
+    alphabet: Option<String>,
     header_fillna: Option<String>,
 ) -> Results {
     let (kmers, headers, sequence_count) = get_kmers_and_headers(
@@ -877,7 +859,7 @@ pub fn get_results_objs(
 /// Author: Shan Tharanga <stwm2@student.london.ac.uk>
 /// ♥
 #[pymodule]
-fn dima(_py: Python, m: &PyModule) -> PyResult<()> {
+fn dima(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(get_results_objs, m)?)?;
     m.add_class::<Position>()?;
     m.add_class::<Variant>()?;

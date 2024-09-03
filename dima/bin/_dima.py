@@ -3,7 +3,7 @@ import sys
 
 from io import StringIO
 
-from dima import Dima
+from dima.dima_main import Dima
 
 
 def get_version():
