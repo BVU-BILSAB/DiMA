@@ -257,7 +257,7 @@ impl Results {
             .set_align(FormatAlignment::CenterAcross);
 
         // Create a line chart
-        let mut chart = workbook.add_chart(ChartType::Line);
+        let mut chart = workbook.unwrap().add_chart(ChartType::Line);
 
         // Set chart title
         chart.add_title("Entropy");
@@ -269,7 +269,7 @@ impl Results {
             // Add series to the line chart
             chart.add_series(None, Some(
                 format!("=positions!$D$2:$D${0}", position_iter.len()).as_str())
-            );
+            ).unwrap();
 
             // Insert the chart
             positions_sheet.insert_chart(1, 10, &chart).unwrap();
