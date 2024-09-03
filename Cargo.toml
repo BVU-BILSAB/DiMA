@@ -22,7 +22,7 @@ reduce = "0.1.4"
 bio = "0.39.1"
 serde_json = "1.0.75"
 serde = { version = "1.0.133", features = ["derive"] }
-pyo3 = { version = "0.15.1", features = ["extension-module"] }
+pyo3 = { version = "0.22.2", features = ["extension-module"] }
 str_overlap = "0.4.3"
 statrs = "0.17.1"
 
