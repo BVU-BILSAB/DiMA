@@ -64,7 +64,7 @@ jobs:
       with:
         maturin-version: latest
         command: publish
-        args: --username __token__ --skip-existing --out dist --universal2 --no-sdist --interpreter python${{ matrix.python-version }}
+        args: --username __token__ --skip-existing --out dist --target universal2-apple-darwin --no-sdist --interpreter python${{ matrix.python-version }}
         manylinux: auto
     - name: PyPi publish
       if: matrix.os == 'windows-latest'
