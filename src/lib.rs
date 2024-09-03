@@ -6,7 +6,6 @@ extern crate rayon;
 extern crate serde;
 extern crate serde_json;
 extern crate core;
-extern crate xlsxwriter;
 extern crate str_overlap;
 extern crate statrs;
 
