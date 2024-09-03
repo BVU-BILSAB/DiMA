@@ -29,15 +29,15 @@ jobs:
         pip install poetry
         poetry install
 
-    - name: Install latest nightly
+    - name: Install latest stable
       uses: actions-rs/toolchain@v1
       with:
-          toolchain: nightly
+          toolchain: stable
           override: true
 
     - name: Install LLVM and Clang
       if: matrix.os == 'windows-latest'
-      uses: KyleMayes/install-llvm-action@32c4866ebb71e0949e8833eb49beeebed48532bd
+      uses: KyleMayes/install-llvm-action@v2
       with:
         version: "13.0"
         directory: ${{ runner.temp }}/llvm

@@ -30,7 +30,7 @@ jobs:
         pip install poetry
         poetry install
 
-    - name: Install latest nightly
+    - name: Install latest stable
       uses: actions-rs/toolchain@v1
       with:
           toolchain: stable
