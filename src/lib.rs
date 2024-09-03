@@ -246,17 +246,14 @@ impl Results {
 
         // Then we set up some basic styles for different types of data
         let link_style = Format::new()
-            .add_format()
             .set_font_color(FormatColor::Blue)
             .set_align(FormatAlignment::CenterAcross)
             .set_underline(FormatUnderline::Single)
             .set_bold();
         let title_style = Format::new()
-            .add_format()
             .set_align(FormatAlignment::CenterAcross)
             .set_bold();
         let data_style = Format::new()
-            .add_format()
             .set_align(FormatAlignment::CenterAcross);
 
         // Create a line chart
