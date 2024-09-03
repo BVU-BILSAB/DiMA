@@ -24,17 +24,6 @@ use statrs::statistics::Statistics;
 use str_overlap::*;
 
 
-fn excel_pos_col_titles() -> Vec<&'static str> {
-    vec!["Position", "Diversity Motifs", "Low Support",
-         "Entropy", "Support", "Distinct Variants",
-         "Distinct Variants Incidence", "Total Variants Incidence"]
-}
-
-fn excel_variants_col_titles() -> Vec<&'static str> {
-    vec!["Sequence", "Count", "Incidence", "Motif"]
-}
-
-
 #[pyclass]
 #[pyo3(
 text_signature = "(position, entropy)"
