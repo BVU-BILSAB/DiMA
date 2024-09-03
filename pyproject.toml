@@ -10,7 +10,7 @@ repository = "https://github.com/PU-SDS/DiMA"
 keywords = ["bioinformatics", "biology", "protein", "virus", "diversity", "dna", "rna"]
 
 [tool.poetry.dependencies]
-python = ">=3.9,<3.11"
+python = ">=3.8,<3.13"
 typing-extensions = "^4.1.1"
 
 [tool.poetry.dev-dependencies]
@@ -25,12 +25,13 @@ build-backend = "maturin"
 
 [project]
 name = "dima-cli"
-requires-python = ">=3.7,<3.11"
+requires-python = ">=3.8,<3.13"
 classifiers = [
-    "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Intended Audience :: Science/Research",
