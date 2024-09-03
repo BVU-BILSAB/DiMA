@@ -754,8 +754,16 @@ fn calculate_entropy(kmers: &[Box<str>], support_threshold: &usize) -> f64 {
     // and we do not need to skew the regression with unreliable data
     // We stop at 99% because at 100% we do not do resampling and all kmers are used which we
     // calculated above
-    let mut entropy_values: Vec<(f64, f64)> = (percentage_cutoff..99)
-        .into_iter()
+    let starting_point = if percentage_cutoff < 50 {
+        50
+    } else {
+        // Nearest multiple of 5 if between 30 and 50 (inclusive)
+        (percentage_cutoff + 4) / 5 * 5
+    };
+    
+
+    let mut entropy_values: Vec<(f64, f64)> = (starting_point..100)
+        .step_by(5)
         .map(|percentage| {
             // Figure out the number of samples that this % represents
             let samples = (percentage * kmer_count) / 100;
@@ -773,13 +781,17 @@ fn calculate_entropy(kmers: &[Box<str>], support_threshold: &usize) -> f64 {
     // One of the data points has to be 100% of the k-mers WITHOUT random sampling
     entropy_values.push((1.0 / kmer_count as f64, all_kmers_entropy));
 
-    let (_, y) = linear_regression_of(&entropy_values).unwrap();
+    if entropy_values.len() >= 5 {
+        let (_, y) = linear_regression_of(&entropy_values).unwrap();
 
-    if y < 0_f64 {
-        return all_kmers_entropy;
-    }
+        if y < 0_f64 {
+            return all_kmers_entropy;
+        }
 
     y
+    } else {
+    return all_kmers_entropy;
+ }
 }
 
 fn get_kmers_and_headers(
