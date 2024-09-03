@@ -245,17 +245,17 @@ impl Results {
         let workbook = Workbook::new(path.as_str());
 
         // Then we set up some basic styles for different types of data
-        let link_style = workbook
+        let link_style = Format::new()
             .add_format()
             .set_font_color(FormatColor::Blue)
             .set_align(FormatAlignment::CenterAcross)
             .set_underline(FormatUnderline::Single)
             .set_bold();
-        let title_style = workbook
+        let title_style = Format::new()
             .add_format()
             .set_align(FormatAlignment::CenterAcross)
             .set_bold();
-        let data_style = workbook
+        let data_style = Format::new()
             .add_format()
             .set_align(FormatAlignment::CenterAcross);
 
